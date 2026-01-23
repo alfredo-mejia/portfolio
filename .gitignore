@@ -1,5 +1,9 @@
+########## MY ##########
+
 .idea
 ~*
+
+###########################
 
 ########## MACOS ##########
 
@@ -174,5 +178,33 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+###########################
+
+########## Vite Create ##########
+# Logs
+# logs duplicate
+# *.log duplicate
+# npm-debug.log* duplicate
+# yarn-debug.log* duplicate
+# yarn-error.log* duplicate
+pnpm-debug.log*
+# lerna-debug.log* duplicate
+
+node_modules
+# dist duplicate
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+# .idea duplicate
+# .DS_Store duplicate
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 ###########################
