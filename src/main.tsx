@@ -1,7 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
 import {AppInitializationError} from './errors/AppError.ts'
+import App from './App.tsx'
+import './index.css'
 
 const domRoot = document.getElementById('root');
 
