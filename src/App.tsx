@@ -1,8 +1,10 @@
+import Home from "./pages/Home.tsx";
+
 function App() {
   return (
-    <>
-        <h1>Hello World</h1>
-    </>
+      <main>
+          <Home />
+      </main>
   )
 }
 
