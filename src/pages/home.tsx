@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Navigation card data
 const navigationCards = [
@@ -146,8 +147,8 @@ function NavigationCard({
   icon: React.ReactNode;
 }) {
   return (
-    <a
-      href={href}
+    <Link
+      to={href}
       className="group flex items-start gap-4 rounded-lg border border-[#E5E5E5] bg-white p-5 transition-all hover:border-[#555555] hover:shadow-sm"
     >
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#F5F5F5] text-[#555555] transition-colors group-hover:bg-[#242424] group-hover:text-white">
@@ -157,7 +158,7 @@ function NavigationCard({
         <h3 className="text-[1rem] font-semibold text-[#242424]">{title}</h3>
         <p className="mt-1 text-[0.875rem] text-[#555555]">{description}</p>
       </div>
-    </a>
+    </Link>
   );
 }
 
