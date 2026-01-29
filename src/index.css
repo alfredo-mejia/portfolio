@@ -99,7 +99,9 @@
     }
 
     .copy-field {
-        @apply inline-flex gap-3 items-center font-mono p-2 border border-transparent /* added padding and border so it can be smooth when focused */
+        @apply inline-flex gap-3 items-center font-mono text-sm p-3 px-4 /* added padding and border so it can be smooth when focused */
+                bg-neutral-100 border border-neutral-300 rounded-lg
+                hover:bg-neutral-200 hover:border-neutral-400 cursor-pointer
                 hover:font-medium transition-all
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
                 focus-visible:ring-neutral-800 focus-visible:font-medium focus-visible:border
