@@ -18,7 +18,7 @@ function Button({   icon /* icon to display */,
     }
 
     return (
-        <button className={`${variants[variant]} ${className}`} {...props}>
+        <button className={`${variants[variant]} ${className}`} {...props} type="button">
             <span>{icon}</span>
             {title && <span>{title}</span>}
         </button>
