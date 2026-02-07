@@ -374,6 +374,7 @@ These are deliberately out of scope for the initial versions but aligned with th
 - Archiving older content while keeping it accessible
 
 ---
+
 # Experience Design Requirements
 
 ## Purpose
@@ -761,6 +762,7 @@ To ensure the portfolio feels cohesive:
 - Optional enhancements never block core reading.
 
 ---
+
 # Visual Design Requirements
 
 ## Purpose & Visual Intent
@@ -988,7 +990,6 @@ This visual system is not trying to be:
 - Visually loud
 
 The site should age well and remain readable years later.
-
 
 ## Typography System
 
@@ -1500,23 +1501,22 @@ Cards are used only for grouped content like search results.
 
 ## Interaction States Summary
 
-| Element Type | Default | Hover | Focus | Active | Disabled |
-|--------------|---------|-------|-------|--------|----------|
-| Body link | Accent gray, underline | Thicker underline | 2px outline | Darkens to body text | N/A |
-| Nav link | Accent gray | Title text | 2px outline | Body text | N/A |
-| Primary button | Transparent, gray border | Darker border/text | 2px outline | Inverted (gray bg) | Muted, not-allowed |
-| Secondary button | Transparent, gray text | Darker text | 2px outline | Body text | Muted, not-allowed |
-| Toggle | Gray text | Accent gray | 2px outline | N/A | N/A |
-| Selected toggle | Title text | N/A | 2px outline | N/A | N/A |
-| Text input | Border, white bg | Accent gray border | 2px outline | N/A | Muted, not-allowed |
-| Chip | Light gray bg | Darker bg (if interactive) | 2px outline | N/A | N/A |
-| Card | Border, white bg | Accent gray border | 2px outline | N/A | N/A |
+| Element Type     | Default                  | Hover                      | Focus       | Active               | Disabled           |
+| ---------------- | ------------------------ | -------------------------- | ----------- | -------------------- | ------------------ |
+| Body link        | Accent gray, underline   | Thicker underline          | 2px outline | Darkens to body text | N/A                |
+| Nav link         | Accent gray              | Title text                 | 2px outline | Body text            | N/A                |
+| Primary button   | Transparent, gray border | Darker border/text         | 2px outline | Inverted (gray bg)   | Muted, not-allowed |
+| Secondary button | Transparent, gray text   | Darker text                | 2px outline | Body text            | Muted, not-allowed |
+| Toggle           | Gray text                | Accent gray                | 2px outline | N/A                  | N/A                |
+| Selected toggle  | Title text               | N/A                        | 2px outline | N/A                  | N/A                |
+| Text input       | Border, white bg         | Accent gray border         | 2px outline | N/A                  | Muted, not-allowed |
+| Chip             | Light gray bg            | Darker bg (if interactive) | 2px outline | N/A                  | N/A                |
+| Card             | Border, white bg         | Accent gray border         | 2px outline | N/A                  | N/A                |
 
 ### Global Interaction Rules
 
 - No layout shifts
 - No reliance on visited state styling
-
 
 ## Spacing, Rhythm & Layout System
 
@@ -1558,14 +1558,14 @@ The site uses a **limited, restrained scale**.
 
 #### Text Sizes
 
-| Role | Size | Usage |
-|------|------|-------|
-| Page title (large) | 2rem | Home page name, optional identity pages |
-| Page title (standard) | 1.75rem | Resume, Story, Blog, Projects |
-| Section heading | 1.25rem | Resume sections, story milestones, blog sections |
-| Body text | 1rem | Primary reading text |
-| Metadata / helper text | 0.875rem | Dates, reading time, tags |
-| Code blocks | 0.9rem | All monospace code blocks |
+| Role                   | Size     | Usage                                            |
+| ---------------------- | -------- | ------------------------------------------------ |
+| Page title (large)     | 2rem     | Home page name, optional identity pages          |
+| Page title (standard)  | 1.75rem  | Resume, Story, Blog, Projects                    |
+| Section heading        | 1.25rem  | Resume sections, story milestones, blog sections |
+| Body text              | 1rem     | Primary reading text                             |
+| Metadata / helper text | 0.875rem | Dates, reading time, tags                        |
+| Code blocks            | 0.9rem   | All monospace code blocks                        |
 
 #### Constraints
 
@@ -1635,10 +1635,10 @@ This is the core reading rhythm.
 
 #### Headings
 
-| Element | Line Height |
-|---------|-------------|
-| Page titles | 1.25 |
-| Section headings | 1.3 |
+| Element          | Line Height |
+| ---------------- | ----------- |
+| Page titles      | 1.25        |
+| Section headings | 1.3         |
 
 Line height affects only the text itself, not spacing around it.
 
@@ -1677,14 +1677,14 @@ Line height affects only the text itself, not spacing around it.
 
 All margins and padding must use only the following scale.
 
-| Token | Value |
-|-------|-------|
-| XS | 0.25rem |
-| SM | 0.5rem |
-| MD | 1rem |
-| LG | 1.5rem |
-| XL | 2.5rem |
-| XXL | 4rem |
+| Token | Value   |
+| ----- | ------- |
+| XS    | 0.25rem |
+| SM    | 0.5rem  |
+| MD    | 1rem    |
+| LG    | 1.5rem  |
+| XL    | 2.5rem  |
+| XXL   | 4rem    |
 
 #### Rules
 

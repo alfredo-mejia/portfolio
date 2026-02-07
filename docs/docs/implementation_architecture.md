@@ -1,4 +1,5 @@
 # Implementation Architecture Document
+
 ## Alfredo's Living Portfolio
 
 **Version:** 1.0  
@@ -36,6 +37,7 @@ This document defines the complete technical architecture for a living portfolio
 - Scales automatically without manual intervention
 
 **Core Design Principles:**
+
 - Serverless-first (no server management)
 - Cost-optimized (pay only for usage)
 - Security-layered (defense in depth)
@@ -43,6 +45,7 @@ This document defines the complete technical architecture for a living portfolio
 - Maintainable (single codebase, typed)
 
 **Expected Metrics:**
+
 - Page load: < 1 second
 - API response: < 200ms (95th percentile)
 - Monthly cost: $8-15 (with protections preventing runaway costs)
@@ -151,12 +154,14 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** User interface and client-side logic
 
 **Why:**
+
 - Industry standard with massive ecosystem
 - Excellent TypeScript support for type safety
 - Server components for performance
 - Rich library support for all required features
 
 **Key Libraries:**
+
 - **Lexical:** Rich text editor (Markdown, Org-mode, code blocks, LaTeX)
 - **Sandpack:** Live code sandboxes (runs entirely in browser)
 - **Pyodide:** Python code execution (WebAssembly, client-side)
@@ -175,12 +180,14 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Design system implementation
 
 **Why:**
+
 - Utility-first maps perfectly to minimal design system
 - Only ships CSS actually used (small bundles)
 - Enforces design constraints through configuration
 - Excellent developer experience
 
 **Configuration Strategy:**
+
 - Restrict color palette to defined monochrome scale
 - Lock spacing to approved increments
 - Define font families (Source Sans 3, JetBrains Mono)
@@ -195,6 +202,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Serverless API functions
 
 **Why:**
+
 - Serverless functions (pay per invocation)
 - Integrated with frontend (single deployment)
 - Edge runtime support (global performance)
@@ -202,6 +210,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Zero server management
 
 **Responsibilities:**
+
 - Authentication and authorization
 - AI API calls (Claude, OpenAI)
 - GitHub API integration
@@ -220,6 +229,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Primary data store
 
 **Why:**
+
 - Managed PostgreSQL (no database administration)
 - ACID transactions for data integrity
 - JSON support for flexible metadata
@@ -230,6 +240,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Generous free tier
 
 **Data Model:**
+
 - Users (authentication records)
 - Stories (life narrative sections)
 - Resumes (version history)
@@ -249,6 +260,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Distributed caching and rate limiting
 
 **Why:**
+
 - Serverless Redis (pay per operation)
 - Global edge locations (low latency)
 - Works across serverless function instances
@@ -257,6 +269,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Free tier covers expected usage
 
 **Use Cases:**
+
 - Per-user rate limits (sliding windows)
 - Monthly budget tracking
 - AI output caching (summaries, audio URLs)
@@ -272,6 +285,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** User authentication and session management
 
 **Why:**
+
 - Free and open source
 - Multi-factor authentication support
 - Multiple provider support (Google, GitHub, passkeys)
@@ -279,6 +293,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Flexible authorization rules
 
 **Implementation:**
+
 - Single owner account (your email)
 - MFA via passkey or authenticator app
 - Playful authentication gate (custom pre-check)
@@ -294,12 +309,14 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Content generation and transformation
 
 **Why:**
+
 - Best at summarization and instruction-following
 - Excellent with technical content
 - Strong reasoning for tailored outputs
 - Competitive pricing with prompt caching
 
 **Use Cases:**
+
 1. **Blog summaries** (2-3 sentence overviews)
 2. **Resume tailoring** (emphasis shifting, not fabrication)
 3. **Tag/category generation** (from blog/project content)
@@ -307,6 +324,7 @@ User Request (AI Summary / Sandbox / TTS)
 5. **Text-to-speech preparation** (via OpenAI TTS)
 
 **Cost Controls:**
+
 - Prompt caching (90% token reduction)
 - Output caching (store results, regenerate only on change)
 - Batch API for non-urgent requests (50% discount)
@@ -321,12 +339,14 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Audio generation for blog posts
 
 **Why:**
+
 - Better quality-to-cost ratio than alternatives
 - Multiple voice options
 - Fast generation
 - Simple API
 
 **Strategy:**
+
 - Generate on-demand (not preemptively)
 - Cache audio URLs indefinitely
 - Regenerate only when post content changes
@@ -341,6 +361,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Content authoring for story, resume, and blog
 
 **Why:**
+
 - Built by Meta for production use
 - Extensible plugin architecture
 - Native React support
@@ -348,6 +369,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Supports custom nodes (code blocks, diagrams, LaTeX)
 
 **Features:**
+
 - Markdown import/export
 - Org-mode parsing (custom plugin)
 - Syntax-highlighted code blocks
@@ -365,6 +387,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Live project previews
 
 **Why:**
+
 - Runs entirely in browser (no server cost)
 - Built for React
 - Supports multiple frameworks
@@ -373,6 +396,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Isolated environment (secure)
 
 **Safety:**
+
 - iframe with Content Security Policy
 - No backend access
 - Configurable network restrictions
@@ -387,16 +411,19 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Executable code blocks in blog posts
 
 **Why:**
+
 - Runs Python in browser (no server needed)
 - Full scientific stack (NumPy, Pandas, Matplotlib)
 - Secure isolation
 - Zero backend cost
 
 **For JavaScript:**
+
 - Sandpack with stricter isolation
 - No eval() or dangerous APIs
 
 **Limitations:**
+
 - No filesystem access
 - No external network requests
 - 10-second execution timeout
@@ -411,12 +438,14 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Automatic project synchronization
 
 **Why:**
+
 - Official GitHub SDK
 - TypeScript support
 - Rate limit handling built-in
 - Webhook support
 
 **Workflow:**
+
 1. **Initial sync:** Owner connects GitHub, selects repos to feature
 2. **Automatic updates:** GitHub webhook triggers on push events
 3. **Data fetched:** README, languages, stars, last commit
@@ -424,6 +453,7 @@ User Request (AI Summary / Sandbox / TTS)
 5. **Database storage:** Cache all data to reduce API calls
 
 **Rate Limits:**
+
 - 5,000 requests/hour (authenticated)
 - Webhooks have no rate limit
 - All data cached in database
@@ -437,6 +467,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Images, PDFs, diagrams, exports
 
 **Why:**
+
 - Integrated with database
 - CDN included
 - Easy access control (public vs owner-only)
@@ -444,6 +475,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Free tier: 1GB storage, 2GB bandwidth
 
 **Organization:**
+
 - `/public/blog/images/` - Blog post images
 - `/public/projects/thumbnails/` - Project thumbnails
 - `/private/exports/resumes/` - Generated resume PDFs (owner-only)
@@ -458,6 +490,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Document exports
 
 **Why React-PDF for Resumes:**
+
 - Pure React components
 - Programmatic layout control
 - Server-side rendering
@@ -465,12 +498,14 @@ User Request (AI Summary / Sandbox / TTS)
 - Fast generation
 
 **Why Puppeteer for Blog/Projects:**
+
 - Renders actual HTML/CSS
 - Preserves complex layouts
 - Captures screenshots
 - Handles rich content (code blocks, diagrams, images)
 
 **Deployment:**
+
 - Use @sparticuz/chromium for serverless environments
 - Puppeteer runs in Lambda/Vercel functions
 - PDFs cached in Supabase Storage
@@ -484,6 +519,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Progressive verification for expensive operations
 
 **Why:**
+
 - Free forever (unlimited verifications)
 - Privacy-friendly (no Google tracking)
 - Invisible 98% of the time (better UX than reCAPTCHA)
@@ -491,12 +527,14 @@ User Request (AI Summary / Sandbox / TTS)
 - No vendor lock-in
 
 **Trigger Conditions:**
+
 - 3+ rate limit violations in 24 hours
 - Suspicious user-agent patterns
 - Known VPN/proxy IP ranges
 - Automated traffic detection
 
 **User Experience:**
+
 - Invisible for normal users
 - Shows challenge only for suspicious activity
 - Once passed, grants temporary trust (24 hours)
@@ -512,6 +550,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Traffic tracking and popularity scoring
 
 **Why Custom:**
+
 - Requirements are simple (unique visitors, time spent)
 - Full data control
 - Privacy-friendly (no cookies)
@@ -519,6 +558,7 @@ User Request (AI Summary / Sandbox / TTS)
 - No external dependencies
 
 **Optional Umami:**
+
 - Self-hosted analytics
 - Owner dashboard
 - Privacy-focused
@@ -526,6 +566,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Nice visualization
 
 **Metrics Tracked:**
+
 - Unique visitors per page per day (hashed IP + user-agent)
 - Time spent per page (calculated on page unload)
 - Popularity score: `unique_visitors × avg_time × min(avg_time / reading_time, 1.2)`
@@ -539,6 +580,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Hosting and deployment
 
 **Why:**
+
 - Zero-config Next.js deployment
 - Automatic HTTPS
 - Preview deployments per PR
@@ -547,6 +589,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Free tier covers expected usage
 
 **Features:**
+
 - Git integration (push to deploy)
 - Environment variables per environment
 - Automatic rollbacks
@@ -554,6 +597,7 @@ User Request (AI Summary / Sandbox / TTS)
 - DDoS protection
 
 **Cost:**
+
 - Hobby Plan: FREE (100GB bandwidth/month)
 - Upgrade only if exceeding limits
 
@@ -566,6 +610,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Domain management and edge caching
 
 **Why:**
+
 - Free forever
 - Fast DNS resolution (1.1.1.1)
 - DDoS protection included
@@ -573,6 +618,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Easy integration with Vercel
 
 **Configuration:**
+
 - A/CNAME records pointing to Vercel
 - HTTPS handled by Vercel
 - CDN for static assets
@@ -584,6 +630,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Four-Tier Trust Model
 
 **Tier 1: Free Access (Default)**
+
 - **Who:** All visitors
 - **Verification:** None
 - **Rate Limits:**
@@ -594,6 +641,7 @@ User Request (AI Summary / Sandbox / TTS)
   - Code execution: 20/hour
 
 **Tier 2: CAPTCHA Required (Suspicious)**
+
 - **Triggers:**
   - 3+ rate limit violations in 24 hours
   - Automated traffic patterns
@@ -602,12 +650,14 @@ User Request (AI Summary / Sandbox / TTS)
 - **Outcome:** If passed, upgrade to Verified tier
 
 **Tier 3: Verified (Trusted)**
+
 - **Achieved by:** Passing CAPTCHA
 - **Duration:** 24 hours
 - **Rate Limits:** 2x default limits
 - **Benefits:** No repeated CAPTCHAs unless new violations
 
 **Tier 4: Owner**
+
 - **Authentication:** NextAuth with MFA
 - **Rate Limits:** Unlimited
 - **Budget Caps:** Still apply (safety net)
@@ -617,12 +667,14 @@ User Request (AI Summary / Sandbox / TTS)
 ### Rate Limiting Implementation
 
 **Layer 1: Global API Protection**
+
 - **Limit:** 100 requests/minute per IP
 - **Purpose:** Prevent DDoS
 - **Storage:** Upstash Redis
 - **Window:** Sliding (fair distribution)
 
 **Layer 2: Endpoint-Specific Limits**
+
 - **AI Summary:** 5/hour (expensive)
 - **Resume Tailor:** 3/day (very expensive)
 - **TTS Generation:** 10/hour (expensive)
@@ -632,12 +684,14 @@ User Request (AI Summary / Sandbox / TTS)
 - **Storage:** Upstash Redis with trust-adjusted limits
 
 **Layer 3: Trust Score Adjustment**
+
 - Trusted users: 2x limits
 - Verified users: 1.5x limits
 - Suspicious users: 0.5x limits
 - Unknown users: 1x limits (baseline)
 
 **Layer 4: Global Budget Caps**
+
 - **AI Requests:** 10,000/month (prevents $10+ in abuse)
 - **TTS Characters:** 1,000,000/month (prevents $15+ in abuse)
 - **Sandbox Launches:** 100,000/month (resource limit)
@@ -645,6 +699,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Storage:** Redis + Database tracking
 
 **Layer 5: CAPTCHA Verification**
+
 - Triggered after repeated violations
 - Resets violation counter on pass
 - Temporarily upgrades trust level
@@ -655,6 +710,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Trust Scoring System
 
 **Database Fields:**
+
 - identifier (IP hash or user ID)
 - trust_level (unknown, suspicious, verified, trusted)
 - violation_count (increments on rate limit hit)
@@ -663,12 +719,14 @@ User Request (AI Summary / Sandbox / TTS)
 - last_captcha_at (timestamp)
 
 **Scoring Logic:**
+
 - **Trusted:** 5+ CAPTCHA passes, <2 violations
 - **Verified:** 1+ CAPTCHA pass
 - **Suspicious:** 3+ violations without CAPTCHA pass
 - **Unknown:** New user or low activity
 
 **Violation Recording:**
+
 - Every rate limit hit increments counter
 - Violations older than 7 days decay (50% reduction)
 - Successful CAPTCHA pass resets violations to 0
@@ -680,6 +738,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Purpose:** Protect against malicious code without user friction
 
 **Checks:**
+
 1. **Pattern Detection:**
    - Block eval(), exec(), subprocess
    - Block network requests (fetch, XMLHttpRequest)
@@ -707,6 +766,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Core Entities
 
 **Users**
+
 - id (UUID, primary key)
 - email (unique)
 - name
@@ -715,11 +775,13 @@ User Request (AI Summary / Sandbox / TTS)
 - updated_at
 
 **Stories**
+
 - id (UUID, primary key)
 - sections (JSONB array - ordered narrative segments)
 - updated_at
 
 **Resumes**
+
 - id (UUID, primary key)
 - version (integer, increments on edit)
 - content (JSONB - structured resume data)
@@ -727,6 +789,7 @@ User Request (AI Summary / Sandbox / TTS)
 - published_at
 
 **Resume Exports**
+
 - id (UUID, primary key)
 - resume_version (foreign key)
 - export_type (standard, tailored)
@@ -735,6 +798,7 @@ User Request (AI Summary / Sandbox / TTS)
 - created_at
 
 **Blog Posts**
+
 - id (UUID, primary key)
 - slug (unique, URL-friendly)
 - title (text)
@@ -750,6 +814,7 @@ User Request (AI Summary / Sandbox / TTS)
 - is_featured (boolean - for "My Top Picks")
 
 **Projects**
+
 - id (UUID, primary key)
 - github_repo (text, unique - format: "owner/repo")
 - slug (unique, URL-friendly)
@@ -762,6 +827,7 @@ User Request (AI Summary / Sandbox / TTS)
 - is_featured (boolean - for "My Top Picks")
 
 **Page Visits (Analytics)**
+
 - id (UUID, primary key)
 - visitor_hash (text - hash of IP + user-agent)
 - page_type (enum: home, story, resume, blog, project)
@@ -770,6 +836,7 @@ User Request (AI Summary / Sandbox / TTS)
 - visited_at (timestamp)
 
 **User Trust Scores**
+
 - id (UUID, primary key)
 - identifier (text, unique - IP hash or user ID)
 - trust_level (enum: unknown, suspicious, verified, trusted)
@@ -781,6 +848,7 @@ User Request (AI Summary / Sandbox / TTS)
 - updated_at (timestamp)
 
 **CAPTCHA Challenges**
+
 - id (UUID, primary key)
 - identifier (text)
 - endpoint (text - which API triggered it)
@@ -790,6 +858,7 @@ User Request (AI Summary / Sandbox / TTS)
 - responded_at (timestamp, nullable)
 
 **Suspicious Executions**
+
 - id (UUID, primary key)
 - identifier (text)
 - code_hash (text)
@@ -801,6 +870,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Database Indexes
 
 **Performance-Critical:**
+
 - blog_posts(slug) - unique
 - blog_posts(published_at DESC) - list recent
 - projects(github_repo) - unique
@@ -810,6 +880,7 @@ User Request (AI Summary / Sandbox / TTS)
 - captcha_challenges(identifier, challenged_at) - monitoring
 
 **Full-Text Search:**
+
 - blog_posts: GIN index on to_tsvector(title || ' ' || content)
 - projects: GIN index on to_tsvector(readme_content)
 
@@ -818,11 +889,13 @@ User Request (AI Summary / Sandbox / TTS)
 ### Data Relationships
 
 **One-to-Many:**
+
 - resumes → resume_exports (one resume version, many exports)
 - blog_posts ← page_visits (one post, many visits)
 - projects ← page_visits (one project, many visits)
 
 **No Foreign Keys (Loose Coupling):**
+
 - Trust scores are independent (identifier may not be a user)
 - CAPTCHA challenges track by identifier (not user FK)
 
@@ -833,6 +906,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Redis Cache Keys:**
 
 **Rate Limits:**
+
 - `ratelimit:ai:{identifier}` - AI request counter
 - `ratelimit:sandbox:{identifier}` - Sandbox launch counter
 - `ratelimit:tts:{identifier}` - TTS generation counter
@@ -840,6 +914,7 @@ User Request (AI Summary / Sandbox / TTS)
 - `ratelimit:code:{identifier}` - Code execution counter
 
 **Budget Tracking:**
+
 - `budget:{YYYY-MM}` - Monthly usage counters
   ```
   {
@@ -851,11 +926,13 @@ User Request (AI Summary / Sandbox / TTS)
   ```
 
 **AI Output Cache:**
+
 - `ai:summary:{post_id}:{content_hash}` - Blog summaries
 - `ai:tags:{post_id}:{content_hash}` - Generated tags
 - `ai:resume:{version}:{prompt_hash}` - Tailored resumes
 
 **Cache Invalidation:**
+
 - On content update (blog/project edit)
 - On version change (resume)
 - Monthly budget resets automatically (TTL)
@@ -868,6 +945,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### GitHub Integration
 
 **Initial Connection:**
+
 1. Owner authenticates via GitHub OAuth
 2. App requests read-only repo access
 3. Owner selects repos to feature
@@ -876,12 +954,14 @@ User Request (AI Summary / Sandbox / TTS)
 6. Data stored in database
 
 **Webhook Setup:**
+
 1. Webhook URL: `https://yourdomain.com/api/webhooks/github`
 2. Events: `push` (on main/master branch only)
 3. Secret: Stored in environment variables
 4. Validates HMAC signature on every webhook
 
 **Automatic Sync Flow:**
+
 1. GitHub sends push event
 2. Webhook verifies signature
 3. Extracts repo identifier
@@ -893,6 +973,7 @@ User Request (AI Summary / Sandbox / TTS)
 9. No user intervention required
 
 **Fallback:**
+
 - Manual sync button (owner-only)
 - Scheduled sync every 24 hours (optional)
 - Handles private repo access (if configured)
@@ -904,24 +985,28 @@ User Request (AI Summary / Sandbox / TTS)
 **Claude API Usage:**
 
 **Blog Summaries:**
+
 - Input: Full blog post content (up to 100k tokens)
 - Prompt: "Summarize this blog post in 2-3 concise sentences."
 - Output: Cached in database (ai_summary field)
 - Regeneration: Only when post content changes
 
 **Tag/Category Generation:**
+
 - Input: Blog post content or project README
 - Prompt: "Extract 3-5 relevant tags and 1-2 categories."
 - Output: Stored as array in database
 - Regeneration: On content change or manual trigger
 
 **Resume Tailoring (Owner-Only):**
+
 - Input: Full resume + custom prompt (e.g., "Emphasize frontend experience")
 - Constraint: "Only rephrase existing content, do not fabricate."
 - Output: Markdown → React-PDF → PDF file
 - Cached: Stores PDF URL in resume_exports table
 
 **Cost Optimization:**
+
 - Prompt caching: Reduces tokens by ~90% on repeated calls
 - Batch API: Non-urgent requests (50% discount)
 - Output caching: Never regenerate identical inputs
@@ -934,6 +1019,7 @@ User Request (AI Summary / Sandbox / TTS)
 **OpenAI TTS API:**
 
 **Generation Flow:**
+
 1. User requests audio for blog post
 2. Check cache: `ai:audio:{post_id}:{content_hash}`
 3. If cached, return URL immediately
@@ -946,11 +1032,13 @@ User Request (AI Summary / Sandbox / TTS)
 5. Return audio URL to client
 
 **Voice Selection:**
+
 - Default: "alloy" (neutral, professional)
 - Speed: 1.0 (normal)
 - Format: MP3 (compressed, web-friendly)
 
 **Cost Control:**
+
 - Only generate on explicit request
 - Cache indefinitely
 - Regenerate only when content changes
@@ -961,6 +1049,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Authentication Flow
 
 **Owner Login:**
+
 1. User clicks hidden "Owner Login" (playful gate)
 2. Playful pre-check (e.g., "What's the capital of Texas?")
 3. Correct answer reveals actual login form
@@ -972,14 +1061,16 @@ User Request (AI Summary / Sandbox / TTS)
 9. Redirects to previous page or dashboard
 
 **Session Management:**
+
 - HTTP-only cookies (XSS protection)
 - Secure flag (HTTPS only)
 - SameSite=Lax (CSRF protection)
 - 30-day expiration (sliding window)
 
 **Authorization:**
+
 - Middleware checks session on protected routes
-- Owner-only routes: /dashboard/*, /api/edit/*, /api/create/*
+- Owner-only routes: /dashboard/_, /api/edit/_, /api/create/\*
 - Public routes: Everything else
 - No role system needed (single owner)
 
@@ -990,6 +1081,7 @@ User Request (AI Summary / Sandbox / TTS)
 **Tracking Methodology:**
 
 **Page View:**
+
 1. On page load, record:
    - Hashed identifier (IP + user-agent)
    - Page type (home, story, resume, blog, project)
@@ -998,6 +1090,7 @@ User Request (AI Summary / Sandbox / TTS)
 2. Store in database (page_visits table)
 
 **Duration Tracking:**
+
 1. On page load, record start time (client-side)
 2. On beforeunload event:
    - Calculate duration (end - start)
@@ -1006,12 +1099,14 @@ User Request (AI Summary / Sandbox / TTS)
 3. Update page_visits record
 
 **Popularity Calculation:**
+
 - Formula: `unique_visitors × avg_time × min(avg_time / reading_time, 1.2)`
 - Calculated on-demand (not stored)
 - Used for sorting in search results
 - Prevents manipulation (capped multiplier)
 
 **Privacy:**
+
 - No cookies (cookieless tracking)
 - IP addresses hashed (not stored raw)
 - No third-party services (no data sharing)
@@ -1024,6 +1119,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Environment Structure
 
 **Development:**
+
 - Local machine
 - PostgreSQL: Supabase (dev project)
 - Redis: Upstash (dev instance)
@@ -1032,6 +1128,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Debug mode active
 
 **Preview (Staging):**
+
 - Vercel preview deployments
 - Unique URL per PR
 - PostgreSQL: Supabase (staging project or dev)
@@ -1040,6 +1137,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Useful for testing before merge
 
 **Production:**
+
 - Vercel production deployment
 - Custom domain (yourdomain.com)
 - PostgreSQL: Supabase (production project)
@@ -1081,6 +1179,7 @@ User Request (AI Summary / Sandbox / TTS)
    - Monitoring alerts enabled
 
 **Rollback Strategy:**
+
 - Instant rollback via Vercel dashboard
 - Git revert (automatic re-deploy)
 - Keep previous 10 deployments accessible
@@ -1092,32 +1191,39 @@ User Request (AI Summary / Sandbox / TTS)
 **Required Variables:**
 
 **Database:**
+
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY` (server-only)
 
 **Redis:**
+
 - `UPSTASH_REDIS_REST_URL`
 - `UPSTASH_REDIS_REST_TOKEN`
 
 **Authentication:**
+
 - `NEXTAUTH_SECRET` (generated, 32+ characters)
 - `NEXTAUTH_URL` (https://yourdomain.com)
 - `OWNER_EMAIL` (your email address)
 
 **AI Services:**
+
 - `ANTHROPIC_API_KEY`
 - `OPENAI_API_KEY` (for TTS)
 
 **GitHub:**
+
 - `GITHUB_TOKEN` (personal access token)
 - `GITHUB_WEBHOOK_SECRET`
 
 **CAPTCHA:**
+
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
 
 **Monitoring (Optional):**
+
 - `SENTRY_DSN` (error tracking)
 - `ALERT_WEBHOOK_URL` (budget alerts)
 
@@ -1128,22 +1234,26 @@ User Request (AI Summary / Sandbox / TTS)
 **Automatic Scaling (No Configuration):**
 
 **Vercel Functions:**
+
 - Auto-scales based on traffic
 - No instance management
 - Concurrent execution up to plan limits
 - Cold start: ~50-200ms
 
 **Supabase (PostgreSQL):**
+
 - Connection pooling (automatic)
 - Auto-scales storage
 - Upgrade plan if queries slow
 
 **Upstash Redis:**
+
 - Global replication (automatic)
 - Pay-per-operation (scales infinitely)
 - Sub-10ms latency worldwide
 
 **Supabase Storage:**
+
 - CDN (automatic, global)
 - Auto-scales bandwidth
 - Image optimization on-the-fly
@@ -1157,11 +1267,13 @@ User Request (AI Summary / Sandbox / TTS)
 ### Local Development Setup
 
 **Prerequisites:**
+
 - Node.js v20+
 - Git
 - Code editor (VS Code recommended)
 
 **Initial Setup:**
+
 1. Clone repository
 2. Install dependencies: `npm install`
 3. Copy `.env.example` to `.env.local`
@@ -1171,6 +1283,7 @@ User Request (AI Summary / Sandbox / TTS)
 7. Open http://localhost:3000
 
 **Development Process:**
+
 1. Create feature branch from main
 2. Make changes
 3. Test locally
@@ -1185,18 +1298,21 @@ User Request (AI Summary / Sandbox / TTS)
 ### Testing Strategy
 
 **Unit Tests:**
+
 - Jest + React Testing Library
 - Test utilities and helpers
 - Test React components in isolation
 - Coverage target: 70%+
 
 **Integration Tests:**
+
 - Test API routes
 - Test database operations
 - Test AI integrations (mocked)
 - Test rate limiting logic
 
 **End-to-End Tests:**
+
 - Playwright
 - Test critical user flows:
   - Resume download
@@ -1206,6 +1322,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Run on CI/CD pipeline
 
 **Manual Testing:**
+
 - Cross-browser (Chrome, Firefox, Safari)
 - Mobile responsive
 - Accessibility (WAVE, axe DevTools)
@@ -1216,21 +1333,25 @@ User Request (AI Summary / Sandbox / TTS)
 ### Code Quality Tools
 
 **TypeScript:**
+
 - Strict mode enabled
 - No implicit any
 - Catch errors at compile-time
 
 **ESLint:**
+
 - Next.js recommended config
 - Custom rules for consistency
 - Auto-fix on save
 
 **Prettier:**
+
 - Format on save
 - Consistent code style
 - Integrates with Tailwind
 
 **Husky:**
+
 - Pre-commit hooks
 - Run linter before commit
 - Prevent broken code from being pushed
@@ -1240,17 +1361,20 @@ User Request (AI Summary / Sandbox / TTS)
 ### Branching Strategy
 
 **Main Branch:**
+
 - Always deployable
 - Protected (requires PR + approval)
 - Auto-deploys to production
 
 **Feature Branches:**
+
 - Naming: `feature/feature-name`
 - Short-lived (1-3 days)
 - One feature per branch
 - Delete after merge
 
 **Hotfix Branches:**
+
 - Naming: `hotfix/issue-description`
 - For urgent production fixes
 - Merge directly to main
@@ -1270,17 +1394,17 @@ User Request (AI Summary / Sandbox / TTS)
 
 **Variable Costs (Usage-Based):**
 
-| Service | Free Tier | Usage Estimate | Cost |
-|---------|-----------|----------------|------|
-| **Vercel** | 100GB bandwidth | Within free tier | $0 |
-| **Supabase** | 500MB DB, 1GB storage, 2GB bandwidth | Within free tier | $0 |
-| **Upstash Redis** | 10k commands/day | ~300k/month = $1 | $1 |
-| **Anthropic Claude** | Pay-per-token | ~100k tokens | $5-8 |
-| **OpenAI TTS** | Pay-per-character | ~10 blog posts × 2k words | $2 |
-| **GitHub** | Public repos | Free | $0 |
-| **Cloudflare** | DNS + Turnstile | Free | $0 |
-| **NextAuth** | Open source | Free | $0 |
-| **Subtotal** | | | **$8-11** |
+| Service              | Free Tier                            | Usage Estimate            | Cost      |
+| -------------------- | ------------------------------------ | ------------------------- | --------- |
+| **Vercel**           | 100GB bandwidth                      | Within free tier          | $0        |
+| **Supabase**         | 500MB DB, 1GB storage, 2GB bandwidth | Within free tier          | $0        |
+| **Upstash Redis**    | 10k commands/day                     | ~300k/month = $1          | $1        |
+| **Anthropic Claude** | Pay-per-token                        | ~100k tokens              | $5-8      |
+| **OpenAI TTS**       | Pay-per-character                    | ~10 blog posts × 2k words | $2        |
+| **GitHub**           | Public repos                         | Free                      | $0        |
+| **Cloudflare**       | DNS + Turnstile                      | Free                      | $0        |
+| **NextAuth**         | Open source                          | Free                      | $0        |
+| **Subtotal**         |                                      |                           | **$8-11** |
 
 **Total Estimated Monthly Cost: $9-12**
 
@@ -1289,30 +1413,35 @@ User Request (AI Summary / Sandbox / TTS)
 ### Cost Optimization Strategies
 
 **AI Costs:**
+
 - Aggressive caching (90% reduction via prompt caching)
 - Only regenerate when content changes
 - Use batch API for non-urgent requests (50% discount)
 - Monthly cap: 10,000 requests (~$10 max)
 
 **Storage Costs:**
+
 - Compress images before upload
 - Use image transformations (resize on-demand)
 - Delete old exports after 90 days
 - Lazy load images on blog/project pages
 
 **Bandwidth Costs:**
+
 - CDN caching (Vercel + Cloudflare)
 - Serve static assets from edge
 - Gzip compression enabled
 - Lazy load components
 
 **Database Costs:**
+
 - Archive old analytics data (>6 months)
 - Use connection pooling
 - Optimize queries (proper indexes)
 - Monitor slow query logs
 
 **Rate Limiting Savings:**
+
 - Prevents abuse (potentially $1000s)
 - Global budget caps (safety net)
 - CAPTCHA stops bots (free)
@@ -1338,6 +1467,7 @@ User Request (AI Summary / Sandbox / TTS)
 | **Total** | **$95-145** |
 
 **Revenue-Generating Options (Future):**
+
 - Sponsorships (GitHub Sponsors)
 - Consulting inquiries
 - Premium content (behind email gate)
@@ -1348,30 +1478,36 @@ User Request (AI Summary / Sandbox / TTS)
 ## Implementation Phases
 
 ### Phase 0 (Day 1): Just GitHub + VS Code
+
 - Start coding immediately
 - No account creation needed
 
 ### Phase 1 (Weeks 1-2): Add Vercel when you have something to deploy
+
 - Static site working locally
 - Want to see it live
 - Domain optional (can use vercel.app)
 
 ### Phase 2 (Weeks 3-4): Add Supabase when you need data
+
 - Building resume page
 - Need database + auth
 - Still don't need Redis or AI
 
 ### Phase 3 (Weeks 5-7): Add GitHub token when syncing projects
+
 - Just a token (already have account)
 - Still no Redis or AI needed
 
 # Phase 4 (Weeks 8-10): Finally add AI accounts
+
 - Anthropic (Claude API)
 - OpenAI (TTS)
 - Set usage limits immediately!
 - Still no Redis yet
 
 ### Phase 6 (Week 13): Add security last
+
 - Upstash Redis (rate limiting)
 - Cloudflare Turnstile (CAPTCHA)
 - Only when you have traffic to protect
@@ -1383,6 +1519,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Application Monitoring
 
 **Error Tracking:**
+
 - Tool: Sentry (optional, $0-26/month)
 - Tracks runtime errors
 - Source maps for debugging
@@ -1390,12 +1527,14 @@ User Request (AI Summary / Sandbox / TTS)
 - Performance monitoring included
 
 **Uptime Monitoring:**
+
 - Tool: Vercel Analytics (included)
 - Tracks availability
 - Response time metrics
 - Geographic performance
 
 **Custom Monitoring:**
+
 - Budget usage dashboard (owner-only)
 - Rate limit violations dashboard
 - Trust score distribution
@@ -1408,6 +1547,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Alerting Strategy
 
 **Critical Alerts (Immediate Action):**
+
 - Site down (5xx errors)
 - Database connection lost
 - AI API budget at 90%
@@ -1415,18 +1555,21 @@ User Request (AI Summary / Sandbox / TTS)
 - Suspicious activity spike (>100 violations/hour)
 
 **Warning Alerts (Review Soon):**
+
 - AI API budget at 80%
 - Unusual traffic pattern
 - Slow query detected (>5s)
 - High error rate (>5%)
 
 **Info Alerts (Weekly Digest):**
+
 - Weekly usage summary
 - Popular content report
 - Trust score distribution
 - New CAPTCHA challenges
 
 **Delivery:**
+
 - Email (critical + warnings)
 - Webhook to Discord/Slack (optional)
 - Dashboard (all alerts)
@@ -1436,21 +1579,25 @@ User Request (AI Summary / Sandbox / TTS)
 ### Backup Strategy
 
 **Database Backups:**
+
 - Supabase automatic daily backups (7-day retention)
 - Weekly manual backups to external storage (optional)
 - Point-in-time recovery (Supabase Pro plan)
 
 **Content Backups:**
+
 - Blog posts: Export to Markdown weekly
 - Projects: Synced from GitHub (source of truth)
 - Resume: Version history in database
 - Story: Export to JSON weekly
 
 **Storage Backups:**
+
 - Images/PDFs backed up by Supabase
 - Critical files: Manual download monthly (optional)
 
 **Recovery Time Objective (RTO):**
+
 - Database restore: <1 hour
 - Full site restore: <2 hours
 
@@ -1459,23 +1606,27 @@ User Request (AI Summary / Sandbox / TTS)
 ### Maintenance Tasks
 
 **Daily:**
+
 - Monitor error dashboard
 - Check budget usage
 - Review suspicious activity
 
 **Weekly:**
+
 - Review analytics
 - Check performance metrics
 - Review rate limit violations
 - Update content (blog/projects as needed)
 
 **Monthly:**
+
 - Review and archive old analytics data
 - Check for dependency updates
 - Review AI API costs
 - Update documentation (if needed)
 
 **Quarterly:**
+
 - Security audit
 - Performance optimization
 - Backup testing
@@ -1486,17 +1637,20 @@ User Request (AI Summary / Sandbox / TTS)
 ### Update Strategy
 
 **Security Updates:**
+
 - Critical: Immediate (same day)
 - High: Within 1 week
 - Medium: Within 1 month
 - Low: Next planned release
 
 **Dependency Updates:**
+
 - Patch versions: Auto-merge (if tests pass)
 - Minor versions: Review and merge weekly
 - Major versions: Evaluate breaking changes, test thoroughly
 
 **Feature Updates:**
+
 - Based on user feedback (if applicable)
 - Owner's priorities
 - Quarterly planning
@@ -1508,6 +1662,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Technical Risks
 
 **Risk: AI Costs Spiral Out of Control**
+
 - **Likelihood:** Medium
 - **Impact:** High
 - **Mitigation:**
@@ -1519,6 +1674,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Disable AI features temporarily
 
 **Risk: GitHub API Rate Limits**
+
 - **Likelihood:** Low
 - **Impact:** Medium
 - **Mitigation:**
@@ -1529,6 +1685,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Manual project updates
 
 **Risk: Sandbox Abuse (Resource Exhaustion)**
+
 - **Likelihood:** Medium
 - **Impact:** Medium
 - **Mitigation:**
@@ -1539,6 +1696,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Disable sandboxes temporarily
 
 **Risk: Database Performance Degradation**
+
 - **Likelihood:** Low
 - **Impact:** Medium
 - **Mitigation:**
@@ -1549,6 +1707,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Upgrade Supabase plan
 
 **Risk: Storage Quota Exceeded**
+
 - **Likelihood:** Low
 - **Impact:** Low
 - **Mitigation:**
@@ -1558,6 +1717,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Upgrade storage plan
 
 **Risk: Vercel Bandwidth Exceeded**
+
 - **Likelihood:** Low (with free tier: 100GB/month)
 - **Impact:** Medium
 - **Mitigation:**
@@ -1567,6 +1727,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Upgrade to Pro plan ($20/month)
 
 **Risk: Security Breach (Authentication)**
+
 - **Likelihood:** Very Low
 - **Impact:** High
 - **Mitigation:**
@@ -1581,6 +1742,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Operational Risks
 
 **Risk: Deployment Failure**
+
 - **Likelihood:** Low
 - **Impact:** Medium
 - **Mitigation:**
@@ -1590,6 +1752,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Revert to previous deployment
 
 **Risk: Data Loss**
+
 - **Likelihood:** Very Low
 - **Impact:** High
 - **Mitigation:**
@@ -1599,6 +1762,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Restore from backup
 
 **Risk: Dependency Vulnerability**
+
 - **Likelihood:** Medium
 - **Impact:** Low-Medium
 - **Mitigation:**
@@ -1608,6 +1772,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Immediate patch and deploy
 
 **Risk: Third-Party Service Outage**
+
 - **Likelihood:** Low
 - **Impact:** Medium
 - **Mitigation:**
@@ -1621,6 +1786,7 @@ User Request (AI Summary / Sandbox / TTS)
 ### Business/Personal Risks
 
 **Risk: Time/Energy for Maintenance**
+
 - **Likelihood:** Medium
 - **Impact:** Medium
 - **Mitigation:**
@@ -1630,6 +1796,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Portfolio remains functional without updates
 
 **Risk: Content Staleness**
+
 - **Likelihood:** Medium
 - **Impact:** Low
 - **Mitigation:**
@@ -1639,6 +1806,7 @@ User Request (AI Summary / Sandbox / TTS)
 - **Contingency:** Content ages gracefully (intentional design)
 
 **Risk: Reputation Damage (Site Issues)**
+
 - **Likelihood:** Low
 - **Impact:** Medium
 - **Mitigation:**
@@ -1652,6 +1820,7 @@ User Request (AI Summary / Sandbox / TTS)
 ## Appendix: Key Decisions & Rationale
 
 ### Why Serverless Over Traditional Server?
+
 - No server management or maintenance
 - Automatic scaling (handles traffic spikes)
 - Pay only for actual usage
@@ -1659,6 +1828,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Better for portfolio (modern, relevant skill)
 
 ### Why PostgreSQL Over NoSQL?
+
 - Structured data with clear relationships
 - ACID transactions (data integrity)
 - Full-text search built-in
@@ -1666,6 +1836,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Easier to query (SQL vs NoSQL syntax)
 
 ### Why Next.js Over Other React Frameworks?
+
 - Best-in-class developer experience
 - Server components for performance
 - API routes (no separate backend needed)
@@ -1673,6 +1844,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Large community and ecosystem
 
 ### Why Upstash Redis Over Alternatives?
+
 - Serverless (pay per operation)
 - Global edge locations (fast everywhere)
 - Works across serverless instances
@@ -1680,6 +1852,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Free tier sufficient for needs
 
 ### Why Cloudflare Turnstile Over reCAPTCHA?
+
 - Free forever (unlimited)
 - Better user experience (invisible)
 - Privacy-friendly (no Google tracking)
@@ -1687,6 +1860,7 @@ User Request (AI Summary / Sandbox / TTS)
 - No vendor lock-in
 
 ### Why Claude Over GPT-4?
+
 - Better at summarization
 - Better instruction-following
 - Excellent with technical content
@@ -1694,12 +1868,14 @@ User Request (AI Summary / Sandbox / TTS)
 - Competitive pricing
 
 ### Why React-PDF + Puppeteer Over Single Solution?
+
 - React-PDF better for structured documents (resumes)
 - Puppeteer better for rich content (blog posts)
 - Different use cases need different tools
 - Both work in serverless environment
 
 ### Why Lexical Over Other Editors?
+
 - Built by Meta for production use
 - Best performance with large documents
 - Native React support
@@ -1707,6 +1883,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Modern, actively maintained
 
 ### Why Supabase Over AWS RDS?
+
 - Managed PostgreSQL (no administration)
 - Integrated storage and auth
 - Better developer experience
@@ -1714,6 +1891,7 @@ User Request (AI Summary / Sandbox / TTS)
 - Realtime subscriptions included
 
 ### Why Vercel Over Alternatives?
+
 - Zero-config Next.js deployment
 - Best integration with framework
 - Preview deployments per PR
@@ -1760,6 +1938,7 @@ User Request (AI Summary / Sandbox / TTS)
 ---
 
 **Document Control:**
+
 - **Version:** 1.0
 - **Last Updated:** January 22, 2026
 - **Next Review:** After Phase 3 completion

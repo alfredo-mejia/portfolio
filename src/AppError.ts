@@ -1,10 +1,8 @@
 class AppInitializationError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = 'AppInitializationError';
-    }
+  constructor(message: string) {
+    super(message);
+    this.name = "AppInitializationError";
+  }
 }
 
-export {
-    AppInitializationError
-}
+export { AppInitializationError };

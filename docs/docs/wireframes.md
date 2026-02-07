@@ -8,11 +8,11 @@ designs.
 
 They illustrate:
 
--   Content hierarchy
+- Content hierarchy
 
--   Layout flow
+- Layout flow
 
--   Relative emphasis of elements
+- Relative emphasis of elements
 
 All styling, spacing, color, and interaction behavior is governed by the
 Visual Design Requirements (VDR) and Experience Design Requirements
@@ -30,15 +30,15 @@ The Home page servers as a clear entry point to the portfolio.
 
 It must:
 
--   Immediately identify the site owner by name
+- Immediately identify the site owner by name
 
--   Provide a one-click resume download
+- Provide a one-click resume download
 
--   Offer obvious navigation to all primary pages
+- Offer obvious navigation to all primary pages
 
--   Keep contact information accessible without drawing focus
+- Keep contact information accessible without drawing focus
 
--   Fit entirely within a single viewport without scrolling
+- Fit entirely within a single viewport without scrolling
 
 ## Structural Overview
 
@@ -48,45 +48,44 @@ Top to bottom hierarchy:
 
 1.  Primary Identity
 
--   Site owner's name
+- Site owner's name
 
--   Resume download call-to-action
+- Resume download call-to-action
 
 2.  Primary Navigation
 
--   My Story
+- My Story
 
--   My Resume
+- My Resume
 
--   My Blog
+- My Blog
 
--   My Projects
+- My Projects
 
--   Each navigation item is represented by:
+- Each navigation item is represented by:
+  - Text label
 
-    -   Text label
-
-    -   Subtle monochrome icon
+  - Subtle monochrome icon
 
 3.  Contact & External Links
 
--   Email address with copy-to-clipboard affordance
+- Email address with copy-to-clipboard affordance
 
--   Social links (GitHub, LinkedIn, etc.)
+- Social links (GitHub, LinkedIn, etc.)
 
 ## Visual & Interaction Notes
 
--   Navigation icons use the secondary text color (#6B6B6B)
+- Navigation icons use the secondary text color (#6B6B6B)
 
--   On hover, icons transition to the accent gray (#4A4A4A)
+- On hover, icons transition to the accent gray (#4A4A4A)
 
--   Navigation text follows standard link behavior as defined in the VDR
+- Navigation text follows standard link behavior as defined in the VDR
 
--   No card-based navigation is used
+- No card-based navigation is used
 
--   No descriptions are shown for navigation items
+- No descriptions are shown for navigation items
 
--   No scrolling is required to access any content on the page
+- No scrolling is required to access any content on the page
 
 ## Design Rationale
 
@@ -94,11 +93,11 @@ The Home page is intentionally minimal.
 
 It does not:
 
--   Explain content
+- Explain content
 
--   Provide descriptions
+- Provide descriptions
 
--   Introduce animations or visual effects
+- Introduce animations or visual effects
 
 Its sole purpose is orientation and access.
 
@@ -106,11 +105,11 @@ Content, narrative, and depth are deferred to the respective pages.
 
 ## Status
 
--   Wireframe version: v3
+- Wireframe version: v3
 
--   Layout: Final for initial implementation
+- Layout: Final for initial implementation
 
--   Visual styling: Governed entirely by VDR
+- Visual styling: Governed entirely by VDR
 
 # Resume Page Wireframe
 
@@ -122,9 +121,9 @@ Content, narrative, and depth are deferred to the respective pages.
 
 The Resume page is designed to answer two questions quickly and clearly:
 
-1.  *Can I understand Alfredo's experience at a glance?*
+1.  _Can I understand Alfredo's experience at a glance?_
 
-2.  *Can I download a clean, recruiter-ready resume immediately?*
+2.  _Can I download a clean, recruiter-ready resume immediately?_
 
 The page prioritizes **readability, familiarity, and trust**. It assumes
 many visitors will skim briefly or download the resume without reading
@@ -132,18 +131,18 @@ the full page.
 
 It must:
 
--   Clearly present itself as a resume
+- Clearly present itself as a resume
 
--   Make downloading the resume obvious and frictionless
+- Make downloading the resume obvious and frictionless
 
--   Keep resume and contact access available at all times
+- Keep resume and contact access available at all times
 
--   Follow a predictable, recruiter-friendly structure
+- Follow a predictable, recruiter-friendly structure
 
--   Allow long-form explanations without constraining content to a
-    single page
+- Allow long-form explanations without constraining content to a
+  single page
 
--   Recede UI elements (nav bar) while reading
+- Recede UI elements (nav bar) while reading
 
 Editing and export controls are owner-only and not part of the default
 visitor experience.
@@ -157,40 +156,38 @@ navigation bar.
 
 1.  Global Navigation Bar
 
--   Left side:
+- Left side:
+  - Primary action: Download Resume
 
-    -   Primary action: Download Resume
+  - Email displayed as text with copy affordance
 
-    -   Email displayed as text with copy affordance
+- Right side:
+  - Navigation links: Home, My Story, My Resume, My Blog, My
+    Projects
 
--   Right side:
+  - Account icon (owner-only access)
 
-    -   Navigation links: Home, My Story, My Resume, My Blog, My
-        Projects
-
-    -   Account icon (owner-only access)
-
-    -   Navigation hides on scroll down and reappears on scroll up
+  - Navigation hides on scroll down and reappears on scroll up
 
 2.  Page Header
 
--   Page title: Resume
+- Page title: Resume
 
--   Optional quiet metadata (e.g., "Last updated")
+- Optional quiet metadata (e.g., "Last updated")
 
 3.  Resume Content
 
--   Education
+- Education
 
--   Experience
+- Experience
 
--   Projects
+- Projects
 
--   Skills
+- Skills
 
 4.  End of Content
 
--   No footer; persistent access is handled by the navigation bar
+- No footer; persistent access is handled by the navigation bar
 
 ## Design Rationale
 
@@ -198,13 +195,13 @@ The Resume page intentionally avoids creativity or visual novelty.
 
 It favors:
 
--   Familiar structure
+- Familiar structure
 
--   Clear hierarchy
+- Clear hierarchy
 
--   Minimal UI
+- Minimal UI
 
--   Predictable scanning patterns
+- Predictable scanning patterns
 
 The navigation bar provides constant access to the resume and contact
 information, while its hide-on-scroll behavior ensures the UI disappears
@@ -215,49 +212,49 @@ downloadable PDF remains compact and recruiter-friendly.
 
 ## Status
 
--   Wireframe version: v2
+- Wireframe version: v2
 
--   Layout: Final for initial implementation
+- Layout: Final for initial implementation
 
--   Interaction patterns: Locked
+- Interaction patterns: Locked
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 ## Visual & Interaction Notes
 
--   The navigation bar follows the global navigation pattern defined in
-    the VDR, including hide-on-scroll behavior.
+- The navigation bar follows the global navigation pattern defined in
+  the VDR, including hide-on-scroll behavior.
 
--   The navigation bar uses a single subtle bottom divider (#E2E2E2) to
-    separate it from page content; no background fill, shadow, or
-    container styling is applied.
+- The navigation bar uses a single subtle bottom divider (#E2E2E2) to
+  separate it from page content; no background fill, shadow, or
+  container styling is applied.
 
--   The "Download Resume" action is rendered as a primary button using
-    the global primary button pattern (accent gray text and border,
-    transparent background).
+- The "Download Resume" action is rendered as a primary button using
+  the global primary button pattern (accent gray text and border,
+  transparent background).
 
--   The email address is displayed as plain text (no border, no
-    background, no button container) with an adjacent copy affordance;
-    the email itself is always visible and readable.
+- The email address is displayed as plain text (no border, no
+  background, no button container) with an adjacent copy affordance;
+  the email itself is always visible and readable.
 
--   The copy affordance is visually lightweight and follows the global
-    icon-button pattern; on activation, a subtle confirmation ("Copied")
-    appears using secondary text styling.
+- The copy affordance is visually lightweight and follows the global
+  icon-button pattern; on activation, a subtle confirmation ("Copied")
+  appears using secondary text styling.
 
--   Navigation links are text-only with no borders or background; hover
-    and focus behavior follows the global link interaction rules defined
-    in the VDR.
+- Navigation links are text-only with no borders or background; hover
+  and focus behavior follows the global link interaction rules defined
+  in the VDR.
 
--   The current page ("My Resume") is indicated using darker text only,
-    without underline, background, or additional emphasis.
+- The current page ("My Resume") is indicated using darker text only,
+  without underline, background, or additional emphasis.
 
--   The "Last updated" label is displayed as quiet metadata beneath the
-    page title using secondary text styling; it is non-interactive and
-    informational only.
+- The "Last updated" label is displayed as quiet metadata beneath the
+  page title using secondary text styling; it is non-interactive and
+  informational only.
 
--   Resume content follows the global single-column reading layout with
-    no cards, panels, icons, or decorative containers; all structure is
-    conveyed through headings, spacing, and text hierarchy.
+- Resume content follows the global single-column reading layout with
+  no cards, panels, icons, or decorative containers; all structure is
+  conveyed through headings, spacing, and text hierarchy.
 
 # Blog Search Page Wireframe
 
@@ -279,19 +276,19 @@ overwhelming the reader.
 
 The Blog Search page must:
 
--   Make searching for blog posts obvious and frictionless
+- Make searching for blog posts obvious and frictionless
 
--   Support filtering and sorting without clutter
+- Support filtering and sorting without clutter
 
--   Present posts in both card and table views
+- Present posts in both card and table views
 
--   Allow incremental result loading
+- Allow incremental result loading
 
--   Clearly surface curated content ("My Top Picks")
+- Clearly surface curated content ("My Top Picks")
 
--   Maintain a quiet, reading-first tone
+- Maintain a quiet, reading-first tone
 
--   Reuse global navigation and interaction patterns
+- Reuse global navigation and interaction patterns
 
 Editing controls, drafts, and AI prompt interfaces are **owner-only**
 and not visible to visitors.
@@ -305,115 +302,111 @@ global navigation bar.
 
 1.  Global Navigation Bar
 
--   Same navigation pattern as the Resume page
+- Same navigation pattern as the Resume page
 
--   Includes persistent access to resume download and email
+- Includes persistent access to resume download and email
 
--   Hides on scroll down and reappears on scroll up
+- Hides on scroll down and reappears on scroll up
 
 2.  Page Header
 
--   Page title: *Blogs*
+- Page title: _Blogs_
 
 3.  Search & Controls Section
+    - Search bar with search icon
 
-    -   Search bar with search icon
+    - Filter button
 
-    -   Filter button
+    - Sort dropdown with ascending/descending toggle
 
-    -   Sort dropdown with ascending/descending toggle
+    - Card / Table view toggle
 
-    -   Card / Table view toggle
+    - Filter and sort controls are left-aligned
 
-    -   Filter and sort controls are left-aligned
-
-    -   View toggle is right aligned
+    - View toggle is right aligned
 
 4.  Active Filters Row (Conditional)
+    - Appears only when filters are applied
 
-    -   Appears only when filters are applied
+    - Displays filter chips representing active filters
 
-    -   Displays filter chips representing active filters
-
-    -   Each chip includes a removal ("X") affordance
+    - Each chip includes a removal ("X") affordance
 
 5.  Results Section
+    - Displays blog posts in either card view or table view
 
-    -   Displays blog posts in either card view or table view
-
-    -   Results load incrementally via a "See More" interaction
+    - Results load incrementally via a "See More" interaction
 
 6.  My Top Picks Section
+    - Displays manually curated blog posts selected by the site owner
 
-    -   Displays manually curated blog posts selected by the site owner
+    - Visually secondary to search results
 
-    -   Visually secondary to search results
-
-    -   Uses the same card or table presentation patterns
+    - Uses the same card or table presentation patterns
 
 ## Visual & Interaction Notes
 
--   The page uses the global navigation styling and hide-on-scroll
-    behavior defined in the VDR.
+- The page uses the global navigation styling and hide-on-scroll
+  behavior defined in the VDR.
 
--   The search bar is visually dominant within the page content and
-    aligned to the main content column.
+- The search bar is visually dominant within the page content and
+  aligned to the main content column.
 
--   Filter and sort controls use the global control patterns and are
-    visually quieter than the search bar.
+- Filter and sort controls use the global control patterns and are
+  visually quieter than the search bar.
 
--   The card/table toggle uses icon-based selection, with the active
-    view clearly indicated.
+- The card/table toggle uses icon-based selection, with the active
+  view clearly indicated.
 
--   Active filters are shown as removable chips using the global chip
-    styling.
+- Active filters are shown as removable chips using the global chip
+  styling.
 
--   Blog results follow the global reading width and spacing rules.
+- Blog results follow the global reading width and spacing rules.
 
--   All cards and table rows are fully clickable, with no nested
-    actions.
+- All cards and table rows are fully clickable, with no nested
+  actions.
 
--   The "See More" interaction appends additional results below the
-    existing list.
+- The "See More" interaction appends additional results below the
+  existing list.
 
--   No pagination controls (page numbers, previous/next) are used.
+- No pagination controls (page numbers, previous/next) are used.
 
 ## Card View Content
 
 Each blog post card displays:
 
--   Title
+- Title
 
--   Thumbnail
+- Thumbnail
 
--   Last updated date
+- Last updated date
 
--   Tags and categories
+- Tags and categories
 
--   Short summary truncated to a fixed length with ellipsis
+- Short summary truncated to a fixed length with ellipsis
 
 Additional rules:
 
--   Cards are uniform in size
+- Cards are uniform in size
 
--   Tags and categories may scroll horizontally within a card to avoid
-    vertical expansion
+- Tags and categories may scroll horizontally within a card to avoid
+  vertical expansion
 
 ## Table / List View Content
 
 Each table row displays:
 
--   Title
+- Title
 
--   Short summary
+- Short summary
 
--   Publish date
+- Publish date
 
--   Last updated date
+- Last updated date
 
--   Tags
+- Tags
 
--   Categories
+- Categories
 
 Switching between card and table views changes only presentation
 density, not content.
@@ -433,15 +426,15 @@ page feels calm, predictable, and easy to scan.
 
 ## Status
 
--   Wireframe version: v1
+- Wireframe version: v1
 
--   Layout: Final for initial implementation
+- Layout: Final for initial implementation
 
--   Discovery model: Locked
+- Discovery model: Locked
 
--   Interaction patterns: Validated
+- Interaction patterns: Validated
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 # Project Search Page Wireframe
 
@@ -462,18 +455,18 @@ depth, and real, runnable work.
 
 The Projects Search page must:
 
--   Provide a searchable, filterable directory of projects
+- Provide a searchable, filterable directory of projects
 
--   Support both browsing and targeted discovery
+- Support both browsing and targeted discovery
 
--   Reuse the same interaction and layout patterns as the Blog Search
-    page
+- Reuse the same interaction and layout patterns as the Blog Search
+  page
 
--   Clearly surface curated projects ("Featured Projects")
+- Clearly surface curated projects ("Featured Projects")
 
--   Maintain a calm, non-marketing tone
+- Maintain a calm, non-marketing tone
 
--   Avoid manual curation or duplicated content
+- Avoid manual curation or duplicated content
 
 All project data is sourced automatically and is read-only for visitors.
 
@@ -486,101 +479,101 @@ navigation behavior as the Blog Search page.
 
 1.  Global Navigation Bar
 
--   Identical to Blog and Resume pages
+- Identical to Blog and Resume pages
 
--   Persistent access to resume download and email
+- Persistent access to resume download and email
 
--   Hides on scroll down and reappears on scroll up
+- Hides on scroll down and reappears on scroll up
 
 2.  Page Header
 
--   Page title: *Projects*
+- Page title: _Projects_
 
 3.  Search & Controls Section
 
--   Search bar
+- Search bar
 
--   Filter button
+- Filter button
 
--   Sort dropdown with ascending/descending toggle
+- Sort dropdown with ascending/descending toggle
 
--   Card / Table view toggle
+- Card / Table view toggle
 
--   Filter and sort controls are left-aligned
+- Filter and sort controls are left-aligned
 
--   View toggle is right-aligned
+- View toggle is right-aligned
 
 4.  Active Filters Row (Conditional)
 
--   Displays removable filter chips when filters are applied
+- Displays removable filter chips when filters are applied
 
 5.  Results Section
 
--   Displays projects in either card view or table view
+- Displays projects in either card view or table view
 
--   Results load incrementally via a "See More" interaction
+- Results load incrementally via a "See More" interaction
 
 6.  Featured Projects Section
 
--   Displays curated projects selected by the site owner
+- Displays curated projects selected by the site owner
 
--   Visually secondary to the main results
+- Visually secondary to the main results
 
--   Uses the same card or table presentation patterns
+- Uses the same card or table presentation patterns
 
 ## Visual & Interaction Notes
 
--   The Projects Search page intentionally reuses all discovery patterns
-    defined for the Blog Search page.
+- The Projects Search page intentionally reuses all discovery patterns
+  defined for the Blog Search page.
 
--   Search, filter, sort, and view toggle controls behave identically.
+- Search, filter, sort, and view toggle controls behave identically.
 
--   All cards and table rows are fully clickable and navigate to the
-    individual project page.
+- All cards and table rows are fully clickable and navigate to the
+  individual project page.
 
--   The "See More" interaction appends additional results below the
-    existing list.
+- The "See More" interaction appends additional results below the
+  existing list.
 
--   No pagination controls (page numbers, previous/next) are used.
+- No pagination controls (page numbers, previous/next) are used.
 
--   No project content is editable from this page.
+- No project content is editable from this page.
 
 ## Card View Content
 
 Each project card displays:
 
--   Project title
+- Project title
 
--   Thumbnail or preview image
+- Thumbnail or preview image
 
--   Last updated date
+- Last updated date
 
--   Tags and categories
+- Tags and categories
 
--   Short summary truncated to a fixed length with ellipsis
+- Short summary truncated to a fixed length with ellipsis
 
 Additional rules:
 
--   Cards are uniform in size
+- Cards are uniform in size
 
--   Tags and categories may scroll horizontally within a card to avoid
-    vertical expansion
+- Tags and categories may scroll horizontally within a card to avoid
+  vertical expansion
 
 ## Table / List View Content
 
 Each table row displays:
 
--   Project title
+- Project title
 
--   Short summary
+- Short summary
 
--   Publish date (if applicable)
+- Publish date (if applicable)
 
--   Last updated date
+- Last updated date
 
--   Tags
+- Tags
 
--   Categories
+- Categories
 
 Switching between card and table views affects presentation density
 only.
@@ -589,11 +582,11 @@ only.
 
 The Projects Search page intentionally mirrors the Blog Search page to:
 
--   Reduce cognitive load
+- Reduce cognitive load
 
--   Establish predictable discovery patterns
+- Establish predictable discovery patterns
 
--   Emphasize content over layout novelty
+- Emphasize content over layout novelty
 
 By keeping project discovery consistent with blog discovery, visitors
 can focus on evaluating the work itself rather than learning a new
@@ -602,15 +595,15 @@ curation without undermining automated sourcing or discovery.
 
 ## Status
 
--   Wireframe version: v1
+- Wireframe version: v1
 
--   Layout: Final for initial implementation
+- Layout: Final for initial implementation
 
--   Discovery model: Reused and locked
+- Discovery model: Reused and locked
 
--   Interaction patterns: Identical to Blog Search
+- Interaction patterns: Identical to Blog Search
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 # Story Page Wireframe
 
@@ -633,19 +626,19 @@ supplemental layer.
 
 The Story page must:
 
--   Present a complete, readable narrative without relying on animation
+- Present a complete, readable narrative without relying on animation
 
--   Preserve identical content between Plain mode and Story mode
+- Preserve identical content between Plain mode and Story mode
 
--   Default to Plain mode on first visit
+- Default to Plain mode on first visit
 
--   Maintain strict chronological ordering
+- Maintain strict chronological ordering
 
--   Provide orientation within the timeline without disrupting reading
+- Provide orientation within the timeline without disrupting reading
 
--   Reuse global navigation and interaction patterns
+- Reuse global navigation and interaction patterns
 
--   Keep all UI secondary to the narrative text
+- Keep all UI secondary to the narrative text
 
 Editing controls and animation tooling are owner-only and not visible to
 visitors.
@@ -659,69 +652,68 @@ peripheral space reserved for animation.
 
 1.  Global Navigation Bar
 
--   Identical to the Resume page navigation
+- Identical to the Resume page navigation
 
--   Persistent access to resume download and email
+- Persistent access to resume download and email
 
--   Hides on scroll down and reappears on scroll up
+- Hides on scroll down and reappears on scroll up
 
 2.  Main Content Area
 
--   Three conceptual columns:
+- Three conceptual columns:
+  - Center column: primary story content
 
-    -   Center column: primary story content
+  - Left and right columns: reserved for optional animation layers
+    (secondary)
 
-    -   Left and right columns: reserved for optional animation layers
-        (secondary)
-
--   Content remains fully readable if animation layers are removed
+- Content remains fully readable if animation layers are removed
 
 3.  Page Header
 
--   Page title: *My Story*
+- Page title: _My Story_
 
--   Mode toggle: Plain / Story (text-based)
+- Mode toggle: Plain / Story (text-based)
 
 4.  Story Content Sections
 
--   Chronologically ordered sections
+- Chronologically ordered sections
 
--   Each section represents a life phase or significant event
+- Each section represents a life phase or significant event
 
--   Sections include narrative text and optional headings
+- Sections include narrative text and optional headings
 
--   Content flows vertically with no cards, grids, or side-by-side
-    layouts
+- Content flows vertically with no cards, grids, or side-by-side
+  layouts
 
 5.  Timeline / Progress Indicator
 
--   Vertical progress bar positioned to the side of the content
+- Vertical progress bar positioned to the side of the content
 
--   Uses discrete markers to represent key points in the timeline
+- Uses discrete markers to represent key points in the timeline
 
--   Marker state updates automatically based on scroll position
+- Marker state updates automatically based on scroll position
 
 ## Visual & Interaction Notes
 
--   The navigation bar follows the global navigation styling and
-    hide-on-scroll behavior defined in the VDR.
+- The navigation bar follows the global navigation styling and
+  hide-on-scroll behavior defined in the VDR.
 
--   The content column uses the same reading width and spacing rules as
-    blog posts and the resume page.
+- The content column uses the same reading width and spacing rules as
+  blog posts and the resume page.
 
--   The Plain / Story mode toggle is visually quiet, text-based, and
-    non-sticky.
+- The Plain / Story mode toggle is visually quiet, text-based, and
+  non-sticky.
 
--   The timeline indicator is thin, neutral in color, and visually
-    secondary to the content.
+- The timeline indicator is thin, neutral in color, and visually
+  secondary to the content.
 
--   Timeline markers update passively as the user scrolls; no snapping
-    or forced navigation occurs.
+- Timeline markers update passively as the user scrolls; no snapping
+  or forced navigation occurs.
 
--   Animation layers, when present, exist outside the main content
-    column and never overlap or obstruct text.
+- Animation layers, when present, exist outside the main content
+  column and never overlap or obstruct text.
 
--   Removing animations does not affect layout, content, or orientation.
+- Removing animations does not affect layout, content, or orientation.
 
 ## Design Rationale
 
@@ -737,17 +729,17 @@ progression while preserving a calm reading experience.
 
 ## Status
 
--   Wireframe version: v1
+- Wireframe version: v1
 
--   Layout: Final for initial implementation
+- Layout: Final for initial implementation
 
--   Narrative structure: Locked
+- Narrative structure: Locked
 
--   Interaction patterns: Validated
+- Interaction patterns: Validated
 
--   Animation dependency: None
+- Animation dependency: None
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 # Individual Blog Post Pag
 
@@ -768,18 +760,18 @@ interrupting the reading flow.
 
 The Individual Blog Post page must:
 
--   Present the full post content in a single, readable column
+- Present the full post content in a single, readable column
 
--   Make published date and estimated reading time visible without
-    interaction
+- Make published date and estimated reading time visible without
+  interaction
 
--   Allow access to extended metadata without cluttering the page
+- Allow access to extended metadata without cluttering the page
 
--   Support rich content (code blocks, images, diagrams, math)
+- Support rich content (code blocks, images, diagrams, math)
 
--   Preserve reading flow with no modal interruptions
+- Preserve reading flow with no modal interruptions
 
--   Reuse global navigation patterns consistently
+- Reuse global navigation patterns consistently
 
 Visitors may read, export, or share content.
 
@@ -794,76 +786,75 @@ Story pages.
 
 1.  Global Navigation Bar
 
--   Identical to other pages
+- Identical to other pages
 
--   Resume download and email always accessible
+- Resume download and email always accessible
 
--   Hides on scroll down and reappears on scroll up
+- Hides on scroll down and reappears on scroll up
 
 2.  Post Header
 
--   Blog post title (primary visual focus)
+- Blog post title (primary visual focus)
 
 3.  Metadata Row
 
--   Published date (visible)
+- Published date (visible)
 
--   Estimated reading time (visible)
+- Estimated reading time (visible)
 
--   "Details" disclosure control
+- "Details" disclosure control
 
--   Export and share icons
+- Export and share icons
 
--   Metadata elements share a single horizontal row
+- Metadata elements share a single horizontal row
 
 4.  Details Panel (Collapsed by Default)
 
--   Expands inline when "Details" is selected
+- Expands inline when "Details" is selected
 
--   Appears between the metadata row and the thumbnail/content
+- Appears between the metadata row and the thumbnail/content
 
--   Spans the full width of the content column
+- Spans the full width of the content column
 
 5.  Thumbnail (Optional)
 
--   Displayed if provided
+- Displayed if provided
 
--   Positioned above the body content
+- Positioned above the body content
 
 6.  Post Body
 
--   Primary narrative content
+- Primary narrative content
 
--   Includes headings, paragraphs, code blocks, images, diagrams, and
-    math
+- Includes headings, paragraphs, code blocks, images, diagrams, and
+  math
 
 ## Visual & Interaction Notes
 
--   The Details control expands an inline disclosure panel, not a modal
-    or popup.
+- The Details control expands an inline disclosure panel, not a modal
+  or popup.
 
--   The expanded Details panel is left-aligned within the content
-    column, regardless of the control's position.
+- The expanded Details panel is left-aligned within the content
+  column, regardless of the control's position.
 
--   The panel scrolls naturally with the page and does not overlay
-    content.
+- The panel scrolls naturally with the page and does not overlay
+  content.
 
--   Tags and categories inside the Details panel are rendered as chips:
+- Tags and categories inside the Details panel are rendered as chips:
+  - One row per metadata type
 
-    -   One row per metadata type
+  - Horizontal scrolling when overflowing
 
-    -   Horizontal scrolling when overflowing
+  - No vertical wrapping
 
-    -   No vertical wrapping
+- Chips are visually quiet and secondary; they do not resemble primary
+  buttons.
 
--   Chips are visually quiet and secondary; they do not resemble primary
-    buttons.
+- Export and share icons are visible but understated and do not
+  compete with the title.
 
--   Export and share icons are visible but understated and do not
-    compete with the title.
-
--   All non-text elements (images, code output) are supplemental and
-    must not block reading.
+- All non-text elements (images, code output) are supplemental and
+  must not block reading.
 
 ## Design Rationale
 
@@ -878,17 +869,17 @@ accessible and scalable.
 
 Status
 
--   Wireframe version: v3
+- Wireframe version: v3
 
--   Layout: Final
+- Layout: Final
 
--   Metadata disclosure pattern: Locked
+- Metadata disclosure pattern: Locked
 
--   Chip usage & scrolling behavior: Locked
+- Chip usage & scrolling behavior: Locked
 
--   Reading-first constraints: Enforced
+- Reading-first constraints: Enforced
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 # Individual Project Post Page
 
@@ -910,20 +901,20 @@ the project.
 
 The Individual Project Page must:
 
--   Present a clear, readable explanation of the project in a single
-    reading column
+- Present a clear, readable explanation of the project in a single
+  reading column
 
--   Reuse the same reading-first structure as the Individual Blog Post
-    page
+- Reuse the same reading-first structure as the Individual Blog Post
+  page
 
--   Support a live preview when available
+- Support a live preview when available
 
--   Provide a reliable visual fallback when the live preview is
-    unavailable
+- Provide a reliable visual fallback when the live preview is
+  unavailable
 
--   Make core context and metadata accessible without clutter
+- Make core context and metadata accessible without clutter
 
--   Preserve readability regardless of preview availability
+- Preserve readability regardless of preview availability
 
 Visitors may read, explore, export, or share the project.
 
@@ -938,103 +929,99 @@ substitution.
 
 1.  Global Navigation Bar
 
--   Identical to other pages
+- Identical to other pages
 
--   Resume download and email always accessible
+- Resume download and email always accessible
 
--   Hides on scroll down and reappears on scroll up
+- Hides on scroll down and reappears on scroll up
 
 2.  Project Header
 
--   Project title (primary visual focus)
+- Project title (primary visual focus)
 
 3.  Metadata Row
 
--   Published or first release date (visible)
+- Published or first release date (visible)
 
--   Estimated reading time (visible)
+- Estimated reading time (visible)
 
--   "Details" disclosure control
+- "Details" disclosure control
 
--   Export and share icons
+- Export and share icons
 
 4.  Details Panel (Collapsed by Default)
 
--   Expands inline below the metadata row
+- Expands inline below the metadata row
 
--   Displays extended project metadata:
+- Displays extended project metadata:
+  - Project ID
 
-    -   Project ID
+  - Last updated date
 
-    -   Last updated date
+  - Tags
 
-    -   Tags
+  - Categories
 
-    -   Categories
-
-    -   Additional provenance information
+  - Additional provenance information
 
 5.  Live Preview / Visual Fallback Area
 
--   Occupies the same layout position as a blog post thumbnail
+- Occupies the same layout position as a blog post thumbnail
 
--   Displays either:
+- Displays either:
+  - A live project preview (preferred), or
 
-    -   A live project preview (preferred), or
-
-    -   A screenshot-based slideshow (fallback)
+  - A screenshot-based slideshow (fallback)
 
 6.  Project Body Content
 
--   Explanation of what the project does
+- Explanation of what the project does
 
--   How it works
+- How it works
 
--   Design decisions and trade-offs
+- Design decisions and trade-offs
 
--   Supporting code blocks, diagrams, and images
+- Supporting code blocks, diagrams, and images
 
 ## Live Preview & Fallback Behavior
 
--   The live preview is optional and supplemental.
+- The live preview is optional and supplemental.
 
--   If the live preview fails to load, is unavailable, or is
-    intentionally disabled:
+- If the live preview fails to load, is unavailable, or is
+  intentionally disabled:
+  - A screenshot-based slideshow is displayed automatically in its
+    place.
 
-    -   A screenshot-based slideshow is displayed automatically in its
-        place.
+- The slideshow:
+  - Uses multiple images instead of a single thumbnail
 
--   The slideshow:
+  - Occupies the same layout position as the live preview
 
-    -   Uses multiple images instead of a single thumbnail
+  - Preserves reading flow and layout consistency
 
-    -   Occupies the same layout position as the live preview
-
-    -   Preserves reading flow and layout consistency
-
--   Screenshots must provide enough visual context to understand the
-    project without interactivity.
+- Screenshots must provide enough visual context to understand the
+  project without interactivity.
 
 The page must remain fully understandable without a live preview.
 
 ## Visual & Interaction Notes
 
--   Live preview UI controls are intentionally unspecified at the
-    wireframe stage.
+- Live preview UI controls are intentionally unspecified at the
+  wireframe stage.
 
--   The preview area behaves as supporting media, not a primary
-    interaction surface.
+- The preview area behaves as supporting media, not a primary
+  interaction surface.
 
--   Screenshot fallback behaves similarly to a blog thumbnail but
-    supports multiple images.
+- Screenshot fallback behaves similarly to a blog thumbnail but
+  supports multiple images.
 
--   All images must include descriptive alt text.
+- All images must include descriptive alt text.
 
--   The expanded Details panel is left-aligned within the content column
-    and scrolls naturally with the page.
+- The expanded Details panel is left-aligned within the content column
+  and scrolls naturally with the page.
 
--   Tags and categories inside the Details panel are rendered as chips
-    with horizontal scrolling when overflowing.
+- Tags and categories inside the Details panel are rendered as chips
+  with horizontal scrolling when overflowing.
 
 ## Design Rationale
 
@@ -1049,22 +1036,22 @@ clarity of thinking as much as by interactivity.
 
 ## Status
 
--   Wireframe version: v1
+- Wireframe version: v1
 
--   Layout: Final
+- Layout: Final
 
--   Live preview placement: Locked
+- Live preview placement: Locked
 
--   Screenshot fallback: Locked
+- Screenshot fallback: Locked
 
--   Metadata disclosure pattern: Locked
+- Metadata disclosure pattern: Locked
 
--   Visual styling: Governed by VDR
+- Visual styling: Governed by VDR
 
 # Notes on Wireframe Evolution
 
--   Wireframes may evolve as implementation proceeds.
+- Wireframes may evolve as implementation proceeds.
 
--   Any changes must continue to satisfy the XDR and VDR principles.
+- Any changes must continue to satisfy the XDR and VDR principles.
 
--   Wireframes do not override design requirements.
+- Wireframes do not override design requirements.

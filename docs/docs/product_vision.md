@@ -2,7 +2,7 @@
 
 Alfredo's Portfolio
 
-*A living portfolio and personal knowledge space*
+_A living portfolio and personal knowledge space_
 
 (Short, intentional, and personal. The product is you.)
 
@@ -42,7 +42,7 @@ Additionally, many portfolios become stale because they are separate from the en
 
 This product solves the problem of how to present a complete, evolving professional identity without duplicating effort or losing authenticity.
 
-The core problem is not visibility, but *representation*---how to show real thinking and growth without duplicating effort or performing for an audience.
+The core problem is not visibility, but _representation_---how to show real thinking and growth without duplicating effort or performing for an audience.
 
 # Product Description
 
