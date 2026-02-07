@@ -1,6 +1,7 @@
-import { type ReactNode, type AnchorHTMLAttributes } from "react";
+import { type ReactNode } from "react";
+import { type LinkProps, Link } from "react-router";
 
-interface NavCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface NavCardProps extends LinkProps {
     icon: ReactNode;
     title: string;
     description?: string;
@@ -10,7 +11,7 @@ function NavCard({ icon, title, description, className = "", ...props}: NavCardP
 
     const baseStyles = "nav-card group"
     return (
-        <a className={`${baseStyles} ${className}`} {...props}>
+        <Link className={`${baseStyles} ${className}`} {...props}>
             <div className="nav-card-icon">
                 {icon}
             </div>
@@ -19,7 +20,7 @@ function NavCard({ icon, title, description, className = "", ...props}: NavCardP
                 <p className="nav-card-title">{title}</p>
                 {description && <p>{description}</p>}
             </div>
-        </a>
+        </Link>
     )
 }
 

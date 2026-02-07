@@ -1,25 +1,117 @@
 import { render, screen, within} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {describe, it, expect, vi, beforeEach, afterEach} from "vitest";
+import {MemoryRouter, useLocation, Routes, Route} from "react-router";
 
 import Home from "../pages/Home";
+import Story from "../pages/Story";
+import Resume from "../pages/Resume";
+import Blog from "../pages/Blog";
+import Projects from "../pages/Projects.tsx";
 import { PROFILE } from "../constants/profile";
 import { COPY_FIELD_MSG } from "../constants/messages";
+import { NAV_CARDS, NAV_CARDS_ORDERED_LIST } from "../constants/navigation.tsx";
 
 describe("Download Resume", () => {
     it("should render the download resume button", () => {
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const downloadResumeButton = screen.getByRole("button", { name: PROFILE.LINKS.RESUME.ARIA_LABEL });
         expect(downloadResumeButton).toBeInTheDocument();
     });
 });
 
 describe("Navigation Cards", () => {
+    function LocationDisplay() {
+        const location = useLocation();
+        return <p data-testid="location">{location.pathname}</p>;
+    }
+
     it("should render the navigation cards", () => {
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const nav = screen.getByRole("navigation")
         const navCards = within(nav).getAllByRole("link");
         expect(navCards).toHaveLength(4);
+    });
+
+    it("should have the correct route for each navigation card", () => {
+       render(<MemoryRouter><Home /></MemoryRouter>);
+       const nav = screen.getByRole("navigation")
+       const navCardsElems = within(nav).getAllByRole("link");
+        navCardsElems.forEach((cardElem, index) => {
+           expect(cardElem).toHaveAttribute("href", NAV_CARDS_ORDERED_LIST[index].HREF);
+       });
+    });
+
+    it("should navigate to story page when clicked", async () => {
+        const user = userEvent.setup();
+        render(
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path={NAV_CARDS.STORY.HREF} element={<Story />} />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
+        );
+        const nav = screen.getByRole("navigation");
+        const navCard = within(nav).getByRole("link", { name: new RegExp(NAV_CARDS.STORY.TITLE, "i") });
+        await user.click(navCard);
+        expect(screen.getByTestId("location")).toHaveTextContent(NAV_CARDS.STORY.HREF);
+        expect(screen.getByRole("heading", {level: 1})).toHaveTextContent(NAV_CARDS.STORY.TITLE);
+    });
+
+    it("should navigate to resume page when clicked", async () => {
+        const user = userEvent.setup();
+        render(
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path={NAV_CARDS.RESUME.HREF} element={<Resume />} />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
+        );
+        const nav = screen.getByRole("navigation");
+        const navCard = within(nav).getByRole("link", { name: new RegExp(NAV_CARDS.RESUME.TITLE, "i") });
+        await user.click(navCard);
+        expect(screen.getByTestId("location")).toHaveTextContent(NAV_CARDS.RESUME.HREF);
+        expect(screen.getByRole("heading", {level: 1})).toHaveTextContent(NAV_CARDS.RESUME.TITLE);
+    });
+
+    it("should navigate to blog page when clicked", async () => {
+        const user = userEvent.setup();
+        render(
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path={NAV_CARDS.BLOG.HREF} element={<Blog />} />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
+        );
+        const nav = screen.getByRole("navigation");
+        const navCard = within(nav).getByRole("link", { name: new RegExp(NAV_CARDS.BLOG.TITLE, "i") });
+        await user.click(navCard);
+        expect(screen.getByTestId("location")).toHaveTextContent(NAV_CARDS.BLOG.HREF);
+        expect(screen.getByRole("heading", {level: 1})).toHaveTextContent(NAV_CARDS.BLOG.TITLE);
+    });
+
+    it("should navigate to projects page when clicked", async () => {
+        const user = userEvent.setup();
+        render(
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path={NAV_CARDS.PROJECTS.HREF} element={<Projects />} />
+                </Routes>
+                <LocationDisplay />
+            </MemoryRouter>
+        );
+        const nav = screen.getByRole("navigation");
+        const navCard = within(nav).getByRole("link", { name: new RegExp(NAV_CARDS.PROJECTS.TITLE, "i") });
+        await user.click(navCard);
+        expect(screen.getByTestId("location")).toHaveTextContent(NAV_CARDS.PROJECTS.HREF);
+        expect(screen.getByRole("heading", {level: 1})).toHaveTextContent(NAV_CARDS.PROJECTS.TITLE);
     });
 });
 
@@ -37,7 +129,7 @@ describe("Copy Email Field", () => {
     });
 
     it("should render the copy email field", () => {
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         expect(emailField).toBeInTheDocument();
     });
@@ -53,7 +145,7 @@ describe("Copy Email Field", () => {
             configurable: true
         });
 
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         await user.click(emailField);
 
@@ -67,7 +159,7 @@ describe("Copy Email Field", () => {
             configurable: true
         });
 
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         await user.click(emailField);
         expect(screen.getByText(COPY_FIELD_MSG.CLIPBOARD_NOT_SUPPORTED)).toBeInTheDocument();
@@ -82,7 +174,7 @@ describe("Copy Email Field", () => {
             configurable: true
         });
 
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         await user.click(emailField);
         expect(screen.getByText(COPY_FIELD_MSG.CLIPBOARD_NOT_SUPPORTED)).toBeInTheDocument();
@@ -92,7 +184,7 @@ describe("Copy Email Field", () => {
         const user = userEvent.setup();
         Reflect.deleteProperty(navigator, "clipboard");
 
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         await user.click(emailField);
         expect(screen.getByText(COPY_FIELD_MSG.CLIPBOARD_NOT_SUPPORTED)).toBeInTheDocument();
@@ -107,7 +199,7 @@ describe("Copy Email Field", () => {
             configurable: true
         });
 
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const emailField = screen.getByRole("button", { name: PROFILE.EMAIL });
         await user.click(emailField);
         expect(screen.getByText(COPY_FIELD_MSG.COPY_FAILED)).toBeInTheDocument();
@@ -116,7 +208,7 @@ describe("Copy Email Field", () => {
 
 describe("Social Media Links", () => {
     it("should render the social media links", () => {
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const githubLink = screen.getByRole("link", { name: PROFILE.LINKS.GITHUB.ARIA_LABEL });
         const linkedinLink = screen.getByRole("link", { name: PROFILE.LINKS.LINKEDIN.ARIA_LABEL });
         expect(githubLink).toBeInTheDocument();
@@ -124,7 +216,7 @@ describe("Social Media Links", () => {
     });
 
     it("should target the correct social media links in new tab", () => {
-        render(<Home />);
+        render(<MemoryRouter><Home /></MemoryRouter>);
         const githubLink = screen.getByRole("link", { name: PROFILE.LINKS.GITHUB.ARIA_LABEL });
         const linkedinLink = screen.getByRole("link", { name: PROFILE.LINKS.LINKEDIN.ARIA_LABEL });
         expect(githubLink).toHaveAttribute("target", "_blank");

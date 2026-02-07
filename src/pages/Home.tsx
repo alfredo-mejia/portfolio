@@ -3,7 +3,7 @@ import NavCard from "../components/NavCard.tsx";
 import CopyFieldButton from "../components/CopyFieldButton.tsx";
 import IconLink from "../components/IconLink.tsx";
 import { PROFILE } from "../constants/profile.tsx";
-import { NAV_CARDS } from "../constants/navigation.tsx";
+import { NAV_CARDS_ORDERED_LIST } from "../constants/navigation.tsx";
 
 function Home() {
     return (
@@ -25,19 +25,21 @@ function Home() {
 
             {/* Navigation */}
             <nav className="my-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {NAV_CARDS.map((CARD) => (
-                    <NavCard
-                        key={CARD.TITLE}
-                        icon={CARD.ICON}
-                        title={CARD.TITLE}
-                        description={CARD.DESCRIPTION}
-                        href={CARD.HREF}
-                    />
-                ))}
+                {
+                    NAV_CARDS_ORDERED_LIST.map((CARD) => (
+                        <NavCard
+                            key={CARD.HREF}
+                            icon={CARD.ICON}
+                            title={CARD.TITLE}
+                            description={CARD.DESCRIPTION}
+                            to={CARD.HREF}
+                        />
+                    ))
+                }
             </nav>
 
             {/* Footer */}
-            <footer className="flex flex-col items-center gap-8 my-12">
+            <footer className="flex flex-col items-center gap-8 mt-12 mb-6">
                 <CopyFieldButton value={PROFILE.EMAIL} />
 
                 <div className="flex gap-4">
