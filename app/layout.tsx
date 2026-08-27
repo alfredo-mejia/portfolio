@@ -1,6 +1,9 @@
 import "./globals.css";
 
 import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono as GeistMono } from "next/font/google";
+
+import { SiteHeader } from "@/components/SiteHeader";
 
 import { site } from "./site";
 
@@ -99,14 +102,30 @@ export const metadata: Metadata = {
   publisher: site.name,
 };
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = GeistMono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      lang="en"
+    >
+      <body className="bg-background text-foreground">
+        <SiteHeader />
+        <main>{children}</main>
+      </body>
     </html>
   );
 }

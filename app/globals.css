@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-geist-sans: ui-sans-serif;
+    --font-geist-mono: ui-monospace;
+  }
+}
+
+@theme inline {
+  --color-background: #e9e8e5;
+  --color-foreground: #0a0a0a;
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-foreground);
+  outline-offset: 2px;
+}
