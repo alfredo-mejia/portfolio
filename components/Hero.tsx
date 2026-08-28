@@ -313,7 +313,7 @@ export function Hero() {
             </div>
 
             {/* Stat 2 */}
-            <div className="border-l border-foreground/15 pl-3 sm:pl-6">
+            <div className="border-l border-foreground/10 pl-3 sm:pl-6">
               <p className="text-3xl font-bold text-foreground sm:text-4xl">
                 <Counter value={STATISTICS.PROJECTS.AMOUNT} />+
               </p>
@@ -326,7 +326,7 @@ export function Hero() {
             </div>
 
             {/* Stat 3 */}
-            <div className="border-l border-foreground/15 pl-3 sm:pl-6">
+            <div className="border-l border-foreground/10 pl-3 sm:pl-6">
               <p className="text-3xl font-bold text-foreground sm:text-4xl">
                 <Counter value={STATISTICS.LANGUAGES.AMOUNT} />+
               </p>
