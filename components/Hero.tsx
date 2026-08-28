@@ -186,7 +186,7 @@ export function Hero() {
           {/* Availability Banner */}
           <div
             className="mb-6 flex items-center gap-2 font-mono text-xs
-              text-foreground/65"
+              text-foreground/60"
           >
             <span
               className="font-bold text-accent"
@@ -256,7 +256,7 @@ export function Hero() {
               {/* Cursor blinker */}
               <span
                 className="inline-block animate-pulse font-normal
-                  text-foreground/80 [animation-duration:1s]
+                  text-foreground/75 [animation-duration:1s]
                   motion-reduce:animate-none"
               >
                 {PIPE_SYMBOL}
@@ -289,55 +289,62 @@ export function Hero() {
               {/* Arrow moves on hover */}
               <ArrowRight
                 className="size-4 transition-transform duration-200
-                  group-hover:translate-x-1"
+                  motion-safe:group-hover:translate-x-1
+                  motion-reduce:transform-none"
               />
             </a>
           </div>
 
           {/* Statistics with animated counter */}
-          <div
+          <dl
             className="mt-12 grid grid-cols-3 gap-3 border-t
               border-foreground/10 pt-8 font-mono sm:gap-6"
           >
             {/* Stat 1 */}
-            <div>
-              <p className="text-3xl font-bold text-foreground sm:text-4xl">
-                <Counter value={STATISTICS.EXP_YEARS.AMOUNT} />+
-              </p>
-              <p
+            <div className="flex flex-col-reverse">
+              <dt
                 className="mt-1 text-xs tracking-wider text-foreground/60
                   uppercase sm:text-sm"
               >
                 {STATISTICS.EXP_YEARS.DESCRIPTION}
-              </p>
+              </dt>
+              <dd className="text-3xl font-bold text-foreground sm:text-4xl">
+                <Counter value={STATISTICS.EXP_YEARS.AMOUNT} />+
+              </dd>
             </div>
 
             {/* Stat 2 */}
-            <div className="border-l border-foreground/10 pl-3 sm:pl-6">
-              <p className="text-3xl font-bold text-foreground sm:text-4xl">
-                <Counter value={STATISTICS.PROJECTS.AMOUNT} />+
-              </p>
-              <p
+            <div
+              className="flex flex-col-reverse border-l border-foreground/10
+                pl-3 sm:pl-6"
+            >
+              <dt
                 className="mt-1 text-xs tracking-wider text-foreground/60
                   uppercase sm:text-sm"
               >
                 {STATISTICS.PROJECTS.DESCRIPTION}
-              </p>
+              </dt>
+              <dd className="text-3xl font-bold text-foreground sm:text-4xl">
+                <Counter value={STATISTICS.PROJECTS.AMOUNT} />+
+              </dd>
             </div>
 
             {/* Stat 3 */}
-            <div className="border-l border-foreground/10 pl-3 sm:pl-6">
-              <p className="text-3xl font-bold text-foreground sm:text-4xl">
-                <Counter value={STATISTICS.LANGUAGES.AMOUNT} />+
-              </p>
-              <p
+            <div
+              className="flex flex-col-reverse border-l border-foreground/10
+                pl-3 sm:pl-6"
+            >
+              <dt
                 className="mt-1 text-xs tracking-wider text-foreground/60
                   uppercase sm:text-sm"
               >
                 {STATISTICS.LANGUAGES.DESCRIPTION}
-              </p>
+              </dt>
+              <dd className="text-3xl font-bold text-foreground sm:text-4xl">
+                <Counter value={STATISTICS.LANGUAGES.AMOUNT} />+
+              </dd>
             </div>
-          </div>
+          </dl>
         </div>
 
         {/* Right: 40% for Photo */}

@@ -79,10 +79,14 @@ export function SiteHeader() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+          }}
           className="-ml-5 rounded-full px-5 py-2 font-mono text-xl font-bold
+            transition-colors hover:bg-foreground/10 active:bg-foreground/15
             md:-ml-4 md:px-4 md:py-1.5 md:text-base"
         >
-          am<span className="text-foreground/40">.dev</span>
+          am<span className="text-foreground/60">.dev</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -112,7 +116,8 @@ export function SiteHeader() {
           Resume
           <ArrowRight
             className="size-4 transition-transform duration-200
-              group-hover:translate-x-1"
+              motion-safe:group-hover:translate-x-1
+              motion-reduce:transform-none"
           />
         </a>
 
@@ -178,7 +183,8 @@ export function SiteHeader() {
             Resume
             <ArrowRight
               className="size-5 transition-transform duration-200
-                group-hover:translate-x-1"
+                motion-safe:group-hover:translate-x-1
+                motion-reduce:transform-none"
             />
           </a>
         </div>

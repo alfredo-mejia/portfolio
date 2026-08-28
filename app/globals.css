@@ -5,6 +5,11 @@
     --font-geist-sans: ui-sans-serif;
     --font-geist-mono: ui-monospace;
   }
+
+  html {
+    /* Removes the 300ms tap delay on mobile */
+    touch-action: manipulation;
+  }
 }
 
 @theme inline {

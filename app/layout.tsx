@@ -10,6 +10,7 @@ import { site } from "./site";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#e9e8e5",
 };
 
 export const metadata: Metadata = {
@@ -129,3 +130,6 @@ export default function RootLayout({
     </html>
   );
 }
+
+// TODO: Skip to content button
+// TODO: Add scroll-mt-20 to sections
