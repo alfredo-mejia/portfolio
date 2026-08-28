@@ -10,9 +10,18 @@
 @theme inline {
   --color-background: #e9e8e5;
   --color-foreground: #0a0a0a;
+  --color-accent: #ba3f0c;
 
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
+  --container-content: 72rem;
+}
+
+@utility site-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-content);
+  padding-inline: calc(var(--spacing) * 6);
 }
 
 :focus-visible {
