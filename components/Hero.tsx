@@ -13,7 +13,7 @@ import avatar from "@/public/avatar-transparent.png";
 
 const roles = [
   "software engineer.",
-  "basketball hooper.",
+  "ball hooper.",
   "problem solver.",
   "proud pet owner.",
   "project builder.",

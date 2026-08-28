@@ -126,7 +126,7 @@ Every role below exists in the current interface. The table names exact utilitie
 | Eyebrow/status      | Mono           | `text-xs`                          | 400 inherited; prompt uses `font-bold` | Default line height: 16px; no override  | Label uses `tracking-wide` | `foreground/60`; prompt accent |
 | Desktop navigation  | Mono           | `text-base`                        | `font-medium`                          | Default line height: 24px; no override  | None; no tracking utility  | `foreground`                   |
 | Mobile navigation   | Mono           | `text-2xl`                         | `font-medium`                          | Default line height: 32px; no override  | `tracking-tight`           | `foreground`                   |
-| Brand               | Mono           | `text-xl md:text-base`             | `font-bold`                            | Default line height: 28px; 24px at `md` | None; no tracking utility  | `foreground`; suffix at `/60`  |
+| Brand               | Mono           | `text-xl lg:text-base`             | `font-bold`                            | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `foreground`; suffix at `/60`  |
 | Hero primary action | Mono           | `text-lg lg:text-base`             | `font-semibold`                        | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `accent`                       |
 | Data value          | Mono           | `text-3xl sm:text-4xl`             | `font-bold`                            | Default line height: 36px; 40px at `sm` | None; no tracking utility  | `foreground`                   |
 | Data label          | Mono           | `text-xs sm:text-sm`               | 400 inherited; no weight utility       | Default line height: 16px; 20px at `sm` | `tracking-wider`           | `foreground/60`                |
@@ -210,7 +210,7 @@ negative edge margin = internal padding on that edge
 | Control                 | Padding        | Compensation              |
 | ----------------------- | -------------- | ------------------------- |
 | Mobile logo             | `px-5`         | `-ml-5`                   |
-| Desktop logo            | `px-4`         | `md:-ml-4`                |
+| Desktop logo            | `px-4`         | `lg:-ml-4`                |
 | Desktop Resume          | `px-4`         | `-mr-4`                   |
 | Hamburger               | `p-3`          | `-mr-3`                   |
 | Mobile navigation links | `px-5`         | Parent or control `-ml-5` |
@@ -223,19 +223,18 @@ Apply this rule only to controls anchored to a container edge. Do not use negati
 
 The interface is mobile-first. Existing breakpoints have distinct responsibilities:
 
-| Breakpoint    | Responsibility                                                         |
-| ------------- | ---------------------------------------------------------------------- |
-| Base          | Phone header, mobile menu, one-column hero, comfortable touch controls |
-| `sm` / 640px  | Hero type scale, body size, and statistic spacing                      |
-| `md` / 768px  | Desktop header and centered navigation mode                            |
-| `lg` / 1024px | Two-column hero, portrait, largest display type, and compact hero CTA  |
+| Breakpoint    | Responsibility                                                                                        |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| Base          | Phone and tablet header, overlay navigation, one-column hero, and comfortable header controls         |
+| `sm` / 640px  | Hero type scale, body size, and statistic spacing                                                     |
+| `lg` / 1024px | Desktop header and centered navigation, two-column hero, portrait, largest type, and compact controls |
 
 Rules:
 
 - The header must always remain present and sticky.
 - Desktop navigation must be mathematically centered with absolute centering, independent of the logo and Resume widths.
 - The portrait remains hidden below `lg`; mobile prioritizes the introduction and work CTA.
-- At `md` and above, the header deliberately uses the compact 36px control tier, including on touch-capable tablets. This viewport-based density policy is intentional and must not be silently replaced with a pointer-based rule.
+- Below `lg`, the header uses the comfortable control tiers, including on tablets. At `lg` and above, it uses the compact 36px tier. This viewport-based density policy is intentional and must not be silently replaced with a pointer-based rule.
 - Avoid device-specific breakpoints unless a real layout failure requires one.
 
 ## 7. Interactive controls
@@ -244,13 +243,13 @@ Rules:
 
 Control dimensions are based on final target height, not on increasing padding mechanically with every font size.
 
-| Variant                 | Text        | Padding       | Icon     | Final height | Use                                      |
-| ----------------------- | ----------- | ------------- | -------- | -----------: | ---------------------------------------- |
-| Compact                 | `text-base` | `px-4 py-1.5` | `size-4` |         36px | `md+` header controls and `lg+` hero CTA |
-| Comfortable action      | `text-lg`   | `px-5 py-2`   | `size-4` |         44px | Hero CTA below `lg`                      |
-| Comfortable large       | `text-xl`   | `px-5 py-2`   | `size-5` |         44px | Mobile logo and Resume                   |
-| Prominent navigation    | `text-2xl`  | `px-5 py-2`   | —        |         48px | Mobile menu links                        |
-| Icon-only touch control | —           | `p-3`         | `size-6` |         48px | Mobile hamburger                         |
+| Variant                 | Text        | Padding       | Icon     | Final height | Use                                   |
+| ----------------------- | ----------- | ------------- | -------- | -----------: | ------------------------------------- |
+| Compact                 | `text-base` | `px-4 py-1.5` | `size-4` |         36px | Header controls and Hero CTA at `lg+` |
+| Comfortable action      | `text-lg`   | `px-5 py-2`   | `size-4` |         44px | Hero CTA below `lg`                   |
+| Comfortable large       | `text-xl`   | `px-5 py-2`   | `size-5` |         44px | Mobile logo and Resume                |
+| Prominent navigation    | `text-2xl`  | `px-5 py-2`   | —        |         48px | Mobile menu links                     |
+| Icon-only touch control | —           | `p-3`         | `size-6` |         48px | Mobile hamburger                      |
 
 Additional rules:
 
@@ -353,8 +352,9 @@ The header is a persistent global component and belongs in the root layout.
 - Position: sticky at the top with a foreground/10 bottom divider.
 - Background: the canvas color.
 - Left: wordmark aligned to the page rail.
-- Center: desktop navigation mathematically centered at `md+`.
-- Right: Resume on desktop; Menu/X control on mobile.
+- Center: desktop navigation mathematically centered at `lg+`.
+- Right: Resume at `lg+`; Menu/X control below `lg`.
+- Desktop and overlay navigation must render from one shared destination list so their labels and order remain synchronized.
 
 ### Mobile navigation overlay
 
@@ -367,7 +367,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Make the closed overlay inert and pointer-inactive.
 - Reset the overlay scroll position when it opens.
 - Close on Escape and return focus to the menu button.
-- Close when the viewport reaches `md`.
+- Close when the viewport reaches `lg` (1024px). The JavaScript threshold must remain synchronized with the Tailwind breakpoint.
 - Close after every destination is activated, including the wordmark and Resume link.
 - Animate only the vertical transform for 300ms with `ease-out`; remove the transition under reduced motion.
 - Restore every modified global state during cleanup.
@@ -440,6 +440,7 @@ The reviewed header and hero follow this system, including:
 - motion-safe arrow movement and static reduced-motion states;
 - semantic `<dl>`, `<dt>`, and `<dd>` statistics;
 - the canvas-matched manifest and browser theme color;
+- a shared navigation-destination list and synchronized `lg` boundary across CSS and JavaScript;
 - menu closure from the wordmark and every mobile destination; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 

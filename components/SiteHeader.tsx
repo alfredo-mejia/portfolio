@@ -4,12 +4,13 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const TAILWIND_MD_BREAKPOINT = "(min-width: 768px)";
+const TAILWIND_LG_BREAKPOINT = 1024;
 
 const navLinks = [
   { href: "#work", label: "Work" },
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
+  { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -17,20 +18,16 @@ export function SiteHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
+  // Close the mobile menu if screen expands to desktop (1024px+)
   useEffect(() => {
-    // Watch whether the browser viewport is at least 768px (desktop size)
-    const mediaQuery = window.matchMedia(TAILWIND_MD_BREAKPOINT);
-
-    // Close the mobile menu if the screen expanded into desktop size
-    function handleMediaChange(event: MediaQueryListEvent) {
-      if (event.matches) {
+    function handleResize() {
+      if (window.innerWidth >= TAILWIND_LG_BREAKPOINT) {
         setIsMobileMenuOpen(false);
       }
     }
 
-    // Listen for whenever the screen crosses the 768px breakpoint threshold
-    mediaQuery.addEventListener("change", handleMediaChange);
-    return () => mediaQuery.removeEventListener("change", handleMediaChange);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Mobile menu state changes
@@ -84,15 +81,15 @@ export function SiteHeader() {
           }}
           className="-ml-5 rounded-full px-5 py-2 font-mono text-xl font-bold
             transition-colors hover:bg-foreground/10 active:bg-foreground/15
-            md:-ml-4 md:px-4 md:py-1.5 md:text-base"
+            lg:-ml-4 lg:px-4 lg:py-1.5 lg:text-base"
         >
           am<span className="text-foreground/60">.dev</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav
-          className="hidden items-center gap-6 text-base font-medium md:absolute
-            md:left-1/2 md:flex md:-translate-x-1/2"
+          className="hidden items-center gap-6 text-base font-medium lg:absolute
+            lg:left-1/2 lg:flex lg:-translate-x-1/2"
         >
           {navLinks.map((link) => (
             <a
@@ -106,12 +103,12 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Right Resume Actions */}
+        {/* Desktop Right Resume Actions */}
         <a
           href="/resume.pdf"
           className="group -mr-4 hidden items-center gap-2 rounded-full px-4
             py-1.5 text-base font-medium transition-colors
-            hover:bg-foreground/10 active:bg-foreground/15 md:inline-flex"
+            hover:bg-foreground/10 active:bg-foreground/15 lg:inline-flex"
         >
           Resume
           <ArrowRight
@@ -127,7 +124,7 @@ export function SiteHeader() {
           type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="-mr-3 rounded-md p-3 transition-colors
-            hover:bg-foreground/10 active:bg-foreground/15 md:hidden"
+            hover:bg-foreground/10 active:bg-foreground/15 lg:hidden"
           aria-label={
             isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
           }
@@ -146,10 +143,11 @@ export function SiteHeader() {
       <div
         id="mobile-navigation"
         inert={!isMobileMenuOpen}
+        aria-hidden={!isMobileMenuOpen}
         className={`fixed inset-0 -z-10 flex flex-col justify-between
           overflow-y-auto overscroll-contain bg-background px-6 pt-20 pb-10
           transition-transform duration-300 ease-out will-change-transform
-          motion-reduce:transition-none md:hidden ${
+          motion-reduce:transition-none lg:hidden ${
             isMobileMenuOpen
               ? "translate-y-0"
               : "pointer-events-none -translate-y-full"
