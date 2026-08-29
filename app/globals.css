@@ -26,7 +26,10 @@
   margin-inline: auto;
   width: 100%;
   max-width: var(--container-content);
-  padding-inline: calc(var(--spacing) * 6);
+  padding-inline: calc(var(--spacing) * 8);
+  @variant lg {
+    padding-inline: calc(var(--spacing) * 6);
+  }
 }
 
 :focus-visible {

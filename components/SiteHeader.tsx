@@ -123,7 +123,7 @@ export function SiteHeader() {
           ref={hamburgerRef}
           type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="-mr-3 rounded-md p-3 transition-colors
+          className="-mr-5 rounded-md px-5 py-2 transition-colors
             hover:bg-foreground/10 active:bg-foreground/15 lg:hidden"
           aria-label={
             isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
@@ -145,7 +145,7 @@ export function SiteHeader() {
         inert={!isMobileMenuOpen}
         aria-hidden={!isMobileMenuOpen}
         className={`fixed inset-0 -z-10 flex flex-col justify-between
-          overflow-y-auto overscroll-contain bg-background px-6 pt-20 pb-10
+          overflow-y-auto overscroll-contain bg-background px-8 pt-20 pb-10
           transition-transform duration-300 ease-out will-change-transform
           motion-reduce:transition-none lg:hidden ${
             isMobileMenuOpen

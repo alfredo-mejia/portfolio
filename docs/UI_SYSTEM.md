@@ -157,20 +157,20 @@ The 3px value is a deliberate component-specific stroke thickness, not a layout-
 
 The spacing system uses a 4px base grid and retains the existing 6px half-step for compact controls.
 
-| Value | Tailwind step | Primary role                                                    |
-| ----: | ------------- | --------------------------------------------------------------- |
-|   4px | `1`           | Tight label spacing and arrow travel                            |
-|   6px | `1.5`         | Compact desktop vertical control padding                        |
-|   8px | `2`           | Inline icon gap and mobile vertical control padding             |
-|  12px | `3`           | Icon-button padding and compact statistic spacing               |
-|  16px | `4`           | Desktop horizontal control padding                              |
-|  20px | `5`           | Mobile horizontal control padding                               |
-|  24px | `6`           | Page gutters, regular content rhythm, and mobile navigation gap |
-|  32px | `8`           | Component-group separation and CTA spacing                      |
-|  40px | `10`          | Mobile-overlay bottom space                                     |
-|  48px | `12`          | Section padding and major separation                            |
-|  64px | `16`          | Header height                                                   |
-|  80px | `20`          | Mobile-overlay top clearance below the header                   |
+| Value | Tailwind step | Primary role                                                     |
+| ----: | ------------- | ---------------------------------------------------------------- |
+|   4px | `1`           | Tight label spacing and arrow travel                             |
+|   6px | `1.5`         | Compact desktop vertical control padding                         |
+|   8px | `2`           | Inline icon gap and mobile vertical control padding              |
+|  12px | `3`           | Compact statistic spacing                                        |
+|  16px | `4`           | Desktop horizontal control padding                               |
+|  20px | `5`           | Mobile horizontal control padding                                |
+|  24px | `6`           | Desktop page gutters, regular rhythm, and mobile navigation gap  |
+|  32px | `8`           | Phone and tablet page gutters, group separation, and CTA spacing |
+|  40px | `10`          | Mobile-overlay bottom space                                      |
+|  48px | `12`          | Section padding and major separation                             |
+|  64px | `16`          | Header height                                                    |
+|  80px | `20`          | Mobile-overlay top clearance below the header                    |
 
 Use these values before introducing another step. Arbitrary spacing is allowed only when it expresses a real layout calculation that the standard scale cannot represent.
 
@@ -187,7 +187,10 @@ The content rail is defined once in `app/globals.css`:
   margin-inline: auto;
   width: 100%;
   max-width: var(--container-content);
-  padding-inline: calc(var(--spacing) * 6);
+  padding-inline: calc(var(--spacing) * 8);
+  @variant lg {
+    padding-inline: calc(var(--spacing) * 6);
+  }
 }
 ```
 
@@ -196,8 +199,10 @@ The content rail is defined once in `app/globals.css`:
 - Every major page section must use `site-container`.
 - Do not copy or reimplement these declarations inline in a component.
 - Change the rail only through the theme token or utility so the header and every section remain aligned.
+- Below `lg`, the 32px gutter keeps compensated edge controls and their 2px focus outline plus 2px offset visibly clear of the viewport edge.
+- At `lg` and above, the gutter returns to 24px.
 
-The 72rem cap includes both 24px gutters, leaving a maximum inner content width of 69rem.
+At `lg` and above, the 72rem cap includes both 24px gutters, leaving a maximum inner content width of 69rem.
 
 ### 5.3 Edge-control alignment
 
@@ -212,10 +217,12 @@ negative edge margin = internal padding on that edge
 | Mobile logo             | `px-5`         | `-ml-5`                   |
 | Desktop logo            | `px-4`         | `lg:-ml-4`                |
 | Desktop Resume          | `px-4`         | `-mr-4`                   |
-| Hamburger               | `p-3`          | `-mr-3`                   |
+| Hamburger               | `px-5 py-2`    | `-mr-5`                   |
 | Mobile navigation links | `px-5`         | Parent or control `-ml-5` |
 | Mobile Resume           | `px-5`         | `-ml-5`                   |
 | Hero CTA                | `px-5 lg:px-4` | `-ml-5 lg:-ml-4`          |
+
+The mobile logo and hamburger deliberately share `px-5 py-2`. Do not give the Menu/X icon symmetric padding merely to force a square control; matching the logo's padding and edge compensation keeps both header controls aligned.
 
 Apply this rule only to controls anchored to a container edge. Do not use negative margins on interior controls. Focus outlines do not affect layout and are not part of the compensation calculation.
 
@@ -234,29 +241,28 @@ Rules:
 - The header must always remain present and sticky.
 - Desktop navigation must be mathematically centered with absolute centering, independent of the logo and Resume widths.
 - The portrait remains hidden below `lg`; mobile prioritizes the introduction and work CTA.
-- Below `lg`, the header uses the comfortable control tiers, including on tablets. At `lg` and above, it uses the compact 36px tier. This viewport-based density policy is intentional and must not be silently replaced with a pointer-based rule.
+- Below `lg`, header controls use the comfortable `px-5 py-2` padding pattern, including on tablets. At `lg` and above, text controls use the compact 36px tier. This viewport-based density policy is intentional and must not be silently replaced with a pointer-based rule.
 - Avoid device-specific breakpoints unless a real layout failure requires one.
 
 ## 7. Interactive controls
 
 ### 7.1 Size tiers
 
-Control dimensions are based on final target height, not on increasing padding mechanically with every font size.
+Control padding follows the density pattern for its context. Below `lg`, mobile header controls use `px-5 py-2` whether their content is text or an icon; icon geometry does not introduce a separate square-padding rule.
 
-| Variant                 | Text        | Padding       | Icon     | Final height | Use                                   |
-| ----------------------- | ----------- | ------------- | -------- | -----------: | ------------------------------------- |
-| Compact                 | `text-base` | `px-4 py-1.5` | `size-4` |         36px | Header controls and Hero CTA at `lg+` |
-| Comfortable action      | `text-lg`   | `px-5 py-2`   | `size-4` |         44px | Hero CTA below `lg`                   |
-| Comfortable large       | `text-xl`   | `px-5 py-2`   | `size-5` |         44px | Mobile logo and Resume                |
-| Prominent navigation    | `text-2xl`  | `px-5 py-2`   | —        |         48px | Mobile menu links                     |
-| Icon-only touch control | —           | `p-3`         | `size-6` |         48px | Mobile hamburger                      |
+| Variant              | Text        | Padding       | Icon     | Final height | Use                                   |
+| -------------------- | ----------- | ------------- | -------- | -----------: | ------------------------------------- |
+| Compact              | `text-base` | `px-4 py-1.5` | `size-4` |         36px | Header controls and Hero CTA at `lg+` |
+| Comfortable action   | `text-lg`   | `px-5 py-2`   | `size-4` |         44px | Hero CTA below `lg`                   |
+| Comfortable large    | `text-xl`   | `px-5 py-2`   | `size-5` |         44px | Mobile logo and Resume                |
+| Prominent navigation | `text-2xl`  | `px-5 py-2`   | —        |         48px | Mobile menu links                     |
+| Mobile header icon   | —           | `px-5 py-2`   | `size-6` |         40px | Mobile hamburger                      |
 
 Additional rules:
 
 - Text-and-icon controls use `gap-2`.
-- Phone controls must use the existing 44px or 48px tiers.
 - Every pointer target must satisfy the WCAG 2.2 AA 24px minimum. The mobile tiers intentionally go beyond that baseline.
-- Do not infer padding from font size alone. Select the component tier that matches the context.
+- Do not infer padding from font size or icon geometry alone. Select the component tier that matches the context.
 
 ### 7.2 Shape
 
@@ -303,7 +309,7 @@ The brief color transition may remain when reduced motion is requested because i
 ## 8. Icons and directional affordances
 
 - Use `lucide-react` for interface icons.
-- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions, and `size-6` inside icon-only touch controls.
+- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions, and `size-6` for the mobile Menu/X control.
 - Decorative icons must be hidden from assistive technology. Icon-only controls must have an accessible name.
 - Icons inherit the surrounding text color unless they communicate an independent semantic state.
 
@@ -363,6 +369,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Use a native button with `type="button"`, a state-aware accessible name, `aria-expanded`, and `aria-controls`.
 - Keep the header controls visible above the overlay.
 - Make the overlay fixed, full-screen, vertically scrollable, and overscroll-contained.
+- Use `px-8` so the overlay content aligns with the phone and tablet page rail.
 - Lock body scrolling and make the background `<main>` inert while open.
 - Make the closed overlay inert and pointer-inactive.
 - Reset the overlay scroll position when it opens.

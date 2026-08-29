@@ -30,6 +30,7 @@ const CTA = "View selected work";
 
 const PROMPT_SYMBOL = ">";
 const PIPE_SYMBOL = "|";
+const EYEBROW = "open to opportunities";
 
 const STATISTICS = {
   EXP_YEARS: {
@@ -194,7 +195,7 @@ export function Hero() {
             >
               {promptSymbol}
             </span>
-            <span className="tracking-wide">open to opportunities</span>
+            <span className="tracking-wide">{EYEBROW}</span>
           </div>
 
           {/* Large above: Text 7XL */}
