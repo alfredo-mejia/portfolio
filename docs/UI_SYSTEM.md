@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Scope:** Alfredo Mejia's portfolio  
-> **Baseline:** The current site header and hero
+> **Baseline:** The current site header, hero, and Work section
 
 This document formalizes the visual and interaction system already established by the portfolio. It is the source of truth for future UI work. When a deliberate design change is made, update this document in the same change so the implementation and the system do not drift apart.
 
@@ -52,6 +52,7 @@ Tailwind utilities are the current implementation language. Do not introduce a p
 | Supporting text | `foreground/60`         | 60% ink   | Subtitles, eyebrows, metadata, and data labels |
 | Decorative text | `foreground/40`         | 40% ink   | Nonessential decoration only                   |
 | Divider         | `foreground/10`         | 10% ink   | Structural borders                             |
+| Subtle surface  | `foreground/10`         | 10% ink   | Project tags at rest and other restrained uses |
 | Hover surface   | current text hue at 10% | —         | Pill and icon-control hover state              |
 | Pressed surface | current text hue at 15% | —         | Pill and icon-control pressed state            |
 
@@ -79,14 +80,14 @@ The following ratios are measured against the `#e9e8e5` canvas using the WCAG 2.
 
 Treat `background` and `accent` as a contrast-sensitive pair. Any change to either token must be remeasured; darkening the canvas or lightening the accent can make normal-size accent text fall below WCAG AA.
 
-The Hero CTA deliberately keeps `text-accent` at rest, hover, and active. Its 4.505:1 resting contrast meets WCAG AA. The translucent terracotta hover and pressed pills reduce that contrast below 4.5:1 during interaction; keeping them is an accepted, component-specific brand exception to this system. It is not a WCAG exception, does not lower the contrast requirement for other meaningful text, and does not establish a reusable exception for future controls.
+Accent controls deliberately keep `text-accent` at rest, hover, and active. Their 4.505:1 resting contrast meets WCAG AA. The translucent terracotta hover and pressed pills reduce that contrast below 4.5:1 during interaction; keeping them is an accepted site-wide brand decision that prioritizes consistent, hue-matched feedback. It is not a WCAG exception and does not lower resting-state contrast requirements or the contrast requirements for non-accent controls and content.
 
 ### 4.2 Surfaces, borders, and elevation
 
 - The page, sticky header, and mobile navigation overlay use the same canvas color.
 - Every structural divider must be a 1px `border-foreground/10` border.
 - Do not use shadows as substitutes for dividers.
-- Surfaces are flat by default. Cards, elevated panels, and shadows are not part of the system yet.
+- Surfaces are flat by default. `foreground/10` may be used as a restrained resting fill where useful; project tags are the current example. Cards, elevated panels, and shadows are not part of the system yet.
 - Stronger borders or elevation require a semantic reason, not decoration alone.
 
 ### 4.3 Typography families
@@ -130,8 +131,13 @@ Every role below exists in the current interface. The table names exact utilitie
 | Hero primary action | Mono           | `text-lg lg:text-base`             | `font-semibold`                        | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `accent`                       |
 | Data value          | Mono           | `text-3xl sm:text-4xl`             | `font-bold`                            | Default line height: 36px; 40px at `sm` | None; no tracking utility  | `foreground`                   |
 | Data label          | Mono           | `text-xs sm:text-sm`               | 400 inherited; no weight utility       | Default line height: 16px; 20px at `sm` | `tracking-wider`           | `foreground/60`                |
+| Work title          | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
+| Project number      | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | 400 inherited; no weight utility       | Default line height: 28px; 32px; 36px   | None; no tracking utility  | `accent`                       |
+| Project title       | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | `font-semibold`                        | Default line height: 28px; 32px; 36px   | `tracking-wide`            | `foreground`                   |
+| Project tag         | Mono           | `text-sm`                          | 400 inherited; no weight utility       | Default line height: 20px; no override  | None; no tracking utility  | `foreground`                   |
+| Project action      | Mono           | `text-base sm:text-lg`             | `font-semibold`                        | Default line height: 24px; 28px at `sm` | None; no tracking utility  | `accent`                       |
 
-Typography for future sections, project items, and other content remains intentionally undefined until the real content and layout exist. Define and add those roles only after evaluating them in context.
+The Work eyebrow reuses the eyebrow/status role. The Work introduction and project summaries reuse the Hero description role.
 
 Additional rules:
 
@@ -139,7 +145,7 @@ Additional rules:
 - Do not use wide tracking on ordinary body copy.
 - Uppercase is reserved for short data labels and compact metadata, not sentences.
 - Use straight apostrophes as the portfolio's deliberate house style.
-- Use sentence case for headings, actions, and navigation unless a data-label role explicitly calls for uppercase.
+- Use sentence case for headings, actions, and navigation unless a data-label role explicitly calls for uppercase. `Featured Projects` is the deliberate title-case exception for the Work heading.
 
 ### 4.6 Hero role emphasis
 
@@ -171,6 +177,7 @@ The spacing system uses a 4px base grid and retains the existing 6px half-step f
 |  48px | `12`          | Section padding and major separation                             |
 |  64px | `16`          | Header height                                                    |
 |  80px | `20`          | Mobile-overlay top clearance below the header                    |
+|  96px | `24`          | Work section padding at `lg`                                     |
 
 Use these values before introducing another step. Arbitrary spacing is allowed only when it expresses a real layout calculation that the standard scale cannot represent.
 
@@ -220,7 +227,8 @@ negative edge margin = internal padding on that edge
 | Hamburger               | `px-5 py-2`    | `-mr-5`                   |
 | Mobile navigation links | `px-5`         | Parent or control `-ml-5` |
 | Mobile Resume           | `px-5`         | `-ml-5`                   |
-| Hero CTA                | `px-5 lg:px-4` | `-ml-5 lg:-ml-4`          |
+| Hero and project CTAs   | `px-5 lg:px-4` | `-ml-5 lg:-ml-4`          |
+| Project disclosure row  | `px-5 lg:px-4` | `-mx-5 lg:-mx-4`          |
 
 The mobile logo and hamburger deliberately share `px-5 py-2`. Do not give the Menu/X icon symmetric padding merely to force a square control; matching the logo's padding and edge compensation keeps both header controls aligned.
 
@@ -250,13 +258,15 @@ Rules:
 
 Control padding follows the density pattern for its context. Below `lg`, mobile header controls use `px-5 py-2` whether their content is text or an icon; icon geometry does not introduce a separate square-padding rule.
 
-| Variant              | Text        | Padding       | Icon     | Final height | Use                                   |
-| -------------------- | ----------- | ------------- | -------- | -----------: | ------------------------------------- |
-| Compact              | `text-base` | `px-4 py-1.5` | `size-4` |         36px | Header controls and Hero CTA at `lg+` |
-| Comfortable action   | `text-lg`   | `px-5 py-2`   | `size-4` |         44px | Hero CTA below `lg`                   |
-| Comfortable large    | `text-xl`   | `px-5 py-2`   | `size-5` |         44px | Mobile logo and Resume                |
-| Prominent navigation | `text-2xl`  | `px-5 py-2`   | —        |         48px | Mobile menu links                     |
-| Mobile header icon   | —           | `px-5 py-2`   | `size-6` |         40px | Mobile hamburger                      |
+| Variant              | Text                              | Padding                       | Icon               |                     Final height | Use                                   |
+| -------------------- | --------------------------------- | ----------------------------- | ------------------ | -------------------------------: | ------------------------------------- |
+| Compact              | `text-base`                       | `px-4 py-1.5`                 | `size-4`           |                             36px | Header controls and Hero CTA at `lg+` |
+| Comfortable action   | `text-lg`                         | `px-5 py-2`                   | `size-4`           |                             44px | Hero CTA below `lg`                   |
+| Comfortable large    | `text-xl`                         | `px-5 py-2`                   | `size-5`           |                             44px | Mobile logo and Resume                |
+| Prominent navigation | `text-2xl`                        | `px-5 py-2`                   | —                  |                             48px | Mobile menu links                     |
+| Mobile header icon   | —                                 | `px-5 py-2`                   | `size-6`           |                             40px | Mobile hamburger                      |
+| Project action       | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Project case-study CTA                |
+| Project disclosure   | `text-xl sm:text-2xl lg:text-3xl` | `px-5 py-2 lg:px-4 lg:py-3`   | `size-5 lg:size-6` | 44px; 48px at `sm`; 60px at `lg` | Project heading row                   |
 
 Additional rules:
 
@@ -309,7 +319,7 @@ The brief color transition may remain when reduced motion is requested because i
 ## 8. Icons and directional affordances
 
 - Use `lucide-react` for interface icons.
-- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions, and `size-6` for the mobile Menu/X control.
+- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions and project disclosures below `lg`, and `size-6` for the mobile Menu/X control and project disclosures at `lg`.
 - Decorative icons must be hidden from assistive technology. Icon-only controls must have an accessible name.
 - Icons inherit the surrounding text color unless they communicate an independent semantic state.
 
@@ -388,7 +398,19 @@ The overlay is part of the header system and must preserve these behaviors:
 - Use `next/image`, intrinsic sizing, an accurate `sizes` value, and useful alt text for meaningful images.
 - The hero content order remains: availability, identity, role, description, primary work CTA, then supporting statistics.
 
-## 12. Accessibility and semantics
+## 12. Work and project showcase
+
+- The Work section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`.
+- Its content order is eyebrow, `Featured Projects` heading, introduction, then up to three ordered project previews.
+- Project previews remain flat and use foreground/10 dividers: every item has a bottom divider, and the first item also has a top divider.
+- Each project heading is an `<h3>` containing one native disclosure button with `aria-expanded` and `aria-controls`.
+- The disclosure row contains the project number, title with desktop-only tags, and a decorative Plus/Minus icon. The complete row is hoverable and uses the neutral control states.
+- The disclosure row uses `px-5 lg:px-4` with matching `-mx-5 lg:-mx-4` compensation so its visible content stays on the rail and its focus outline stays clear of the viewport edge.
+- Expanded content begins beneath the title. Below `lg`, it uses one content column and hides the preview image; at `lg`, it uses a `3fr / 2fr` summary-to-image split.
+- Project preview images use `next/image`, a `4 / 3` container, `object-cover`, an accurate `sizes` value, and useful alt text.
+- The case-study link uses the Project action role, the accent control states, and the canonical right-arrow behavior.
+
+## 13. Accessibility and semantics
 
 - Preserve the global `:focus-visible` 2px foreground outline and 2px offset.
 - Do not remove focus styles without an equal or stronger replacement.
@@ -398,7 +420,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Keep static final values available to assistive technology when visible values animate.
 - Do not disable text resizing, browser zoom, or pinch zoom.
 
-## 13. Content style
+## 14. Content style
 
 - Write in Alfredo's first-person voice.
 - Keep the tone direct, warm, and specific.
@@ -409,7 +431,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Statistics use concise uppercase labels.
 - Avoid product language such as "platform," "solution," or "get started" unless it describes an actual project.
 
-## 14. Extending the system
+## 15. Extending the system
 
 Before adding a new pattern:
 
@@ -434,21 +456,22 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
 
-## 15. Current adoption status
+## 16. Current adoption status
 
-The reviewed header and hero follow this system, including:
+The reviewed header, hero, and Work section follow this system, including:
 
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
 - 10% hover and 15% pressed fills;
-- the measured canvas contrast contract and the Hero CTA's deliberate interaction-state exception;
+- the measured canvas contrast contract and the accepted site-wide accent interaction-state contrast decision;
 - foreground/10 dividers;
 - the `100 / 75 / 60 / 40` text hierarchy;
 - motion-safe arrow movement and static reduced-motion states;
 - semantic `<dl>`, `<dt>`, and `<dd>` statistics;
 - the canvas-matched manifest and browser theme color;
 - a shared navigation-destination list and synchronized `lg` boundary across CSS and JavaScript;
-- menu closure from the wordmark and every mobile destination; and
+- menu closure from the wordmark and every mobile destination;
+- semantic project disclosures with responsive summaries and imagery; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 
 ## References

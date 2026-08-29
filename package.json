@@ -15,6 +15,7 @@
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run build"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "lucide-react": "^1.34.0",
     "next": "16.3.3",
     "react": "19.2.8",
