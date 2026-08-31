@@ -17,6 +17,7 @@ interface ProjectShowcaseProps {
     alt: string;
   };
   caseStudyHref: string;
+  defaultOpen?: boolean;
 }
 
 export function ProjectShowcase({
@@ -26,8 +27,10 @@ export function ProjectShowcase({
   summary,
   summaryImage,
   caseStudyHref,
+  defaultOpen = false,
 }: ProjectShowcaseProps) {
-  const [isProjectShowcaseOpen, setIsProjectShowcaseOpen] = useState(false);
+  const [isProjectShowcaseOpen, setIsProjectShowcaseOpen] =
+    useState(defaultOpen);
   return (
     <article
       className="border-b border-foreground/10 py-10 first-of-type:border-t

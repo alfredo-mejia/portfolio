@@ -64,6 +64,7 @@ export function Work() {
               summary={project.summary}
               summaryImage={project.summaryImage}
               caseStudyHref={`/work/${project.slug}`}
+              defaultOpen={index === 0}
             />
           ))}
         </div>
