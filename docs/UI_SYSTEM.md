@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Scope:** Alfredo Mejia's portfolio  
-> **Baseline:** The current site header, hero, and Work section
+> **Baseline:** The current site header, hero, Work section, and article pages
 
 This document formalizes the visual and interaction system already established by the portfolio. It is the source of truth for future UI work. When a deliberate design change is made, update this document in the same change so the implementation and the system do not drift apart.
 
@@ -52,7 +52,7 @@ Tailwind utilities are the current implementation language. Do not introduce a p
 | Supporting text | `foreground/60`         | 60% ink   | Subtitles, eyebrows, metadata, and data labels |
 | Decorative text | `foreground/40`         | 40% ink   | Nonessential decoration only                   |
 | Divider         | `foreground/10`         | 10% ink   | Structural borders                             |
-| Subtle surface  | `foreground/10`         | 10% ink   | Project tags at rest and other restrained uses |
+| Subtle surface  | `foreground/10`         | 10% ink   | Tags and code at rest; other restrained uses   |
 | Hover surface   | current text hue at 10% | —         | Pill and icon-control hover state              |
 | Pressed surface | current text hue at 15% | —         | Pill and icon-control pressed state            |
 
@@ -87,7 +87,7 @@ Accent controls deliberately keep `text-accent` at rest, hover, and active. Thei
 - The page, sticky header, and mobile navigation overlay use the same canvas color.
 - Every structural divider must be a 1px `border-foreground/10` border.
 - Do not use shadows as substitutes for dividers.
-- Surfaces are flat by default. `foreground/10` may be used as a restrained resting fill where useful; project tags are the current example. Cards, elevated panels, and shadows are not part of the system yet.
+- Surfaces are flat by default. `foreground/10` may be used as a restrained resting fill where useful; tags and code are the current examples. Cards, elevated panels, and shadows are not part of the system yet.
 - Stronger borders or elevation require a semantic reason, not decoration alone.
 
 ### 4.3 Typography families
@@ -136,8 +136,11 @@ Every role below exists in the current interface. The table names exact utilitie
 | Project title       | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | `font-semibold`                        | Default line height: 28px; 32px; 36px   | `tracking-wide`            | `foreground`                   |
 | Project tag         | Mono           | `text-sm`                          | 400 inherited; no weight utility       | Default line height: 20px; no override  | None; no tracking utility  | `foreground`                   |
 | Project action      | Mono           | `text-base sm:text-lg`             | `font-semibold`                        | Default line height: 24px; 28px at `sm` | None; no tracking utility  | `accent`                       |
+| Article title       | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
+| Article H2          | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
+| Article H3          | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 
-The Work eyebrow reuses the eyebrow/status role. The Work introduction and project summaries reuse the Hero description role.
+The Work and article eyebrows reuse the eyebrow/status role. The Work introduction, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Article tags reuse the Project tag role.
 
 Additional rules:
 
@@ -306,6 +309,8 @@ rounded-full text-accent transition-colors hover:bg-accent/10 active:bg-accent/1
 
 The brief color transition may remain when reduced motion is requested because it is non-spatial state feedback. Focus must remain an outline rather than becoming another fill state.
 
+Inline prose links are the exception to the surface-state recipes. They keep full-strength accent text and a 1px underline at rest; hover increases the underline to 2px. They remain unpadded and use no pill fill. The global focus outline still applies.
+
 ### 7.4 Touch behavior
 
 - Preserve the global `touch-action: manipulation` policy.
@@ -371,6 +376,7 @@ The header is a persistent global component and belongs in the root layout.
 - Center: desktop navigation mathematically centered at `lg+`.
 - Right: Resume at `lg+`; Menu/X control below `lg`.
 - Desktop and overlay navigation must render from one shared destination list so their labels and order remain synchronized.
+- Section destinations use root-relative fragments such as `/#work` so they continue to work from nested article pages.
 
 ### Mobile navigation overlay
 
@@ -410,7 +416,18 @@ The overlay is part of the header system and must preserve these behaviors:
 - Project preview images use `next/image`, a `4 / 3` container, `object-cover`, an accurate `sizes` value, and useful alt text.
 - The case-study link uses the Project action role, the accent control states, and the canonical right-arrow behavior.
 
-## 13. Accessibility and semantics
+## 13. Article pages
+
+- Work case studies and blog entries share one article layout.
+- The article uses a foreground/10 bottom divider and `py-24`. Its content uses `site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure.
+- Header order is eyebrow, frontmatter title, summary, then tags. The frontmatter title is the page's sole `<h1>`.
+- Markdown bodies currently style `<h2>` and `<h3>` headings. Add lower heading levels only when real content requires them.
+- Paragraphs and lists use the reading-text role. List markers use the accent at full strength.
+- Inline code and fenced code blocks use a foreground/10 resting fill. Blocks also use foreground/10 horizontal dividers, mono type, and the established foreground, accent, and foreground/60 hierarchy for syntax highlighting.
+- Fenced code declares its language so highlighting is explicit rather than inferred.
+- Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, an accurate `sizes` value, and useful alt text.
+
+## 14. Accessibility and semantics
 
 - Preserve the global `:focus-visible` 2px foreground outline and 2px offset.
 - Do not remove focus styles without an equal or stronger replacement.
@@ -420,7 +437,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Keep static final values available to assistive technology when visible values animate.
 - Do not disable text resizing, browser zoom, or pinch zoom.
 
-## 14. Content style
+## 15. Content style
 
 - Write in Alfredo's first-person voice.
 - Keep the tone direct, warm, and specific.
@@ -431,7 +448,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Statistics use concise uppercase labels.
 - Avoid product language such as "platform," "solution," or "get started" unless it describes an actual project.
 
-## 15. Extending the system
+## 16. Extending the system
 
 Before adding a new pattern:
 
@@ -456,9 +473,9 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
 
-## 16. Current adoption status
+## 17. Current adoption status
 
-The reviewed header, hero, and Work section follow this system, including:
+The reviewed header, hero, Work section, and article pages follow this system, including:
 
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
@@ -469,9 +486,10 @@ The reviewed header, hero, and Work section follow this system, including:
 - motion-safe arrow movement and static reduced-motion states;
 - semantic `<dl>`, `<dt>`, and `<dd>` statistics;
 - the canvas-matched manifest and browser theme color;
-- a shared navigation-destination list and synchronized `lg` boundary across CSS and JavaScript;
+- a shared root-relative navigation-destination list and synchronized `lg` boundary across CSS and JavaScript;
 - menu closure from the wordmark and every mobile destination;
-- semantic project disclosures with responsive summaries and imagery; and
+- semantic project disclosures with responsive summaries and imagery;
+- static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 
 ## References

@@ -1,5 +1,5 @@
 import { ProjectShowcase } from "@/components/ProjectShowcase";
-import { getProjectPreviews } from "@/lib/projects";
+import { getContentPreviews, PROJECTS_PATH } from "@/lib/content";
 
 const PROMPT_SYMBOL = ">";
 const EYEBROW = "selected work";
@@ -11,8 +11,10 @@ const DESCRIPTION =
   "its results agreed with the transactional engine's. The third is mine: a " +
   "tool for vendors to run sweepstakes, which I'm building now.";
 
+const PROJECTS_LIMIT = 3;
+
 export function Work() {
-  const projects = getProjectPreviews();
+  const projects = getContentPreviews(PROJECTS_PATH, PROJECTS_LIMIT);
 
   return (
     <section

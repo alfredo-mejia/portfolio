@@ -1,0 +1,181 @@
+import Image from "next/image";
+import Markdown, { Components } from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
+
+import { Content, getPngDimensions } from "@/lib/content";
+
+interface ArticleProps {
+  eyebrow: string;
+  content: Content;
+}
+
+const PROMPT_SYMBOL = ">";
+
+// Map markdown to HTML
+const markdownComponents: Components = {
+  h2: ({ node: _, ...props }) => (
+    <h2
+      {...props}
+      className="mt-20 text-3xl leading-tight font-bold tracking-wide
+        text-foreground sm:text-4xl"
+    />
+  ),
+  h3: ({ node: _, ...props }) => (
+    <h3
+      {...props}
+      className="mt-12 text-2xl leading-tight font-semibold tracking-wide
+        text-foreground sm:text-3xl"
+    />
+  ),
+  p: ({ node: _, ...props }) => (
+    <p
+      {...props}
+      className="mt-6 text-base leading-relaxed text-foreground/75 sm:text-lg"
+    />
+  ),
+  ul: ({ node: _, ...props }) => (
+    <ul
+      {...props}
+      className="mt-6 list-disc space-y-3 pl-6 text-base leading-relaxed
+        text-foreground/75 marker:text-accent sm:text-lg"
+    />
+  ),
+  ol: ({ node: _, ...props }) => (
+    <ol
+      {...props}
+      className="mt-6 list-decimal space-y-3 pl-6 text-base leading-relaxed
+        text-foreground/75 marker:text-accent sm:text-lg"
+    />
+  ),
+  a: ({ node: _, ...props }) => (
+    <a
+      {...props}
+      className="font-medium text-accent underline decoration-1
+        underline-offset-4 hover:decoration-2"
+    />
+  ),
+  pre: ({ node: _, ...props }) => (
+    <pre
+      {...props}
+      className="my-8 overflow-x-auto border-y border-foreground/10
+        bg-foreground/10 p-6 font-mono text-sm leading-relaxed text-foreground
+        [&_.hljs-comment]:text-foreground/60 [&_.hljs-comment]:italic
+        [&_.hljs-keyword]:text-accent [&_.hljs-literal]:text-accent
+        [&_.hljs-number]:text-accent [&_.hljs-string]:text-accent
+        [&_.hljs-title]:font-semibold [&_.hljs-title]:text-foreground
+        [&_.hljs-type]:font-semibold [&_.hljs-type]:text-foreground"
+    />
+  ),
+  code: ({ node: _, className, children, ...props }) => {
+    const isInline = !className && typeof children === "string";
+    if (isInline) {
+      return (
+        <code
+          {...props}
+          className="rounded bg-foreground/10 px-1.5 py-0.5 font-mono text-sm
+            text-foreground sm:text-base"
+        >
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code
+        {...props}
+        className={className}
+      >
+        {children}
+      </code>
+    );
+  },
+  img: ({ node: _, src, alt }) => {
+    if (!src || typeof src !== "string") return null;
+
+    // Markdown carries no dimensions; measure the file so next/image can
+    // reserve the box. Build-time only — these routes are all static.
+    const { width, height } = getPngDimensions(src);
+
+    return (
+      <Image
+        src={src}
+        alt={alt ?? ""}
+        width={width}
+        height={height}
+        sizes="(min-width: 1024px) 53rem, calc(100vw - 4rem)"
+        className="my-12 h-auto w-full max-w-4xl"
+      />
+    );
+  },
+};
+
+export function Article({ eyebrow, content }: ArticleProps) {
+  return (
+    <article
+      aria-labelledby="article-title"
+      className="w-full border-b border-foreground/10 py-24"
+    >
+      <div className="site-container max-w-4xl">
+        {/* Preview Header */}
+        <header>
+          {/*Eyebrow*/}
+          <div
+            className="mb-4 flex items-center gap-2 font-mono text-xs
+              text-foreground/60"
+          >
+            <span
+              className="font-bold text-accent"
+              aria-hidden="true"
+            >
+              {PROMPT_SYMBOL}
+            </span>
+            <span className="tracking-wide">{eyebrow}</span>
+          </div>
+
+          {/* Title */}
+          <h1
+            id="article-title"
+            className="text-4xl leading-[1.08] font-bold tracking-wide
+              text-balance text-foreground sm:text-5xl lg:text-6xl"
+          >
+            {content.title}
+          </h1>
+
+          {/* Summary */}
+          <p
+            className="my-6 text-base leading-relaxed text-foreground/75
+              sm:text-lg"
+          >
+            {content.summary}
+          </p>
+
+          {/* Tags */}
+          <ul
+            aria-label="Technologies"
+            className="mt-8 flex flex-wrap gap-2"
+          >
+            {content.tags.map((tag) => (
+              <li
+                key={tag}
+                className="rounded-full bg-foreground/10 px-3 py-1 font-mono
+                  text-sm text-foreground"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        </header>
+
+        {/* Markdown Body Content */}
+        <div className="my-16">
+          <Markdown
+            components={markdownComponents}
+            rehypePlugins={[rehypeRaw, [rehypeHighlight, { detect: false }]]}
+          >
+            {content.content}
+          </Markdown>
+        </div>
+      </div>
+    </article>
+  );
+}
