@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 1
 title: "We are all senior engineers now"
 tags:
   - AI-assisted development
