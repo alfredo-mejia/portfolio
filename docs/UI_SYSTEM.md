@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Scope:** Alfredo Mejia's portfolio  
-> **Baseline:** The current site header, hero, Work section, About section, Skills section, and article pages
+> **Baseline:** The current site header, hero, Work section, About section, Skills section, Blog section, and article pages
 
 This document formalizes the visual and interaction system already established by the portfolio. It is the source of truth for future UI work. When a deliberate design change is made, update this document in the same change so the implementation and the system do not drift apart.
 
@@ -140,7 +140,7 @@ Every role below exists in the current interface. The table names exact utilitie
 | Article H2          | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 | Article H3          | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 
-The Work, About, Skills, and article eyebrows reuse the eyebrow/status role. The About and Skills titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Article and Skills tags reuse the Project tag role.
+The Work, About, Skills, Blog, and article eyebrows reuse the eyebrow/status role. The About, Skills, and Blog titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, Blog introduction and summaries, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Blog, article, and Skills tags reuse the Project tag role. Blog actions reuse the Project action role.
 
 Additional rules:
 
@@ -180,7 +180,7 @@ The spacing system uses a 4px base grid and retains the existing 6px half-step f
 |  48px | `12`          | Section padding and major separation                             |
 |  64px | `16`          | Header height                                                    |
 |  80px | `20`          | Mobile-overlay top clearance below the header                    |
-|  96px | `24`          | Work, About, and Skills section padding at `lg`                  |
+|  96px | `24`          | Work, About, Skills, and Blog section padding at `lg`            |
 
 Use these values before introducing another step. Arbitrary spacing is allowed only when it expresses a real layout calculation that the standard scale cannot represent.
 
@@ -216,7 +216,7 @@ At `lg` and above, the 72rem cap includes both 24px gutters, leaving a maximum i
 
 ### 5.3 Edge-control alignment
 
-Interactive padding must not move visible content away from the page rail. For a control anchored to the outer edge of the container:
+Interactive padding must not move visible content away from its intended alignment edge. For a control anchored to the edge of its content column:
 
 ```text
 negative edge margin = internal padding on that edge
@@ -230,12 +230,12 @@ negative edge margin = internal padding on that edge
 | Hamburger               | `px-5 py-2`    | `-mr-5`                   |
 | Mobile navigation links | `px-5`         | Parent or control `-ml-5` |
 | Mobile Resume           | `px-5`         | `-ml-5`                   |
-| Hero and project CTAs   | `px-5 lg:px-4` | `-ml-5 lg:-ml-4`          |
+| Hero/project/Blog CTAs  | `px-5 lg:px-4` | `-ml-5 lg:-ml-4`          |
 | Project disclosure row  | `px-5 lg:px-4` | `-mx-5 lg:-mx-4`          |
 
 The mobile logo and hamburger deliberately share `px-5 py-2`. Do not give the Menu/X icon symmetric padding merely to force a square control; matching the logo's padding and edge compensation keeps both header controls aligned.
 
-Apply this rule only to controls anchored to a container edge. Do not use negative margins on interior controls. Focus outlines do not affect layout and are not part of the compensation calculation.
+Apply this rule only to controls anchored to a content-column edge. Do not use negative margins on controls intentionally inset within that column. Focus outlines do not affect layout and are not part of the compensation calculation.
 
 ## 6. Responsive behavior
 
@@ -268,7 +268,7 @@ Control padding follows the density pattern for its context. Below `lg`, mobile 
 | Comfortable large    | `text-xl`                         | `px-5 py-2`                   | `size-5`           |                             44px | Mobile logo and Resume                |
 | Prominent navigation | `text-2xl`                        | `px-5 py-2`                   | —                  |                             48px | Mobile menu links                     |
 | Mobile header icon   | —                                 | `px-5 py-2`                   | `size-6`           |                             40px | Mobile hamburger                      |
-| Project action       | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Project case-study CTA                |
+| Project action       | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Project and Blog preview CTAs         |
 | Project disclosure   | `text-xl sm:text-2xl lg:text-3xl` | `px-5 py-2 lg:px-4 lg:py-3`   | `size-5 lg:size-6` | 44px; 48px at `sm`; 60px at `lg` | Project heading row                   |
 
 Additional rules:
@@ -431,7 +431,14 @@ The overlay is part of the header system and must preserve these behaviors:
 - Each group uses a foreground/10 bottom divider, with a top divider on the first group, and `py-10 lg:py-12`. Below `lg`, its description and tags stack; at `lg`, they use a `2fr / 3fr` split.
 - Groups and tags use semantic nested lists. Tags are static and use the Project tag role with the foreground/10 resting fill.
 
-## 15. Article pages
+## 15. Blog section
+
+- The Blog section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`. Its content order is eyebrow, title, introduction, then up to two ordered article previews.
+- Below `lg`, the previews stack, the featured image is hidden, and the first preview has a bottom divider. At `lg`, they use a `3fr / 2fr` split; the featured preview shows its image, while the secondary preview has a left divider and remains text-only.
+- Preview headings use Sans with `font-semibold`, `leading-tight`, `tracking-wide`, and `text-balance`. The featured heading scales through `text-3xl sm:text-4xl lg:text-5xl`; the secondary stops at `sm:text-4xl`. Both previews show a summary and plain mono tags separated by decorative dots.
+- The `Read post` links reuse the Project action role, accent control states, compensated padding, and canonical right-arrow behavior.
+
+## 16. Article pages
 
 - Work case studies and blog entries share one article layout.
 - The article uses a foreground/10 bottom divider and `py-24`. Its content uses `site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure.
@@ -442,7 +449,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Fenced code declares its language so highlighting is explicit rather than inferred.
 - Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, an accurate `sizes` value, and useful alt text.
 
-## 16. Accessibility and semantics
+## 17. Accessibility and semantics
 
 - Preserve the global `:focus-visible` 2px foreground outline and 2px offset.
 - Do not remove focus styles without an equal or stronger replacement.
@@ -452,7 +459,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Keep static final values available to assistive technology when visible values animate.
 - Do not disable text resizing, browser zoom, or pinch zoom.
 
-## 17. Content style
+## 18. Content style
 
 - Write in Alfredo's first-person voice.
 - Keep the tone direct, warm, and specific.
@@ -463,7 +470,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Statistics use concise uppercase labels.
 - Avoid product language such as "platform," "solution," or "get started" unless it describes an actual project.
 
-## 18. Extending the system
+## 19. Extending the system
 
 Before adding a new pattern:
 
@@ -488,9 +495,9 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
 
-## 19. Current adoption status
+## 20. Current adoption status
 
-The reviewed header, hero, Work section, About section, Skills section, and article pages follow this system, including:
+The reviewed header, hero, Work section, About section, Skills section, Blog section, and article pages follow this system, including:
 
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
@@ -506,6 +513,7 @@ The reviewed header, hero, Work section, About section, Skills section, and arti
 - semantic project disclosures with responsive summaries and imagery;
 - a responsive About narrative and Personal index with semantic description-list markup;
 - a responsive Skills list with grouped dividers, semantic nested lists, and a `2fr / 3fr` desktop split;
+- responsive Blog previews with a `3fr / 2fr` desktop split and a text-only stacked mobile layout;
 - static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 
