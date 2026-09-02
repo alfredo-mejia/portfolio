@@ -3,7 +3,7 @@ import { getContentPreviews, PROJECTS_PATH } from "@/lib/content";
 
 const PROMPT_SYMBOL = ">";
 const EYEBROW = "selected work";
-const TITLE = "Featured Projects";
+const TITLE = "Featured Projects.";
 const DESCRIPTION =
   "I build a lot of things. Take a look at the three I'd point to first. " +
   "Two of these come from my work at Oracle on an analytics query engine. " +

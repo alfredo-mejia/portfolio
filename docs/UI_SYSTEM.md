@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Scope:** Alfredo Mejia's portfolio  
-> **Baseline:** The current site header, hero, Work section, About section, Skills section, Blog section, and article pages
+> **Baseline:** The current site header, hero, Work section, About section, Skills section, Blog section, Contact section, and article pages
 
 This document formalizes the visual and interaction system already established by the portfolio. It is the source of truth for future UI work. When a deliberate design change is made, update this document in the same change so the implementation and the system do not drift apart.
 
@@ -140,7 +140,7 @@ Every role below exists in the current interface. The table names exact utilitie
 | Article H2          | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 | Article H3          | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 
-The Work, About, Skills, Blog, and article eyebrows reuse the eyebrow/status role. The About, Skills, and Blog titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, Blog introduction and summaries, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Blog, article, and Skills tags reuse the Project tag role. Blog actions reuse the Project action role.
+The Work, About, Skills, Blog, Contact, and article eyebrows reuse the eyebrow/status role. The About, Skills, Blog, and Contact titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, Blog introduction and summaries, Contact introduction, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Blog, article, and Skills tags reuse the Project tag role. Blog actions reuse the Project action role.
 
 Additional rules:
 
@@ -180,7 +180,7 @@ The spacing system uses a 4px base grid and retains the existing 6px half-step f
 |  48px | `12`          | Section padding and major separation                             |
 |  64px | `16`          | Header height                                                    |
 |  80px | `20`          | Mobile-overlay top clearance below the header                    |
-|  96px | `24`          | Work, About, Skills, and Blog section padding at `lg`            |
+|  96px | `24`          | Work, About, Skills, Blog, and Contact section padding at `lg`   |
 
 Use these values before introducing another step. Arbitrary spacing is allowed only when it expresses a real layout calculation that the standard scale cannot represent.
 
@@ -270,6 +270,8 @@ Control padding follows the density pattern for its context. Below `lg`, mobile 
 | Mobile header icon   | —                                 | `px-5 py-2`                   | `size-6`           |                             40px | Mobile hamburger                      |
 | Project action       | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Project and Blog preview CTAs         |
 | Project disclosure   | `text-xl sm:text-2xl lg:text-3xl` | `px-5 py-2 lg:px-4 lg:py-3`   | `size-5 lg:size-6` | 44px; 48px at `sm`; 60px at `lg` | Project heading row                   |
+| Contact copy action  | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-5`           | 40px; 44px at `sm`; 40px at `lg` | Contact email copy control            |
+| Contact social link  | `text-lg sm:text-xl`              | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-6`           |               44px; 40px at `lg` | Contact social destinations           |
 
 Additional rules:
 
@@ -323,8 +325,8 @@ Inline prose links are the exception to the surface-state recipes. They use `rou
 
 ## 8. Icons and directional affordances
 
-- Use `lucide-react` for interface icons.
-- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions and project disclosures below `lg`, and `size-6` for the mobile Menu/X control and project disclosures at `lg`.
+- Use `lucide-react` for interface icons. When Lucide does not include a brand mark, a local SVG component may supply it.
+- Match icon size to its control tier: `size-4` with compact/base actions, `size-5` with large actions and project disclosures below `lg`, and `size-6` for the mobile Menu/X control, project disclosures at `lg`, and Contact brand marks.
 - Decorative icons must be hidden from assistive technology. Icon-only controls must have an accessible name.
 - Icons inherit the surrounding text color unless they communicate an independent semantic state.
 
@@ -438,7 +440,14 @@ The overlay is part of the header system and must preserve these behaviors:
 - Preview headings use Sans with `font-semibold`, `leading-tight`, `tracking-wide`, and `text-balance`. The featured heading scales through `text-3xl sm:text-4xl lg:text-5xl`; the secondary stops at `sm:text-4xl`. Both previews show a summary and plain mono tags separated by decorative dots.
 - The `Read post` links reuse the Project action role, accent control states, compensated padding, and canonical right-arrow behavior.
 
-## 16. Article pages
+## 16. Contact section
+
+- The Contact section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`. Its content order is eyebrow, title, introduction, a bordered Email area, then Elsewhere links.
+- The email address uses mono type and scales from a mobile fluid size to `sm:text-4xl lg:text-5xl`.
+- The copy button and social links use neutral pill states with `px-5 lg:px-4` and matching `-ml-5 lg:-ml-4` edge compensation. Social links open in a new tab, include that behavior in their accessible names, and treat local brand icons as decorative.
+- Copy success is announced and resets after two seconds. If clipboard access fails, the email becomes a read-only input that receives focus and selection, the recovery message remains visible, and the copy button allows another attempt. Below `sm`, the fallback uses a smaller fluid size so the selected address fits within its padded field; from `sm`, it matches the normal email scale.
+
+## 17. Article pages
 
 - Work case studies and blog entries share one article layout.
 - The article uses a foreground/10 bottom divider and `py-24`. Its content uses `site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure.
@@ -449,7 +458,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Fenced code declares its language so highlighting is explicit rather than inferred.
 - Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, an accurate `sizes` value, and useful alt text.
 
-## 17. Accessibility and semantics
+## 18. Accessibility and semantics
 
 - Preserve the global `:focus-visible` 2px foreground outline and 2px offset.
 - Do not remove focus styles without an equal or stronger replacement.
@@ -459,7 +468,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Keep static final values available to assistive technology when visible values animate.
 - Do not disable text resizing, browser zoom, or pinch zoom.
 
-## 18. Content style
+## 19. Content style
 
 - Write in Alfredo's first-person voice.
 - Keep the tone direct, warm, and specific.
@@ -470,7 +479,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Statistics use concise uppercase labels.
 - Avoid product language such as "platform," "solution," or "get started" unless it describes an actual project.
 
-## 19. Extending the system
+## 20. Extending the system
 
 Before adding a new pattern:
 
@@ -495,9 +504,9 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
 
-## 20. Current adoption status
+## 21. Current adoption status
 
-The reviewed header, hero, Work section, About section, Skills section, Blog section, and article pages follow this system, including:
+The reviewed header, hero, Work section, About section, Skills section, Blog section, Contact section, and article pages follow this system, including:
 
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
@@ -514,6 +523,7 @@ The reviewed header, hero, Work section, About section, Skills section, Blog sec
 - a responsive About narrative and Personal index with semantic description-list markup;
 - a responsive Skills list with grouped dividers, semantic nested lists, and a `2fr / 3fr` desktop split;
 - responsive Blog previews with a `3fr / 2fr` desktop split and a text-only stacked mobile layout;
+- a Contact section with an accessible clipboard fallback, compensated neutral controls, and named external social links;
 - static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 

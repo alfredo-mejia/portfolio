@@ -106,6 +106,9 @@ export function SiteHeader() {
         {/* Desktop Right Resume Actions */}
         <a
           href="/resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Resume (opens in a new tab)"
           className="group -mr-4 hidden items-center gap-2 rounded-full px-4
             py-1.5 text-base font-medium transition-colors
             hover:bg-foreground/10 active:bg-foreground/15 lg:inline-flex"
@@ -173,6 +176,9 @@ export function SiteHeader() {
         <div className="mt-8 border-t border-foreground/10 pt-6">
           <a
             href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Resume (opens in a new tab)"
             onClick={() => setIsMobileMenuOpen(false)}
             className="group -ml-5 inline-flex w-fit items-center gap-2
               rounded-full px-5 py-2 text-xl font-medium transition-colors

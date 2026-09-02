@@ -10,7 +10,7 @@ import {
 
 const PROMPT_SYMBOL = ">";
 const EYEBROW = "blog";
-const TITLE = "What I think";
+const TITLE = "What I think.";
 const DESCRIPTION =
   "I write about engineering judgment, accessibility, and architecture — " +
   "mostly the distance between code that looks correct and code that is.";
