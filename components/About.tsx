@@ -72,8 +72,8 @@ export function About() {
               it&apos;s why I spend my free time building{" "}
               <Link
                 href="/work/prizlit"
-                className="font-medium text-accent underline decoration-1
-                  underline-offset-4 hover:decoration-2"
+                className="rounded-full px-0.5 font-medium text-accent underline
+                  decoration-1 underline-offset-4 hover:decoration-2"
               >
                 Prizlit
               </Link>

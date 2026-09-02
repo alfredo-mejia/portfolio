@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Markdown, { Components } from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
@@ -48,13 +49,42 @@ const markdownComponents: Components = {
         text-foreground/75 marker:text-accent sm:text-lg"
     />
   ),
-  a: ({ node: _, ...props }) => (
-    <a
-      {...props}
-      className="font-medium text-accent underline decoration-1
-        underline-offset-4 hover:decoration-2"
-    />
-  ),
+  a: ({ node: _, href, children, ...props }) => {
+    const classes =
+      "rounded-full px-0.5 font-medium text-accent underline decoration-1 " +
+      "underline-offset-4 hover:decoration-2";
+
+    // An anchor with no href is a landing target, not a link — the footnote
+    // ids the citations point at. Render it unstyled so `#ref-N` resolves.
+    if (!href) {
+      return <a {...props}>{children}</a>;
+    }
+
+    const isInternal = href.startsWith("/") || href.startsWith("#");
+    if (isInternal) {
+      return (
+        <Link
+          {...props}
+          href={href}
+          className={classes}
+        >
+          {children}
+        </Link>
+      );
+    }
+
+    return (
+      <a
+        {...props}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={classes}
+      >
+        {children}
+      </a>
+    );
+  },
   pre: ({ node: _, ...props }) => (
     <pre
       {...props}

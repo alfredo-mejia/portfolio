@@ -2,7 +2,7 @@
 
 > **Status:** Active  
 > **Scope:** Alfredo Mejia's portfolio  
-> **Baseline:** The current site header, hero, Work section, About section, and article pages
+> **Baseline:** The current site header, hero, Work section, About section, Skills section, and article pages
 
 This document formalizes the visual and interaction system already established by the portfolio. It is the source of truth for future UI work. When a deliberate design change is made, update this document in the same change so the implementation and the system do not drift apart.
 
@@ -140,7 +140,7 @@ Every role below exists in the current interface. The table names exact utilitie
 | Article H2          | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 | Article H3          | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
 
-The Work, About, and article eyebrows reuse the eyebrow/status role. The About title reuses the Work title role. The Work introduction, About narrative, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Article tags reuse the Project tag role.
+The Work, About, Skills, and article eyebrows reuse the eyebrow/status role. The About and Skills titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Article and Skills tags reuse the Project tag role.
 
 Additional rules:
 
@@ -180,7 +180,7 @@ The spacing system uses a 4px base grid and retains the existing 6px half-step f
 |  48px | `12`          | Section padding and major separation                             |
 |  64px | `16`          | Header height                                                    |
 |  80px | `20`          | Mobile-overlay top clearance below the header                    |
-|  96px | `24`          | Work and About section padding at `lg`                           |
+|  96px | `24`          | Work, About, and Skills section padding at `lg`                  |
 
 Use these values before introducing another step. Arbitrary spacing is allowed only when it expresses a real layout calculation that the standard scale cannot represent.
 
@@ -283,7 +283,7 @@ Additional rules:
 - Icon-only controls with a perceptually square glyph, such as Menu or X, must use `rounded-md`.
 - Icon-only controls with a circular glyph may use `rounded-full`.
 - Classify the shape by the visible glyph, not by Lucide's square SVG view box.
-- Inline links inside prose are exempt from the pill treatment.
+- Inline links inside prose are exempt from pill surface states.
 
 ### 7.3 States
 
@@ -309,7 +309,7 @@ rounded-full text-accent transition-colors hover:bg-accent/10 active:bg-accent/1
 
 The brief color transition may remain when reduced motion is requested because it is non-spatial state feedback. Focus must remain an outline rather than becoming another fill state.
 
-Inline prose links are the exception to the surface-state recipes. They keep full-strength accent text and a 1px underline at rest; hover increases the underline to 2px. They remain unpadded and use no pill fill. The global focus outline still applies.
+Inline prose links are the exception to the surface-state recipes. They use `rounded-full px-0.5` to give the global focus outline breathing room, keep full-strength accent text and a 1px underline at rest, and increase the underline to 2px on hover. They use no pill fill.
 
 ### 7.4 Touch behavior
 
@@ -424,7 +424,14 @@ The overlay is part of the header system and must preserve these behaviors:
 - The Personal index heading uses `text-2xl font-bold tracking-wide text-foreground`. Its labels use mono `text-xs`, `tracking-wider`, uppercase, and `foreground/60`; its values stay within the established foreground, reading, and supporting text hierarchy.
 - The Personal index uses a semantic `<dl>` with foreground/10 dividers. The narrative's inline project link uses the prose-link treatment.
 
-## 14. Article pages
+## 14. Skills section
+
+- The Skills section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`.
+- Its content order is eyebrow, title, introduction, then grouped skills.
+- Each group uses a foreground/10 bottom divider, with a top divider on the first group, and `py-10 lg:py-12`. Below `lg`, its description and tags stack; at `lg`, they use a `2fr / 3fr` split.
+- Groups and tags use semantic nested lists. Tags are static and use the Project tag role with the foreground/10 resting fill.
+
+## 15. Article pages
 
 - Work case studies and blog entries share one article layout.
 - The article uses a foreground/10 bottom divider and `py-24`. Its content uses `site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure.
@@ -435,7 +442,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Fenced code declares its language so highlighting is explicit rather than inferred.
 - Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, an accurate `sizes` value, and useful alt text.
 
-## 15. Accessibility and semantics
+## 16. Accessibility and semantics
 
 - Preserve the global `:focus-visible` 2px foreground outline and 2px offset.
 - Do not remove focus styles without an equal or stronger replacement.
@@ -445,7 +452,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Keep static final values available to assistive technology when visible values animate.
 - Do not disable text resizing, browser zoom, or pinch zoom.
 
-## 16. Content style
+## 17. Content style
 
 - Write in Alfredo's first-person voice.
 - Keep the tone direct, warm, and specific.
@@ -456,7 +463,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Statistics use concise uppercase labels.
 - Avoid product language such as "platform," "solution," or "get started" unless it describes an actual project.
 
-## 17. Extending the system
+## 18. Extending the system
 
 Before adding a new pattern:
 
@@ -481,9 +488,9 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
 
-## 18. Current adoption status
+## 19. Current adoption status
 
-The reviewed header, hero, Work section, About section, and article pages follow this system, including:
+The reviewed header, hero, Work section, About section, Skills section, and article pages follow this system, including:
 
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
@@ -498,6 +505,7 @@ The reviewed header, hero, Work section, About section, and article pages follow
 - menu closure from the wordmark and every mobile destination;
 - semantic project disclosures with responsive summaries and imagery;
 - a responsive About narrative and Personal index with semantic description-list markup;
+- a responsive Skills list with grouped dividers, semantic nested lists, and a `2fr / 3fr` desktop split;
 - static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 
