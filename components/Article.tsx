@@ -18,14 +18,14 @@ const markdownComponents: Components = {
     <h2
       {...props}
       className="mt-20 text-3xl leading-tight font-bold tracking-wide
-        text-foreground sm:text-4xl"
+        text-balance text-foreground sm:text-4xl"
     />
   ),
   h3: ({ node: _, ...props }) => (
     <h3
       {...props}
       className="mt-12 text-2xl leading-tight font-semibold tracking-wide
-        text-foreground sm:text-3xl"
+        text-balance text-foreground sm:text-3xl"
     />
   ),
   p: ({ node: _, ...props }) => (
@@ -151,7 +151,7 @@ export function Article({ eyebrow, content }: ArticleProps) {
 
           {/* Tags */}
           <ul
-            aria-label="Technologies"
+            aria-label="Tags"
             className="mt-8 flex flex-wrap gap-2"
           >
             {content.tags.map((tag) => (
