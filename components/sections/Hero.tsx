@@ -5,7 +5,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { CtaLink } from "@/components/ui-components/CtaLink";
 import { Eyebrow, PROMPT_SYMBOL } from "@/components/ui-components/Eyebrow";
-import avatar from "@/public/avatar-transparent.png";
+import avatar from "@/public/avatar-transparent.webp";
 
 const roles = [
   "software engineer.",
@@ -290,11 +290,15 @@ export function Hero() {
 
         {/* Right: 40% for Photo */}
         <div className="hidden items-end justify-end pt-12 lg:flex">
+          {/* The column is hidden below `lg`, and a lazy image inside a
+              display:none container is never fetched, so phones skip it
+              entirely. `sizes` is omitted because a static export emits no
+              `srcset` for it to select from. */}
           <Image
             src={avatar}
             alt={AVATAR_ALT}
             sizes="(min-width: 1024px) 40vw, 0vw"
-            loading="eager"
+            loading="lazy"
             className="h-auto w-full"
           />
         </div>
