@@ -1,0 +1,19 @@
+{
+  // Without this file, `wrangler deploy` auto-detects Next.js, assumes a
+  // server-rendered app, and runs the OpenNext adapter — which looks for
+  // `.next/standalone` and fails, because `output: "export"` produces static
+  // files in `out/` and no server bundle at all.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-08-31",
+  "assets": {
+    "directory": "./out",
+    // Serves `out/404.html` with a real 404 status for unmatched paths.
+    // "single-page-application" would return index.html for everything and
+    // break the article routes.
+    "not_found_handling": "404-page",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
