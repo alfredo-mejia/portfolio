@@ -12,7 +12,10 @@
 # they must keep revalidating or a deploy would not reach anyone.
 /*
   X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: frame-ancestors 'none'
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 
 # A PDF cannot carry a robots meta tag, so the directive has to be a header.
