@@ -1,10 +1,27 @@
 "use client";
 
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import { Arrow } from "@/components/ui-components/Arrow";
+
 const TAILWIND_LG_BREAKPOINT = 1024;
+
+const HOME_HREF = "/";
+const BRAND = "am";
+const BRAND_SUFFIX = ".dev";
+
+const RESUME = {
+  href: "/resume.pdf",
+  label: "Resume",
+  ariaLabel: "Resume (opens in a new tab)",
+} as const;
+
+const MENU_LABEL = {
+  open: "Open navigation menu",
+  close: "Close navigation menu",
+} as const;
 
 const navLinks = [
   { href: "/#work", label: "Work" },
@@ -75,7 +92,7 @@ export function SiteHeader() {
       >
         {/* Logo */}
         <Link
-          href="/"
+          href={HOME_HREF}
           onClick={() => {
             setIsMobileMenuOpen(false);
           }}
@@ -83,7 +100,8 @@ export function SiteHeader() {
             transition-colors hover:bg-foreground/10 active:bg-foreground/15
             lg:-ml-4 lg:px-4 lg:py-1.5 lg:text-base"
         >
-          am<span className="text-foreground/60">.dev</span>
+          {BRAND}
+          <span className="text-foreground/60">{BRAND_SUFFIX}</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -105,20 +123,16 @@ export function SiteHeader() {
 
         {/* Desktop Right Resume Actions */}
         <a
-          href="/resume.pdf"
+          href={RESUME.href}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Resume (opens in a new tab)"
+          aria-label={RESUME.ariaLabel}
           className="group -mr-4 hidden items-center gap-2 rounded-full px-4
             py-1.5 text-base font-medium transition-colors
             hover:bg-foreground/10 active:bg-foreground/15 lg:inline-flex"
         >
-          Resume
-          <ArrowRight
-            className="size-4 transition-transform duration-200
-              motion-safe:group-hover:translate-x-1
-              motion-reduce:transform-none"
-          />
+          {RESUME.label}
+          <Arrow />
         </a>
 
         {/* Hamburger */}
@@ -128,9 +142,7 @@ export function SiteHeader() {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="-mr-5 rounded-md px-5 py-2 transition-colors
             hover:bg-foreground/10 active:bg-foreground/15 lg:hidden"
-          aria-label={
-            isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
-          }
+          aria-label={isMobileMenuOpen ? MENU_LABEL.close : MENU_LABEL.open}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
         >
@@ -175,21 +187,17 @@ export function SiteHeader() {
         {/* Bottom Action: Resume Link */}
         <div className="mt-8 border-t border-foreground/10 pt-6">
           <a
-            href="/resume.pdf"
+            href={RESUME.href}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Resume (opens in a new tab)"
+            aria-label={RESUME.ariaLabel}
             onClick={() => setIsMobileMenuOpen(false)}
             className="group -ml-5 inline-flex w-fit items-center gap-2
               rounded-full px-5 py-2 text-xl font-medium transition-colors
               hover:bg-foreground/10 active:bg-foreground/15"
           >
-            Resume
-            <ArrowRight
-              className="size-5 transition-transform duration-200
-                motion-safe:group-hover:translate-x-1
-                motion-reduce:transform-none"
-            />
+            {RESUME.label}
+            <Arrow size="size-5" />
           </a>
         </div>
       </div>

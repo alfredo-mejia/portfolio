@@ -39,6 +39,35 @@ The system has three layers:
 
 Tailwind utilities are the current implementation language. Do not introduce a parallel token abstraction until reuse makes it valuable.
 
+### 3.1 Shared components
+
+Where a recipe is repeated, a component owns it so the recipe has exactly one definition. Components are grouped by what they are:
+
+| Directory                         | Holds                                                               |
+| --------------------------------- | ------------------------------------------------------------------- |
+| `components/sections/`            | The page sections themselves, and the site header                   |
+| `components/sections-components/` | Structure a section is built from, and the pieces one section needs |
+| `components/ui-components/`       | Small recipes reused across unrelated sections                      |
+
+These are ordinary Server Components with no client JavaScript; do not add hooks or context to them, because that would pull every section that renders them into the client bundle.
+
+| Component       | Owns                                                                                                                                |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Eyebrow`       | The eyebrow/status role and the `>` prompt glyph                                                                                    |
+| `Arrow`         | The canonical right-arrow affordance, including its motion gate                                                                     |
+| `Tag`           | The project-tag pill, as `li` in a list or `span` inside a button                                                                   |
+| `CtaLink`       | The accent action: its tier, states, spacing, and arrow                                                                             |
+| `SectionHeader` | Eyebrow, section title, and the optional introduction                                                                               |
+| `Section`       | The `<section>` element, content rail, section rhythm, bottom divider, accessible name. Structure only; it never renders the header |
+
+Rules:
+
+- `Section` and `SectionHeader` are always used separately. `Section` supplies structure only and must never render the header itself; every section composes `SectionHeader` as a child. There is one usage model, not a common path plus an exception.
+- A major section must render through `Section`. A section needing a different rail layout passes `containerClassName`; About uses this for its `3fr / 1fr` grid.
+- Place `SectionHeader` where the layout needs it. Most sections open the rail with it. About places it inside the narrative column, because the vertically centred Personal index measures against that whole column and must align to the title rather than to the first paragraph.
+- A section's accessible name must come from `sectionHeadingId(id)` rather than a hand-written string, so the section id and its heading id cannot drift apart.
+- The article header is not a `Section`. It uses a different wrapper element and rhythm, and reuses `SectionHeader` with `as="h1"` and an empty `descriptionClassName`, because its `max-w-4xl` rail already sets the measure.
+
 ## 4. Foundations
 
 ### 4.1 Color
@@ -117,33 +146,43 @@ Do not rename these variables, remove `inline`, move the fallbacks out of the ba
 
 ### 4.5 Implemented typography roles
 
-Every role below exists in the current interface. The table names exact utilities; when the implementation intentionally relies on a font size's default line height or an inherited weight, it says so explicitly.
+Heading and body type are element rules in `app/globals.css`, not utilities written at each call site. A bare `h1`, `h2`, `h3`, or `p` is correct without a size utility, and any explicit utility still wins because the rules sit in the base layer. Three container classes override size where a container does not grow with the viewport:
 
-| Role                | Family         | Responsive size                    | Weight                                 | Leading                                 | Tracking                   | Color                          |
-| ------------------- | -------------- | ---------------------------------- | -------------------------------------- | --------------------------------------- | -------------------------- | ------------------------------ |
-| Hero title          | Sans (default) | `text-5xl sm:text-6xl lg:text-7xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
-| Hero role           | Mono           | `text-4xl sm:text-5xl lg:text-6xl` | `font-medium`                          | `leading-tight lg:leading-[1.15]`       | `tracking-wide`            | `foreground/60`                |
-| Hero description    | Sans (default) | `text-base sm:text-lg`             | 400 inherited; no weight utility       | `leading-relaxed` (1.625)               | None; no tracking utility  | `foreground/75`                |
-| Eyebrow/status      | Mono           | `text-xs`                          | 400 inherited; prompt uses `font-bold` | Default line height: 16px; no override  | Label uses `tracking-wide` | `foreground/60`; prompt accent |
-| Desktop navigation  | Mono           | `text-base`                        | `font-medium`                          | Default line height: 24px; no override  | None; no tracking utility  | `foreground`                   |
-| Mobile navigation   | Mono           | `text-2xl`                         | `font-medium`                          | Default line height: 32px; no override  | `tracking-tight`           | `foreground`                   |
-| Brand               | Mono           | `text-xl lg:text-base`             | `font-bold`                            | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `foreground`; suffix at `/60`  |
-| Hero primary action | Mono           | `text-lg lg:text-base`             | `font-semibold`                        | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `accent`                       |
-| Data value          | Mono           | `text-3xl sm:text-4xl`             | `font-bold`                            | Default line height: 36px; 40px at `sm` | None; no tracking utility  | `foreground`                   |
-| Data label          | Mono           | `text-xs sm:text-sm`               | 400 inherited; no weight utility       | Default line height: 16px; 20px at `sm` | `tracking-wider`           | `foreground/60`                |
-| Work title          | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
-| Project number      | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | 400 inherited; no weight utility       | Default line height: 28px; 32px; 36px   | None; no tracking utility  | `accent`                       |
-| Project title       | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | `font-semibold`                        | Default line height: 28px; 32px; 36px   | `tracking-wide`            | `foreground`                   |
-| Project tag         | Mono           | `text-sm`                          | 400 inherited; no weight utility       | Default line height: 20px; no override  | None; no tracking utility  | `foreground`                   |
-| Project action      | Mono           | `text-base sm:text-lg`             | `font-semibold`                        | Default line height: 24px; 28px at `sm` | None; no tracking utility  | `accent`                       |
-| Article title       | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
-| Article H2          | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
-| Article H3          | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
+| Context            | Applies to                                        | Effect                                                        |
+| ------------------ | ------------------------------------------------- | ------------------------------------------------------------- |
+| `compact-headings` | The About index and Skills group columns          | `h3` holds at `text-2xl`; those columns are fixed at `lg`     |
+| `article-headings` | The article rail                                  | Steps `h1`, `h2`, and `h3` down to the reading measure        |
+| `heading-label`    | Contact's Email and Elsewhere, project disclosure | Removes display treatment from a heading that labels or wraps |
 
-The Work, About, Skills, Blog, Contact, and article eyebrows reuse the eyebrow/status role. The About, Skills, Blog, and Contact titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment. The Work introduction, About narrative, Skills introduction and group descriptions, Blog introduction and summaries, Contact introduction, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Blog, article, and Skills tags reuse the Project tag role. Blog actions reuse the Project action role.
+`h4` has no rule because no `h4` exists. Only the Blog previews use the bare `h3` default; every other `h3` sits in one of the three contexts. If a fourth context appears, move headings to a component with named variants rather than adding another selector.
+
+Every role below exists in the current interface. The table names the resulting values; when the implementation intentionally relies on a font size's default line height or an inherited weight, it says so explicitly.
+
+| Role               | Family         | Responsive size                    | Weight                                 | Leading                                 | Tracking                   | Color                          |
+| ------------------ | -------------- | ---------------------------------- | -------------------------------------- | --------------------------------------- | -------------------------- | ------------------------------ |
+| Hero title         | Sans (default) | `text-5xl sm:text-6xl lg:text-7xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
+| Hero role          | Mono           | `text-4xl sm:text-5xl lg:text-6xl` | `font-medium`                          | `leading-tight lg:leading-[1.15]`       | `tracking-wide`            | `foreground/60`                |
+| Hero description   | Sans (default) | `text-base sm:text-lg`             | 400 inherited; no weight utility       | `leading-relaxed` (1.625)               | None; no tracking utility  | `foreground/75`                |
+| Eyebrow/status     | Mono           | `text-xs`                          | 400 inherited; prompt uses `font-bold` | Default line height: 16px; no override  | Label uses `tracking-wide` | `foreground/60`; prompt accent |
+| Desktop navigation | Mono           | `text-base`                        | `font-medium`                          | Default line height: 24px; no override  | None; no tracking utility  | `foreground`                   |
+| Mobile navigation  | Mono           | `text-2xl`                         | `font-medium`                          | Default line height: 32px; no override  | `tracking-tight`           | `foreground`                   |
+| Brand              | Mono           | `text-xl lg:text-base`             | `font-bold`                            | Default line height: 28px; 24px at `lg` | None; no tracking utility  | `foreground`; suffix at `/60`  |
+| Data value         | Mono           | `text-3xl sm:text-4xl`             | `font-bold`                            | Default line height: 36px; 40px at `sm` | None; no tracking utility  | `foreground`                   |
+| Data label         | Mono           | `text-xs sm:text-sm`               | 400 inherited; no weight utility       | Default line height: 16px; 20px at `sm` | `tracking-wider`           | `foreground/60`                |
+| Work title         | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
+| Project number     | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | 400 inherited; no weight utility       | Default line height: 28px; 32px; 36px   | None; no tracking utility  | `accent`                       |
+| Project title      | Mono           | `text-xl sm:text-2xl lg:text-3xl`  | `font-semibold`                        | Default line height: 28px; 32px; 36px   | `tracking-wide`            | `foreground`                   |
+| Project tag        | Mono           | `text-sm`                          | 400 inherited; no weight utility       | Default line height: 20px; no override  | None; no tracking utility  | `foreground`                   |
+| Accent action      | Mono           | `text-base sm:text-lg`             | `font-semibold`                        | Default line height: 24px; 28px at `sm` | None; no tracking utility  | `accent`                       |
+| Article title      | Sans (default) | `text-4xl sm:text-5xl lg:text-6xl` | `font-bold`                            | `leading-[1.08]`                        | `tracking-wide`            | `foreground`                   |
+| Article H2         | Sans (default) | `text-3xl sm:text-4xl`             | `font-bold`                            | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
+| Article H3         | Sans (default) | `text-2xl sm:text-3xl`             | `font-semibold`                        | `leading-tight`                         | `tracking-wide`            | `foreground`                   |
+
+The Work, About, Skills, Blog, Contact, and article eyebrows reuse the eyebrow/status role, and all six render through `Eyebrow`. The hero eyebrow uses the same role and component; it passes an alternating prompt glyph but keeps the shared `mb-4` spacing. The About, Skills, Blog, and Contact titles reuse the Work title role. Skills group headings reuse the Personal index heading treatment; both sit in `compact-headings` and so keep the `h3` weight of `font-semibold`. The Work introduction, About narrative, Skills introduction and group descriptions, Blog introduction and summaries, Contact introduction, article summary, article paragraphs, article lists, and project summaries reuse the Hero description role. Blog, article, and Skills tags reuse the Project tag role and render through `Tag`. Every accent call to action renders through `CtaLink` and so shares one role, including the hero's.
 
 Additional rules:
 
+- A section introduction must use the shared lede measure of `max-w-3xl`, which `SectionHeader` applies by default. Pass an empty `descriptionClassName` only when an ancestor already constrains the measure, as the article rail does. Two roles are deliberately outside this rule: the hero description keeps `max-w-xl` because its column already constrains it, and the About narrative is unconstrained because its grid column governs the measure.
 - `tracking-wide` on large display titles is a deliberate brand choice. Preserve it when the large-title role is used.
 - Do not use wide tracking on ordinary body copy.
 - Uppercase is reserved for short data labels and compact metadata, not sentences.
@@ -250,6 +289,7 @@ The interface is mobile-first. Existing breakpoints have distinct responsibiliti
 Rules:
 
 - The header must always remain present and sticky.
+- A section's own `py-20` top padding is what clears the sticky header on a fragment navigation. Measured, it leaves the eyebrow 15px below the 64px header. Do not add `scroll-mt-*` on top of it; that only pushes the section a further 80px down the viewport. The previous section's 1px bottom divider sitting behind the header is expected.
 - Desktop navigation must be mathematically centered with absolute centering, independent of the logo and Resume widths.
 - The portrait remains hidden below `lg`; mobile prioritizes the introduction and work CTA.
 - Below `lg`, header controls use the comfortable `px-5 py-2` padding pattern, including on tablets. At `lg` and above, text controls use the compact 36px tier. This viewport-based density policy is intentional and must not be silently replaced with a pointer-based rule.
@@ -261,17 +301,16 @@ Rules:
 
 Control padding follows the density pattern for its context. Below `lg`, mobile header controls use `px-5 py-2` whether their content is text or an icon; icon geometry does not introduce a separate square-padding rule.
 
-| Variant              | Text                              | Padding                       | Icon               |                     Final height | Use                                   |
-| -------------------- | --------------------------------- | ----------------------------- | ------------------ | -------------------------------: | ------------------------------------- |
-| Compact              | `text-base`                       | `px-4 py-1.5`                 | `size-4`           |                             36px | Header controls and Hero CTA at `lg+` |
-| Comfortable action   | `text-lg`                         | `px-5 py-2`                   | `size-4`           |                             44px | Hero CTA below `lg`                   |
-| Comfortable large    | `text-xl`                         | `px-5 py-2`                   | `size-5`           |                             44px | Mobile logo and Resume                |
-| Prominent navigation | `text-2xl`                        | `px-5 py-2`                   | —                  |                             48px | Mobile menu links                     |
-| Mobile header icon   | —                                 | `px-5 py-2`                   | `size-6`           |                             40px | Mobile hamburger                      |
-| Project action       | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Project and Blog preview CTAs         |
-| Project disclosure   | `text-xl sm:text-2xl lg:text-3xl` | `px-5 py-2 lg:px-4 lg:py-3`   | `size-5 lg:size-6` | 44px; 48px at `sm`; 60px at `lg` | Project heading row                   |
-| Contact copy action  | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-5`           | 40px; 44px at `sm`; 40px at `lg` | Contact email copy control            |
-| Contact social link  | `text-lg sm:text-xl`              | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-6`           |               44px; 40px at `lg` | Contact social destinations           |
+| Variant              | Text                              | Padding                       | Icon               |                     Final height | Use                             |
+| -------------------- | --------------------------------- | ----------------------------- | ------------------ | -------------------------------: | ------------------------------- |
+| Compact              | `text-base`                       | `px-4 py-1.5`                 | `size-4`           |                             36px | Header controls at `lg+`        |
+| Comfortable large    | `text-xl`                         | `px-5 py-2`                   | `size-5`           |                             44px | Mobile logo and Resume          |
+| Prominent navigation | `text-2xl`                        | `px-5 py-2`                   | —                  |                             48px | Mobile menu links               |
+| Mobile header icon   | —                                 | `px-5 py-2`                   | `size-6`           |                             40px | Mobile hamburger                |
+| Accent action        | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-4`           | 40px; 44px at `sm`; 40px at `lg` | Every accent CTA, via `CtaLink` |
+| Project disclosure   | `text-xl sm:text-2xl lg:text-3xl` | `px-5 py-2 lg:px-4 lg:py-3`   | `size-5 lg:size-6` | 44px; 48px at `sm`; 60px at `lg` | Project heading row             |
+| Contact copy action  | `text-base sm:text-lg`            | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-5`           | 40px; 44px at `sm`; 40px at `lg` | Contact email copy control      |
+| Contact social link  | `text-lg sm:text-xl`              | `px-5 py-2 lg:px-4 lg:py-1.5` | `size-6`           |               44px; 40px at `lg` | Contact social destinations     |
 
 Additional rules:
 
@@ -343,7 +382,7 @@ Canonical arrow pattern:
 size-4 transition-transform duration-200 motion-safe:group-hover:translate-x-1
 ```
 
-`size-5` replaces `size-4` in the comfortable-large tier. A defensive reduced-motion reset may remain, but `motion-safe` is the required behavior gate.
+`size-5` replaces `size-4` in the comfortable-large tier. A defensive reduced-motion reset may remain, but `motion-safe` is the required behavior gate. `Arrow` owns this pattern; use it rather than writing the utilities again.
 
 ## 9. Motion
 
@@ -364,6 +403,7 @@ Rules:
 - Do not make content availability depend on an animation completing.
 - Animated values must expose their final value to assistive technology.
 - The hero's reduced-motion state is the final counter values, the complete first role, a static prompt, and no cursor pulse.
+- The reduced-motion preference must be tracked live rather than read once, so a visitor who changes it while the page is open sees the static state immediately.
 
 ## 10. Header and mobile navigation
 
@@ -405,10 +445,11 @@ The overlay is part of the header system and must preserve these behaviors:
 - Do not add a phone frame, card, border, or shadow around the portrait.
 - Use `next/image`, intrinsic sizing, an accurate `sizes` value, and useful alt text for meaningful images.
 - The hero content order remains: availability, identity, role, description, primary work CTA, then supporting statistics.
+- The title and its animated role sit together in an `hgroup`, which ties the tagline to the heading without giving a decorative, animated line its own rank in the document outline.
 
 ## 12. Work and project showcase
 
-- The Work section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`.
+- The Work section renders through `Section`, which supplies `site-container`, the foreground/10 bottom divider, and `py-20 lg:py-24`.
 - Its content order is eyebrow, `Featured Projects` heading, introduction, then up to three ordered project previews.
 - Project previews remain flat and use foreground/10 dividers: every item has a bottom divider, and the first item also has a top divider.
 - Each project heading is an `<h3>` containing one native disclosure button with `aria-expanded` and `aria-controls`.
@@ -416,43 +457,44 @@ The overlay is part of the header system and must preserve these behaviors:
 - The disclosure row uses `px-5 lg:px-4` with matching `-mx-5 lg:-mx-4` compensation so its visible content stays on the rail and its focus outline stays clear of the viewport edge.
 - Expanded content begins beneath the title. Below `lg`, it uses one content column and hides the preview image; at `lg`, it uses a `3fr / 2fr` summary-to-image split.
 - Project preview images use `next/image`, a `4 / 3` container, `object-cover`, an accurate `sizes` value, and useful alt text.
-- The case-study link uses the Project action role, the accent control states, and the canonical right-arrow behavior.
+- The case-study link renders through `CtaLink`, which supplies the accent action role, the control states, the compensated spacing, and the arrow.
 
 ## 13. About section
 
-- The About section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`.
+- The About section renders through `Section` with a `grid lg:grid-cols-[3fr_1fr]` rail passed as `containerClassName`. Its `SectionHeader` sits inside the narrative column, not above the grid, so the vertically centred Personal index aligns to the title rather than to the first paragraph.
 - Below `lg`, the narrative and Personal index stack. The index begins with a foreground/10 top divider and `mt-12 pt-12`.
 - At `lg`, the section uses a `3fr / 1fr` narrative-to-index split. The narrative uses `pr-8`; the index is vertically centered with a foreground/10 left divider and `pl-12`.
-- The Personal index heading uses `text-2xl font-bold tracking-wide text-foreground`. Its labels use mono `text-xs`, `tracking-wider`, uppercase, and `foreground/60`; its values stay within the established foreground, reading, and supporting text hierarchy.
+- The index column carries `compact-headings`, so the Personal index heading holds at `text-2xl` and keeps the `h3` weight of `font-semibold`. Its labels use mono `text-xs`, `tracking-wider`, uppercase, and `foreground/60`; its values stay within the established foreground, reading, and supporting text hierarchy.
 - The Personal index uses a semantic `<dl>` with foreground/10 dividers. The narrative's inline project link uses the prose-link treatment.
 
 ## 14. Skills section
 
-- The Skills section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`.
+- The Skills section renders through `Section`.
 - Its content order is eyebrow, title, introduction, then grouped skills.
 - Each group uses a foreground/10 bottom divider, with a top divider on the first group, and `py-10 lg:py-12`. Below `lg`, its description and tags stack; at `lg`, they use a `2fr / 3fr` split.
 - Groups and tags use semantic nested lists. Tags are static and use the Project tag role with the foreground/10 resting fill.
 
 ## 15. Blog section
 
-- The Blog section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`. Its content order is eyebrow, title, introduction, then up to two ordered article previews.
+- The Blog section renders through `Section`. Its content order is eyebrow, title, introduction, then up to two ordered article previews.
 - Below `lg`, the previews stack, the featured image is hidden, and the first preview has a bottom divider. At `lg`, they use a `3fr / 2fr` split; the featured preview shows its image, while the secondary preview has a left divider and remains text-only.
 - Preview headings use Sans with `font-semibold`, `leading-tight`, `tracking-wide`, and `text-balance`. The featured heading scales through `text-3xl sm:text-4xl lg:text-5xl`; the secondary stops at `sm:text-4xl`. Both previews show a summary and plain mono tags separated by decorative dots.
-- The `Read post` links reuse the Project action role, accent control states, compensated padding, and canonical right-arrow behavior.
+- The `Read post` links render through `CtaLink`, the same accent action used by the hero and the case-study links.
 
 ## 16. Contact section
 
-- The Contact section uses `site-container`, a foreground/10 bottom divider, and `py-20 lg:py-24`. Its content order is eyebrow, title, introduction, a bordered Email area, then Elsewhere links.
-- The email address uses mono type and scales from a mobile fluid size to `sm:text-4xl lg:text-5xl`.
+- The Contact section renders through `Section`. Its content order is eyebrow, title, introduction, a bordered Email area, then Elsewhere links.
+- The email address is an `address` element, which is the element for contact information about the page; it needs `not-italic` because browsers italicise it by default. It uses mono type and scales from a mobile fluid size to `sm:text-4xl lg:text-5xl`.
+- `Email` and `Elsewhere` are headings that label rather than title, so they use `heading-label`.
 - The copy button and social links use neutral pill states with `px-5 lg:px-4` and matching `-ml-5 lg:-ml-4` edge compensation. Social links open in a new tab, include that behavior in their accessible names, and treat local brand icons as decorative.
 - Copy success is announced and resets after two seconds. If clipboard access fails, the email becomes a read-only input that receives focus and selection, the recovery message remains visible, and the copy button allows another attempt. Below `sm`, the fallback uses a smaller fluid size so the selected address fits within its padded field; from `sm`, it matches the normal email scale.
 
 ## 17. Article pages
 
 - Work case studies and blog entries share one article layout.
-- The article uses a foreground/10 bottom divider and `py-24`. Its content uses `site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure.
+- The article uses a foreground/10 bottom divider and `py-24`. Its content uses `article-headings site-container max-w-4xl`, preserving the shared gutters while narrowing the reading measure. The context class must sit on that rail rather than on the Markdown body, because the title is in the header and would otherwise be outside its scope.
 - Header order is eyebrow, frontmatter title, summary, then tags. The frontmatter title is the page's sole `<h1>`.
-- Markdown bodies currently style `<h2>` and `<h3>` headings. Add lower heading levels only when real content requires them.
+- `article-headings` sizes the body's `<h2>` and `<h3>`; the Markdown map supplies only their spacing. Add lower heading levels only when real content requires them.
 - Paragraphs and lists use the reading-text role. List markers use the accent at full strength.
 - Inline code and fenced code blocks use a foreground/10 resting fill. Blocks also use foreground/10 horizontal dividers, mono type, and the established foreground, accent, and foreground/60 hierarchy for syntax highlighting.
 - Fenced code declares its language so highlighting is explicit rather than inferred.
@@ -498,8 +540,8 @@ UI-system linting is intentionally deferred until the interface grows. When enfo
 
 - reject noncanonical text opacities such as `/65` and `/80`;
 - recalculate the documented contrast pairs whenever color tokens or interaction-surface opacities change, preserving only explicitly documented exceptions;
-- require the arrow utility set, including `duration-200` and `motion-safe:group-hover:translate-x-1`, without depending on class order;
-- detect copied content-rail declarations that bypass `site-container`; and
+- flag a right-arrow written inline rather than through `Arrow`, and a heading size written as a utility rather than taken from the scale;
+- detect copied content-rail declarations that bypass `Section` and `site-container`; and
 - flag structural divider colors other than `foreground/10` unless an exception is documented.
 
 Radius rules and edge-compensation pairings require component context. Keep them in manual review until shared components or an AST-aware rule can enforce them without false positives. Automation should report drift, not silently rewrite design decisions.
@@ -508,6 +550,8 @@ Radius rules and edge-compensation pairings require component context. Keep them
 
 The reviewed header, hero, Work section, About section, Skills section, Blog section, Contact section, and article pages follow this system, including:
 
+- a shared `Section` / `SectionHeader` / `Eyebrow` / `Arrow` / `Tag` / `CtaLink` set giving each repeated recipe one definition;
+- heading and body type as element rules in `app/globals.css`, with `compact-headings`, `article-headings`, and `heading-label` as the only overrides;
 - shared content-rail alignment and compensated edge controls;
 - the approved control-size tiers and radius policy;
 - 10% hover and 15% pressed fills;
@@ -524,7 +568,8 @@ The reviewed header, hero, Work section, About section, Skills section, Blog sec
 - a responsive Skills list with grouped dividers, semantic nested lists, and a `2fr / 3fr` desktop split;
 - responsive Blog previews with a `3fr / 2fr` desktop split and a text-only stacked mobile layout;
 - a Contact section with an accessible clipboard fallback, compensated neutral controls, and named external social links;
-- static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback; and
+- static Markdown article pages with a single H1, H2/H3 body hierarchy, syntax-highlighted code, in-flow images, and prose-link hover feedback;
+- an `hgroup` pairing the hero title with its tagline, and an `address` carrying the contact email; and
 - global manipulation touch behavior with custom 15% pressed feedback replacing the native tap highlight.
 
 ## References

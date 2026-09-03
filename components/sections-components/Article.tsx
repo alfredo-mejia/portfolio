@@ -4,49 +4,51 @@ import Markdown, { Components } from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 
+import { SectionHeader } from "@/components/sections-components/SectionHeader";
+import { Tag } from "@/components/ui-components/Tag";
 import { Content, getPngDimensions } from "@/lib/content";
+
+const TAGS_LABEL = "Tags";
+
+const LIST_CLASS =
+  "mt-6 space-y-3 pl-6 text-base leading-relaxed text-foreground/75 " +
+  "marker:text-accent sm:text-lg";
 
 interface ArticleProps {
   eyebrow: string;
   content: Content;
 }
 
-const PROMPT_SYMBOL = ">";
-
 // Map markdown to HTML
 const markdownComponents: Components = {
   h2: ({ node: _, ...props }) => (
     <h2
       {...props}
-      className="mt-20 text-3xl leading-tight font-bold tracking-wide
-        text-balance text-foreground sm:text-4xl"
+      className="mt-20"
     />
   ),
   h3: ({ node: _, ...props }) => (
     <h3
       {...props}
-      className="mt-12 text-2xl leading-tight font-semibold tracking-wide
-        text-balance text-foreground sm:text-3xl"
+      className="mt-12"
     />
   ),
   p: ({ node: _, ...props }) => (
     <p
       {...props}
-      className="mt-6 text-base leading-relaxed text-foreground/75 sm:text-lg"
+      className="mt-6"
     />
   ),
   ul: ({ node: _, ...props }) => (
     <ul
       {...props}
-      className="mt-6 list-disc space-y-3 pl-6 text-base leading-relaxed
-        text-foreground/75 marker:text-accent sm:text-lg"
+      className={`${LIST_CLASS} list-disc`}
     />
   ),
   ol: ({ node: _, ...props }) => (
     <ol
       {...props}
-      className="mt-6 list-decimal space-y-3 pl-6 text-base leading-relaxed
-        text-foreground/75 marker:text-accent sm:text-lg"
+      className={`${LIST_CLASS} list-decimal`}
     />
   ),
   a: ({ node: _, href, children, ...props }) => {
@@ -145,53 +147,25 @@ export function Article({ eyebrow, content }: ArticleProps) {
       aria-labelledby="article-title"
       className="w-full border-b border-foreground/10 py-24"
     >
-      <div className="site-container max-w-4xl">
-        {/* Preview Header */}
+      <div className="article-headings site-container max-w-4xl">
         <header>
-          {/*Eyebrow*/}
-          <div
-            className="mb-4 flex items-center gap-2 font-mono text-xs
-              text-foreground/60"
-          >
-            <span
-              className="font-bold text-accent"
-              aria-hidden="true"
-            >
-              {PROMPT_SYMBOL}
-            </span>
-            <span className="tracking-wide">{eyebrow}</span>
-          </div>
-
-          {/* Title */}
-          <h1
-            id="article-title"
-            className="text-4xl leading-[1.08] font-bold tracking-wide
-              text-balance text-foreground sm:text-5xl lg:text-6xl"
-          >
-            {content.title}
-          </h1>
-
-          {/* Summary */}
-          <p
-            className="my-6 text-base leading-relaxed text-foreground/75
-              sm:text-lg"
-          >
-            {content.summary}
-          </p>
+          <SectionHeader
+            headingId="article-title"
+            as="h1"
+            eyebrow={eyebrow}
+            title={content.title}
+            description={content.summary}
+            // The `max-w-4xl` rail already sets the reading measure here.
+            descriptionClassName=""
+          />
 
           {/* Tags */}
           <ul
-            aria-label="Tags"
+            aria-label={TAGS_LABEL}
             className="mt-8 flex flex-wrap gap-2"
           >
             {content.tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full bg-foreground/10 px-3 py-1 font-mono
-                  text-sm text-foreground"
-              >
-                {tag}
-              </li>
+              <Tag key={tag}>{tag}</Tag>
             ))}
           </ul>
         </header>

@@ -1,9 +1,11 @@
 "use client";
 
-import { ArrowRight, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+
+import { CtaLink } from "@/components/ui-components/CtaLink";
+import { Tag } from "@/components/ui-components/Tag";
 
 const CTA = "Read full case study";
 
@@ -39,7 +41,7 @@ export function ProjectShowcase({
       {/* Header section */}
       <div className="-mx-5 lg:-mx-4">
         {/* Adding a heading but do not change the CSS*/}
-        <h3>
+        <h3 className="heading-label">
           {/* Hoverable button*/}
           <button
             type="button"
@@ -69,13 +71,12 @@ export function ProjectShowcase({
 
               <span className="hidden flex-wrap gap-2 lg:flex">
                 {tags.map((tag) => (
-                  <span
+                  <Tag
                     key={tag}
-                    className="rounded-full bg-foreground/10 px-3 py-1 font-mono
-                      text-sm text-foreground"
+                    as="span"
                   >
                     {tag}
-                  </span>
+                  </Tag>
                 ))}
               </span>
             </span>
@@ -114,30 +115,14 @@ export function ProjectShowcase({
         <div className="grid gap-4 lg:grid-cols-[3fr_2fr] lg:gap-8">
           {/*Summary and CTA*/}
           <div className="flex flex-col items-start">
-            <p
-              className="max-w-2xl text-base leading-relaxed text-foreground/75
-                sm:text-lg"
-            >
-              {summary}
-            </p>
+            <p className="max-w-2xl">{summary}</p>
 
-            <Link
+            <CtaLink
               href={caseStudyHref}
-              className="group mt-12 -ml-5 inline-flex items-center gap-2
-                rounded-full px-5 py-2 font-mono text-base font-semibold
-                text-accent transition-colors hover:bg-accent/10
-                active:bg-accent/15 sm:text-lg lg:-ml-4 lg:px-4 lg:py-1.5"
               aria-label={`Read full case study for ${title}`}
             >
-              <span>{CTA}</span>
-
-              <ArrowRight
-                className="size-4 transition-transform duration-200
-                  motion-safe:group-hover:translate-x-1
-                  motion-reduce:transform-none"
-                aria-hidden="true"
-              />
-            </Link>
+              {CTA}
+            </CtaLink>
           </div>
 
           {/* Image*/}

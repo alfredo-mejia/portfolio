@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono as GeistMono } from "next/font/google";
 
-import { SiteHeader } from "@/components/SiteHeader";
+import { SiteHeader } from "@/components/sections/SiteHeader";
 
 import { site } from "./site";
 
@@ -130,6 +130,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// TODO: Skip to content button
-// TODO: Add scroll-mt-20 to sections

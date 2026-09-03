@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Article } from "@/components/Article";
+import { Article } from "@/components/sections-components/Article";
 import {
   BLOGS_PATH,
   getContentBySlug,
   getContentSlugs,
   PROJECTS_PATH,
 } from "@/lib/content";
+
+const EYEBROW = {
+  work: "case study",
+  blog: "blog entry",
+} as const;
 
 interface PageProps {
   params: Promise<{ section: "work" | "blog"; slug: string }>;
@@ -72,7 +77,7 @@ export default async function ContentPage({ params }: PageProps) {
   return (
     <Article
       content={item}
-      eyebrow={section === "work" ? "case study" : "blog entry"}
+      eyebrow={EYEBROW[section]}
     />
   );
 }
