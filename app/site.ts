@@ -1,5 +1,6 @@
 export const site = {
   name: "Alfredo Mejia | Software Engineer",
+  socialTitle: "Alfredo Mejia’s Portfolio — Software Engineer",
   url: "https://alfredomejia.dev",
   endpoint: "/",
   description:

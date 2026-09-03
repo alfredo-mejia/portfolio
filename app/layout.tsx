@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: site.name,
+    title: site.socialTitle,
     description: site.description,
     url: "/",
     siteName: site.name,
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: site.name,
+    title: site.socialTitle,
     description: site.description,
   },
   alternates: {
