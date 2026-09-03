@@ -37,6 +37,9 @@ const eslintConfig = defineConfig([
   globalIgnores([
     ".next/**",
     "out/**",
+    // Wrangler writes generated bundles here when previewing locally. They are
+    // gitignored, but ESLint does not read .gitignore.
+    ".wrangler/**",
     "build/**",
     "next-env.d.ts",
     "inspection-results/**",

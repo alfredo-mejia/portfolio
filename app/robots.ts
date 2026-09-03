@@ -11,7 +11,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/resume.pdf",
     },
     sitemap: `${site.url}/sitemap.xml`,
   };

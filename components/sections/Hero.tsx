@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 import { CtaLink } from "@/components/ui-components/CtaLink";
@@ -27,6 +26,12 @@ const CTA = "View selected work";
 const PIPE_SYMBOL = "|";
 const EYEBROW = "open to opportunities";
 const AVATAR_ALT = "Portrait of Alfredo Mejia";
+
+// A 1x1 transparent GIF. `picture` requires an `img`, and its `src` is what
+// loads when no `source` matches; an inline one keeps that from being a
+// second request.
+const BLANK_PIXEL =
+  "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
 
 const STATISTICS = [
   { label: "YEARS EXPERIENCE", amount: 5 },
@@ -290,17 +295,31 @@ export function Hero() {
 
         {/* Right: 40% for Photo */}
         <div className="hidden items-end justify-end pt-12 lg:flex">
-          {/* The column is hidden below `lg`, and a lazy image inside a
-              display:none container is never fetched, so phones skip it
-              entirely. `sizes` is omitted because a static export emits no
-              `srcset` for it to select from. */}
-          <Image
-            src={avatar}
-            alt={AVATAR_ALT}
-            sizes="(min-width: 1024px) 40vw, 0vw"
-            loading="lazy"
-            className="h-auto w-full"
-          />
+          {/* The portrait is the largest element in the viewport at `lg`, so it
+              is the LCP candidate and must load eagerly. It is also hidden
+              below `lg`, where downloading it would be pure waste.
+              `loading="lazy"` traded one for the other; a `media` source
+              settles both, because the preload scanner evaluates it before any
+              request is made. Below `lg` nothing matches and only the inline
+              1x1 fallback applies, which costs no request at all.
+
+              This is a plain `picture` rather than `next/image` because a
+              static export runs no optimizer: `next/image` would emit the same
+              single `img` but without the `media` query that does the work. */}
+          <picture>
+            <source
+              media="(min-width: 1024px)"
+              srcSet={avatar.src}
+            />
+            <img
+              src={BLANK_PIXEL}
+              alt={AVATAR_ALT}
+              width={avatar.width}
+              height={avatar.height}
+              fetchPriority="high"
+              className="h-auto w-full"
+            />
+          </picture>
         </div>
       </div>
     </section>

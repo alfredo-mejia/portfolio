@@ -1,0 +1,22 @@
+# Cloudflare Workers Static Assets reads this file from the root of `out/`.
+# Next copies it there from `public/`. Later rules do not override earlier
+# ones; every matching rule contributes its headers.
+
+# Filenames here carry a content hash, so the bytes behind a URL can never
+# change. Caching them for a year removes a revalidation round trip per asset
+# on every repeat visit.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML is deliberately excluded from the rule above: those URLs are stable, so
+# they must keep revalidating or a deploy would not reach anyone.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# A PDF cannot carry a robots meta tag, so the directive has to be a header.
+# This is also why robots.txt must not disallow the file: a crawler that is
+# blocked from fetching it never sees the noindex.
+/resume.pdf
+  X-Robots-Tag: noindex

@@ -81,6 +81,7 @@ const markdownComponents: Components = {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={`${children} (opens in a new tab)`}
         className={classes}
       >
         {children}

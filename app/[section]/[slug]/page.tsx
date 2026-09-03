@@ -47,6 +47,10 @@ export async function generateMetadata({
 
   if (!item) return {};
 
+  const previewImage = item.summaryImage?.src
+    ? [{ url: item.summaryImage.src, alt: item.summaryImage.alt }]
+    : undefined;
+
   return {
     title: item.title,
     description: item.summary,
@@ -56,13 +60,13 @@ export async function generateMetadata({
       description: item.summary,
       type: "article",
       url: `/${section}/${item.slug}`,
-      images: item.summaryImage?.src ? [item.summaryImage.src] : undefined,
+      images: previewImage,
     },
     twitter: {
       card: "summary_large_image",
       title: item.title,
       description: item.summary,
-      images: item.summaryImage?.src ? [item.summaryImage.src] : undefined,
+      images: previewImage,
     },
   };
 }

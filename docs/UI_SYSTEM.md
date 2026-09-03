@@ -443,7 +443,8 @@ The overlay is part of the header system and must preserve these behaviors:
 - The portrait is desktop-only and must remain hidden below `lg`.
 - Portrait assets should have a transparent background that blends into the page canvas.
 - Do not add a phone frame, card, border, or shadow around the portrait.
-- Use `next/image`, intrinsic sizing, an accurate `sizes` value, and useful alt text for meaningful images.
+- Use `next/image`, intrinsic sizing, and useful alt text for meaningful images. The static export runs no optimizer, so `next/image` emits a single source at its intrinsic size and no `srcset`; a `sizes` value has nothing to select from and does not reach the markup. Source assets must therefore already be sized for delivery.
+- The portrait is the exception. It is the largest element in the viewport at `lg`, so it is the page's largest contentful paint and must load eagerly, yet it is hidden below `lg`, where downloading it is waste. `loading="lazy"` trades one for the other, so the portrait uses a plain `picture` instead: a `source` with `media: (min-width: 1024px)` carrying the asset, and an `img` whose `src` is an inline 1x1 transparent GIF. The preload scanner resolves the media query before any request, so narrow viewports fetch nothing and wide ones fetch eagerly at high priority. Keep `width` and `height` on the `img` so the box is still reserved.
 - The hero content order remains: availability, identity, role, description, primary work CTA, then supporting statistics.
 - The title and its animated role sit together in an `hgroup`, which ties the tagline to the heading without giving a decorative, animated line its own rank in the document outline.
 
@@ -456,7 +457,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - The disclosure row contains the project number, title with desktop-only tags, and a decorative Plus/Minus icon. The complete row is hoverable and uses the neutral control states.
 - The disclosure row uses `px-5 lg:px-4` with matching `-mx-5 lg:-mx-4` compensation so its visible content stays on the rail and its focus outline stays clear of the viewport edge.
 - Expanded content begins beneath the title. Below `lg`, it uses one content column and hides the preview image; at `lg`, it uses a `3fr / 2fr` summary-to-image split.
-- Project preview images use `next/image`, a `4 / 3` container, `object-cover`, an accurate `sizes` value, and useful alt text.
+- Project preview images use `next/image`, a `4 / 3` container, `object-cover`, and useful alt text.
 - The case-study link renders through `CtaLink`, which supplies the accent action role, the control states, the compensated spacing, and the arrow.
 
 ## 13. About section
@@ -498,7 +499,7 @@ The overlay is part of the header system and must preserve these behaviors:
 - Paragraphs and lists use the reading-text role. List markers use the accent at full strength.
 - Inline code and fenced code blocks use a foreground/10 resting fill. Blocks also use foreground/10 horizontal dividers, mono type, and the established foreground, accent, and foreground/60 hierarchy for syntax highlighting.
 - Fenced code declares its language so highlighting is explicit rather than inferred.
-- Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, an accurate `sizes` value, and useful alt text.
+- Body images remain where they appear in Markdown. They use root-relative PNG assets, intrinsic dimensions read at build time, and useful alt text.
 
 ## 18. Accessibility and semantics
 
